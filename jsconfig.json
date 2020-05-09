@@ -1,0 +1,10 @@
+{
+    "compilerOptions": {
+        "paths": {
+            "volto-slate": [
+                "addons/volto-slate/src"
+            ]
+        },
+        "baseUrl": "src"
+    }
+}
