@@ -1,6 +1,6 @@
 ## Documentation
 
-A training on how to create your own website using Volto is available as part of the Plone training at [https://training.plone.org/5/volto/index.html](https://training.plone.org/5/volto/index.html).
+A demo project that integrates Volto with a volto addon, volto-slate.
 
 ## Quick Start
 
@@ -8,7 +8,7 @@ Below is a list of commands you will probably find useful.
 
 ### `yarn start`
 
-Runs the project in development mode.  
+Runs the project in development mode.
 You can view your application at `http://localhost:3000`
 
 The page will reload if you make edits.
