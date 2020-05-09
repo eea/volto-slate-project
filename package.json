@@ -85,15 +85,16 @@
     "node": "^10 || ^12"
   },
   "dependencies": {
-    "@plone/volto": "https://github.com/plone/volto.git"
+    "@plone/volto": "https://github.com/plone/volto.git",
+    "isomorphic-style-loader": "5.1.0"
   },
   "devDependencies": {
     "eslint-plugin-prettier": "3.1.2",
+    "mrs-developer": "1.2.0",
     "prettier": "1.19.1",
     "stylelint-config-idiomatic-order": "7.0.3",
     "stylelint-config-prettier": "6.0.0",
-    "stylelint-prettier": "1.1.1",
-    "mrs-developer": "1.2.0"
+    "stylelint-prettier": "1.1.1"
   },
   "resolutions": {
     "@plone/volto/razzle/webpack-dev-server": "3.2.0"
