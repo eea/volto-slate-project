@@ -13,6 +13,7 @@ Object.keys(pathsConfig).forEach(pkg => {
   }
 });
 
+// module.exports = require(`${voltoPath}/razzle.config`);
 const config = require(`${voltoPath}/razzle.config`);
 const razzleModify = config.modify;
 

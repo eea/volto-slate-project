@@ -1413,10 +1413,9 @@
   dependencies:
     "@types/node" ">= 8"
 
-"@plone/volto@5.7.1":
+"@plone/volto@https://github.com/plone/volto.git":
   version "5.7.1"
-  resolved "https://registry.yarnpkg.com/@plone/volto/-/volto-5.7.1.tgz#b48918bca5a072cec8c58ee6a29de5aed3c135a9"
-  integrity sha512-D5oG5G+ryveqs3j0bbOw7w+UF6pmpxXFKKj+gCu7RpbDwIoFXfh0ZOhf0RZ0BWjMd34z/1e2y6LtWb34HjZAsg==
+  resolved "https://github.com/plone/volto.git#97d30cfff63ab6b8e9f85e40a7c05c02eac11c6a"
   dependencies:
     "@babel/core" "7.7.4"
     "@babel/plugin-proposal-decorators" "7.7.4"
