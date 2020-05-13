@@ -60,6 +60,7 @@ module.exports = {
         /node_modules\/@plone\/volto\/theme/,
         /plone\.volto\/theme/,
         /node_modules\/semantic-ui-less/,
+        // load .less files from addons
         /src\/addons/,
       ],
       use: dev
@@ -116,9 +117,11 @@ module.exports = {
     const lessRule = vc.module.rules.find(
         module => module.test && module.test.toString() == /\.less$/, // eslint-disable-line
     );
+
     const index = vc.module.rules.indexOf(lessRule);
     vc.module.rules[index] = LESSLOADER;
 
+    // Needed to allow server production build
     vc.plugins.push(
       new MiniCssExtractPlugin({
         filename: 'static/css/bundle.[contenthash:8].css',

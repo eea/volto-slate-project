@@ -15,8 +15,9 @@
 import * as voltoConfig from '@plone/volto/config';
 
 import { applyConfig as installVoltoSlate } from 'volto-slate/config';
+import installLinkPlugin from 'volto-slate/editor/plugins/Link';
 
-const config = [installVoltoSlate].reduce(
+const config = [installVoltoSlate, installLinkPlugin].reduce(
   (acc, apply) => apply(acc),
   voltoConfig,
 );
