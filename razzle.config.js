@@ -6,7 +6,7 @@ const MiniCssExtractPlugin = require('mini-css-extract-plugin');
 
 const pathsConfig = jsConfig.paths;
 let voltoPath = './node_modules/@plone/volto';
-Object.keys(pathsConfig).forEach(pkg => {
+Object.keys(pathsConfig).forEach((pkg) => {
   if (pkg === '@plone/volto') {
     voltoPath = `./${jsConfig.baseUrl}/${pathsConfig[pkg][0]}`;
   }
@@ -34,7 +34,7 @@ module.exports = {
       options: {
         importLoaders: 2,
         sourceMap: true,
-        localIdentName: '[name]__[local]___[hash:base64:5]',
+        // localIdentName: '[name]__[local]___[hash:base64:5]',
       },
     };
     const POST_CSS_LOADER = {
@@ -72,9 +72,8 @@ module.exports = {
               {
                 loader: 'less-loader',
                 options: {
-                  outputStyle: 'expanded',
+                  // outputStyle: 'expanded',
                   sourceMap: true,
-                  javascriptEnabled: true,
                 },
               },
             ]
@@ -87,9 +86,7 @@ module.exports = {
               {
                 loader: 'less-loader',
                 options: {
-                  outputStyle: 'expanded',
                   sourceMap: true,
-                  // javascriptEnabled: true,
                 },
               },
             ]
@@ -106,12 +103,12 @@ module.exports = {
             {
               loader: 'less-loader',
               options: {
-                outputStyle: 'expanded',
                 sourceMap: true,
               },
             },
           ],
     };
+    // object { lessOptions?, prependData?, appendData?, sourceMap?, implementation? }
 
     // need to include /theme/ to less loader in order to have it working with volto as a submodule.
     const lessRule = vc.module.rules.find(
