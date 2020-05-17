@@ -21,13 +21,13 @@ module.exports = {
   plugins: config.plugins,
   modify: (config, { target, dev }, webpack) => {
     const vc = razzleModify(config, { target, dev }, webpack);
-    const jsxRule = vc.module.rules.find(
-        module => module.test && module.test.toString() == /\.(js|jsx|mjs)$/, // eslint-disable-line
-    );
-    jsxRule.exclude = [
-      ...(jsxRule.exclude || []),
-      /src\/addons\/.+\/node_modules/,
-    ];
+    // const jsxRule = vc.module.rules.find(
+    //     module => module.test && module.test.toString() == /\.(js|jsx|mjs)$/, // eslint-disable-line
+    // );
+    // jsxRule.exclude = [
+    //   ...(jsxRule.exclude || []),
+    //   /src\/addons\/.+\/node_modules/,
+    // ];
 
     const BASE_CSS_LOADER = {
       loader: 'css-loader',
