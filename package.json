@@ -96,7 +96,7 @@
     "node": "^10 || ^12"
   },
   "dependencies": {
-    "@plone/volto": "plone/volto#master",
+    "@plone/volto": "plone/volto#edit",
     "mrs-developer": "1.1.6"
   },
   "devDependencies": {
