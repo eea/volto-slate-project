@@ -28,6 +28,8 @@ module.exports = {
     //   ...(jsxRule.exclude || []),
     //   /src\/addons\/.+\/node_modules/,
     // ];
+    //
+    // console.log('resolve', vc.resolve.alias);
 
     const BASE_CSS_LOADER = {
       loader: 'css-loader',
