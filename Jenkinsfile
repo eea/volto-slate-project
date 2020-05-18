@@ -71,7 +71,7 @@ pipeline {
 
     stage('Unit Tests') {
       steps {
-        node(label: 'swarm') {
+        node(label: 'eea') {
           script{
             checkout scm
             def nodeJS = tool 'NodeJS12';
