@@ -75,7 +75,6 @@ pipeline {
           script{
             checkout scm
             def nodeJS = tool 'NodeJS12';
-            sh '''echo "fs.inotify.max_user_watches=524288" >> /etc/sysctl.conf'''
             sh "export PATH=$PATH:${nodeJS}/bin; yarn; yarn test"
           }
         }
