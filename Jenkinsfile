@@ -77,7 +77,7 @@ pipeline {
             def nodeJS = tool 'NodeJS12';
             sh "hostname"
             sh "export PATH=$PATH:${nodeJS}/bin; yarn"
-            sh "export PATH=$PATH:${nodeJS}/bin; yarn test"
+            sh "export PATH=$PATH:${nodeJS}/bin; yarn test --watchAll=false"
           }
         }
       }
