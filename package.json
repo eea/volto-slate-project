@@ -37,8 +37,8 @@
       "/node_modules/(?!@plone/volto).+\\.js$"
     ],
     "moduleNameMapper": {
-      "@plone/volto/(.*)$": "<rootDir>/node_modules/@plone/volto/src/$1",
       "@plone/volto/babel": "<rootDir>/node_modules/@plone/volto/babel",
+      "@plone/volto/(.*)$": "<rootDir>/node_modules/@plone/volto/src/$1",
       "@package/(.*)$": "<rootDir>/src/$1",
       "~/(.*)$": "<rootDir>/src/$1"
     },
@@ -96,7 +96,7 @@
     "node": "^10 || ^12"
   },
   "dependencies": {
-    "@plone/volto": "eea/volto#default_block_type",
+    "@plone/volto": "plone/volto#master",
     "mrs-developer": "1.1.6"
   },
   "devDependencies": {
