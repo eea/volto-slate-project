@@ -1767,7 +1767,7 @@
 
 "@plone/volto@eea/volto#default_block_type":
   version "5.10.0"
-  resolved "https://codeload.github.com/eea/volto/tar.gz/ca7a831e499e20d22195c2a9fadc81602ba58685"
+  resolved "https://codeload.github.com/eea/volto/tar.gz/129c3a2e1b14e23a61ee74ef96f12060b49fbd33"
   dependencies:
     "@babel/core" "7.9.6"
     "@babel/plugin-proposal-decorators" "7.8.3"
