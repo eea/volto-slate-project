@@ -75,7 +75,9 @@ pipeline {
           script{
             checkout scm
             def nodeJS = tool 'NodeJS12';
-            sh "export PATH=$PATH:${nodeJS}/bin; yarn; yarn test"
+            sh "hostname"
+            sh "export PATH=$PATH:${nodeJS}/bin; yarn"
+            sh "export PATH=$PATH:${nodeJS}/bin; yarn test"
           }
         }
       }
