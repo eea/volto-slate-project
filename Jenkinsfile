@@ -8,53 +8,76 @@ pipeline {
 
   stages {
 
-    stage('Code quality') {
+
+    stage('Tests') {
       steps {
-        parallel(
-
-          "JS Hint": {
-            node(label: 'docker') {
-              script {
-                catchError(buildResult: 'SUCCESS', stageResult: 'UNSTABLE') {
-                  sh '''docker run -i --rm --name="$BUILD_TAG-jshint" -e GIT_SRC="https://github.com/eea/$GIT_NAME.git" -e GIT_NAME="$GIT_NAME" -e GIT_BRANCH="$BRANCH_NAME" -e GIT_CHANGE_ID="$CHANGE_ID" eeacms/jshint'''
-                }
-              }
+        node(label: 'eea') {
+            stages {
+               stage("install") {
+                   steps {
+                       script{
+                         checkout scm
+                         withEnv(["PATH+NODEJS=${tool 'NodeJS12'}/bin"]) { 
+                            sh "yarn install"  
+                         }
+                        }
+                   }
+               }
+               stage("code test") {
+                   steps {
+                     'Prettier':{
+                       script{
+                         withEnv(["PATH+NODEJS=${tool 'NodeJS12'}/bin"]) { 
+                             sh "yarn run prettier"
+                         }
+                       }
+                     },
+                     'Lint':{
+                       script{
+                         withEnv(["PATH+NODEJS=${tool 'NodeJS12'}/bin"]) { 
+                             sh "yarn run code-analysis:i18n"
+                         }
+                       }
+                     }
+                     'i18n':{
+                       script{
+                         withEnv(["PATH+NODEJS=${tool 'NodeJS12'}/bin"]) { 
+                             sh "yarn run code-analysis:i18n"
+                         }
+                       }
+                     }
+               }
+               stage("Unit tests") {
+                   steps {
+                       script{
+                         checkout scm
+                         withEnv(["PATH+NODEJS=${tool 'NodeJS12'}/bin"]) { 
+                            sh "yarn test-addon --watchAll=false --collectCoverage"  
+                         }
+                        }
+                   }
+               }
+               stage("Sonarqube") {
+                   steps {
+                       script{
+                         checkout scm
+                         withEnv(["PATH+NODEJS=${tool 'NodeJS12'}/bin"]) { 
+                             withSonarQubeEnv('Sonarqube') {
+                               sh "export PATH=$PATH:${scannerHome}/bin:${nodeJS}/bin; sonar-scanner -Dsonar.javascript.lcov.reportPaths=./coverage/lcov.info -Dsonar.sources=./src -Dsonar.projectKey=$GIT_NAME-$BRANCH_NAME -Dsonar.projectVersion=$BRANCH_NAME-$BUILD_NUMBER"
+                               sh '''try=2; while [ \$try -gt 0 ]; do curl -s -XPOST -u "${SONAR_AUTH_TOKEN}:" "${SONAR_HOST_URL}api/project_tags/set?project=${GIT_NAME}-${BRANCH_NAME}&tags=${SONARQUBE_TAGS},${BRANCH_NAME}" > set_tags_result; if [ \$(grep -ic error set_tags_result ) -eq 0 ]; then try=0; else cat set_tags_result; echo "... Will retry"; sleep 60; try=\$(( \$try - 1 )); fi; done'''
+                             }
+                         }
+                       }
+                   }
+               }
             }
-          },
-
-          "CSS Lint": {
-            node(label: 'docker') {
-              script {
-                catchError(buildResult: 'SUCCESS', stageResult: 'UNSTABLE') {
-                  sh '''docker run -i --rm --name="$BUILD_TAG-csslint" -e GIT_SRC="https://github.com/eea/$GIT_NAME.git" -e GIT_NAME="$GIT_NAME" -e GIT_BRANCH="$BRANCH_NAME" -e GIT_CHANGE_ID="$CHANGE_ID" eeacms/csslint'''
-                }
-              }
-            }
-          },
           
-          "JS Lint": {
-            node(label: 'docker') {
-              script {
-                catchError(buildResult: 'SUCCESS', stageResult: 'UNSTABLE') {
-                  sh '''docker run -i --rm --name="$BUILD_TAG-jslint" -e GIT_SRC="https://github.com/eea/$GIT_NAME.git" -e GIT_NAME="$GIT_NAME" -e GIT_BRANCH="$BRANCH_NAME" -e GIT_CHANGE_ID="$CHANGE_ID" eeacms/jslint4java'''
-                }
-              }
-            }
-          }
-
-        )
-      }
-    }
-
-
-
     stage('Unit Tests') {
       steps {
         node(label: 'eea') {
           script{
             checkout scm
             def scannerHome = tool 'SonarQubeScanner';
-            def nodeJS = tool 'NodeJS12';
             withEnv(["PATH+NODEJS=${tool 'NodeJS12'}/bin"]) {
                 sh "env"
                 sh "yarn install"
