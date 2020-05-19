@@ -10,20 +10,19 @@ pipeline {
 
   
 stages {
-               stage("Installation") {
+               stage("Installation for Testing") {
                    steps {
                        script{
                          checkout scm
-                         sh "env"
                          sh "hostname"
                          tool 'NodeJS12'
+                         tool 'SonarQubeScanner'
                          sh "yarn install"  
                        }
                    }
                }
-               stage("code test") {
+               stage("Code Quality") {
                    steps {
-                         sh "env"
                          sh "hostname"
                          catchError(buildResult: 'SUCCESS', stageResult: 'UNSTABLE') {
                            sh "yarn run prettier"
@@ -46,7 +45,7 @@ stages {
                    steps {
                        withSonarQubeEnv('Sonarqube') {
                                sh "hostname"
-                               sh "sonar-scanner -Dsonar.javascript.lcov.reportPaths=./coverage/lcov.info -Dsonar.sources=./src -Dsonar.projectKey=$GIT_NAME-$BRANCH_NAME -Dsonar.projectVersion=$BRANCH_NAME-$BUILD_NUMBER"
+                               sh '''sonar-scanner -Dsonar.javascript.lcov.reportPaths=./coverage/lcov.info -Dsonar.sources=./src -Dsonar.projectKey=$GIT_NAME-$BRANCH_NAME -Dsonar.projectVersion=$BRANCH_NAME-$BUILD_NUMBER'''
                                sh '''try=2; while [ \$try -gt 0 ]; do curl -s -XPOST -u "${SONAR_AUTH_TOKEN}:" "${SONAR_HOST_URL}api/project_tags/set?project=${GIT_NAME}-${BRANCH_NAME}&tags=${SONARQUBE_TAGS},${BRANCH_NAME}" > set_tags_result; if [ \$(grep -ic error set_tags_result ) -eq 0 ]; then try=0; else cat set_tags_result; echo "... Will retry"; sleep 60; try=\$(( \$try - 1 )); fi; done'''
                             
                        }
