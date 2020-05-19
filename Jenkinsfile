@@ -25,21 +25,21 @@ pipeline {
                }
                stage("code test") {
                    steps {
-                     'Prettier':{
+                     {
                        script{
                          withEnv(["PATH+NODEJS=${tool 'NodeJS12'}/bin"]) { 
                              sh "yarn run prettier"
                          }
                        }
                      },
-                     'Lint':{
+                     {
                        script{
                          withEnv(["PATH+NODEJS=${tool 'NodeJS12'}/bin"]) { 
                              sh "yarn run code-analysis:i18n"
                          }
                        }
                      }
-                     'i18n':{
+                     {
                        script{
                          withEnv(["PATH+NODEJS=${tool 'NodeJS12'}/bin"]) { 
                              sh "yarn run code-analysis:i18n"
