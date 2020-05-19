@@ -18,7 +18,7 @@ pipeline {
                          withEnv(["PATH+NODEJS=${tool 'NodeJS12'}/bin"]) { 
                             sh "yarn install"  
                          }
-                        }
+                       }
                    }
                }
                stage("code test") {
@@ -42,7 +42,7 @@ pipeline {
                          withEnv(["PATH+NODEJS=${tool 'NodeJS12'}/bin"]) { 
                             sh "yarn test-addon --watchAll=false --collectCoverage"  
                          }
-                        }
+                       }
                    }
                }
                stage("Sonarqube") {
@@ -58,8 +58,9 @@ pipeline {
                        }
                    }
                }
+          }
       }
-
+    }
   }
 
   post {
