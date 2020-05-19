@@ -25,27 +25,16 @@ pipeline {
                }
                stage("code test") {
                    steps {
-                     {
-                       script{
+                         sh "env"
                          withEnv(["PATH+NODEJS=${tool 'NodeJS12'}/bin"]) { 
                              sh "yarn run prettier"
                          }
-                       }
-                     },
-                     {
-                       script{
                          withEnv(["PATH+NODEJS=${tool 'NodeJS12'}/bin"]) { 
                              sh "yarn run code-analysis:i18n"
                          }
-                       }
-                     }
-                     {
-                       script{
                          withEnv(["PATH+NODEJS=${tool 'NodeJS12'}/bin"]) { 
                              sh "yarn run code-analysis:i18n"
                          }
-                       }
-                     }
                }
                stage("Unit tests") {
                    steps {
