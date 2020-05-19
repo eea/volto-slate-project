@@ -60,27 +60,8 @@ pipeline {
                    }
                }
             }
-          
-    stage('Unit Tests') {
-      steps {
-        script{
-            checkout scm
-            def scannerHome = tool 'SonarQubeScanner';
-            withEnv(["PATH+NODEJS=${tool 'NodeJS12'}/bin"]) {
-                sh "env"
-                sh "yarn install"
-                sh "yarn test-addon --watchAll=false --collectCoverage"
-                sh "yarn run prettier"
-                sh "yarn run lint"
-                sh "yarn run code-analysis:i18n"
-                withSonarQubeEnv('Sonarqube') {
-                    sh "export PATH=$PATH:${scannerHome}/bin:${nodeJS}/bin; sonar-scanner -Dsonar.javascript.lcov.reportPaths=./coverage/lcov.info -Dsonar.sources=./src -Dsonar.projectKey=$GIT_NAME-$BRANCH_NAME -Dsonar.projectVersion=$BRANCH_NAME-$BUILD_NUMBER"
-                    sh '''try=2; while [ \$try -gt 0 ]; do curl -s -XPOST -u "${SONAR_AUTH_TOKEN}:" "${SONAR_HOST_URL}api/project_tags/set?project=${GIT_NAME}-${BRANCH_NAME}&tags=${SONARQUBE_TAGS},${BRANCH_NAME}" > set_tags_result; if [ \$(grep -ic error set_tags_result ) -eq 0 ]; then try=0; else cat set_tags_result; echo "... Will retry"; sleep 60; try=\$(( \$try - 1 )); fi; done'''
-                }
-             }
-          }
-        }
-    }
+            }
+
 
   }
 
