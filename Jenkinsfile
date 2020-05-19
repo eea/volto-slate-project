@@ -1,9 +1,10 @@
 pipeline {
-  agent any
+  agent { node { label 'eea' } } 
 
   environment {
         GIT_NAME = "volto-slate-project"
         SONARQUBE_TAGS = "www.eionet.europa.eu,forest.eea.europa.eu"
+        PATH_TEST = "${tool 'NodeJS12'}/bin:$PATH"
   }
 
   stages {
@@ -11,7 +12,6 @@ pipeline {
 
     stage('Tests') {
       steps {
-        node(label: 'eea') {
             stages {
                stage("install") {
                    steps {
@@ -74,8 +74,7 @@ pipeline {
           
     stage('Unit Tests') {
       steps {
-        node(label: 'eea') {
-          script{
+        script{
             checkout scm
             def scannerHome = tool 'SonarQubeScanner';
             withEnv(["PATH+NODEJS=${tool 'NodeJS12'}/bin"]) {
@@ -92,7 +91,6 @@ pipeline {
              }
           }
         }
-      }
     }
 
   }
