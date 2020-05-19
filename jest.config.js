@@ -19,6 +19,7 @@ module.exports = {
     '@package/(.*)$': '<rootDir>/src/$1',
     '~/(.*)$': '<rootDir>/src/$1',
   },
+  // projects: ['<rootDir>/src/addons/volto-slate'],
   coverageThreshold: {
     global: {
       branches: 10,
