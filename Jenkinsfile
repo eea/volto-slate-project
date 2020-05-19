@@ -4,7 +4,6 @@ pipeline {
   environment {
         GIT_NAME = "volto-slate-project"
         SONARQUBE_TAGS = "www.eionet.europa.eu,forest.eea.europa.eu"
-        PATH_TEST = tool('NodeJS12')+"/bin:$PATH"
   }
 
   stages {
