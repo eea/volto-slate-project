@@ -25,9 +25,15 @@ stages {
                    steps {
                          sh "env"
                          sh "hostname"
-                         sh "yarn run prettier"
-                         sh "yarn run lint"
-                         sh "yarn run code-analysis:i18n"
+                         catchError(buildResult: 'SUCCESS', stageResult: 'UNSTABLE') {
+                           sh "yarn run prettier"
+                         }
+                         catchError(buildResult: 'SUCCESS', stageResult: 'UNSTABLE') {
+                           sh "yarn run lint"
+                         }
+                         catchError(buildResult: 'SUCCESS', stageResult: 'UNSTABLE') {
+                           sh "yarn run code-analysis:i18n"
+                         }
                    }
                }
                stage("Unit tests") {
