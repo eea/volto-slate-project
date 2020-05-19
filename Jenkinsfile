@@ -34,9 +34,7 @@ stages {
                    steps {
                             sh "hostname"
                             sh "yarn test-addon --watchAll=false --collectCoverage"  
-                         }
-                      
-                   }
+                         }                      
                }
                stage("Sonarqube") {
                    steps {
