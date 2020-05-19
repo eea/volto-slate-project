@@ -3,7 +3,7 @@ pipeline {
 
   environment {
         GIT_NAME = "volto-slate-project"
-        SONARQUBE_TAGS = "www.eionet.europa.eu"
+        SONARQUBE_TAGS = "www.eionet.europa.eu,forest.eea.europa.eu"
     }
 
   stages {
@@ -77,7 +77,8 @@ pipeline {
             def nodeJS = tool 'NodeJS12';
             sh "hostname"
             sh "export PATH=$PATH:${nodeJS}/bin; yarn install"
-            sh "export PATH=$PATH:${nodeJS}/bin; yarn test-addon --watchAll=false"
+            sh "export PATH=$PATH:${nodeJS}/bin; yarn test-addon --watchAll=false --coverage"
+            sh "find . -name coverag*"
           }
         }
       }
