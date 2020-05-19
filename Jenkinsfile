@@ -8,8 +8,6 @@ pipeline {
   }
 
   stages {
-
-
     stage('Tests') {
       steps {
             stages {
@@ -35,6 +33,7 @@ pipeline {
                          withEnv(["PATH+NODEJS=${tool 'NodeJS12'}/bin"]) { 
                              sh "yarn run code-analysis:i18n"
                          }
+                   }
                }
                stage("Unit tests") {
                    steps {
@@ -59,8 +58,6 @@ pipeline {
                        }
                    }
                }
-            }
-            }
       }
 
   }
