@@ -51,6 +51,22 @@ stages {
                        }
                    }
                }
+  
+  
+    stage('Integration Tests') {
+      steps {
+        node(label: 'docker') {
+          script{
+            checkout scm
+            def port = new ServerSocket(0).withCloseable { socket -> socket.getLocalPort() }
+            def nodeJS = tool 'NodeJS12';
+            sh "hostname"
+            sh "yarn install"
+          }
+        }
+      }
+    } 
+  
   }
 
   post {
