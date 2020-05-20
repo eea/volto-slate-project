@@ -1967,7 +1967,7 @@
 
 "@plone/volto@plone/volto#master":
   version "6.0.0"
-  resolved "https://codeload.github.com/plone/volto/tar.gz/61046550545191e6573de06b5693b81baff1df4a"
+  resolved "https://codeload.github.com/plone/volto/tar.gz/d68f4027976ddf08126da2404cfb928ed5099473"
   dependencies:
     "@babel/core" "7.9.6"
     "@babel/plugin-proposal-decorators" "7.8.3"
