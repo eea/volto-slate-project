@@ -55,12 +55,13 @@ stages {
   
     stage('Integration Tests') {
       steps {
-        node(label: 'docker') {
+        node(label: 'clair') {
           script{
             checkout scm
-            def port = new ServerSocket(0).withCloseable { socket -> socket.getLocalPort() }
+            String port = sh(script: 'echo $(python -c \'import socket; s=socket.socket(); s.bind(("", 0)); print(s.getsockname()[1]); s.close()\');', returnStdout: true);
             def nodeJS = tool 'NodeJS12';
             sh "hostname"
+            sh "env"
             sh "yarn install"
           }
         }
