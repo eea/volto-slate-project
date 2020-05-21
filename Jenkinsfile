@@ -55,7 +55,7 @@ stages {
   
     stage('Integration Tests') {
       steps {
-        node(label: 'clair') {
+        node(label: 'docker') {
           script{
             checkout scm
             String port = sh(script: 'echo $(python -c \'import socket; s=socket.socket(); s.bind(("", 0)); print(s.getsockname()[1]); s.close()\');', returnStdout: true);
@@ -63,6 +63,13 @@ stages {
             sh "hostname"
             sh "env"
             sh "yarn install"
+            catchError(buildResult: 'SUCCESS', stageResult: 'UNSTABLE') {
+              sh "yarn ci:cypress:run"
+            }
+            catchError(buildResult: 'SUCCESS', stageResult: 'UNSTABLE') {
+              sh "yarn ci:cypress:end"
+            }
+
           }
         }
       }
