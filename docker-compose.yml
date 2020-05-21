@@ -2,14 +2,14 @@ version: '3'
 
 services:
   ploneapi:
-    image: kitconcept/plone.restapi:latest
+    image: plone:latest
     ports:
       - "8080:8080"
     environment:
-      - SITE="Plone"
-      - ADDONS="kitconcept.volto"
-      - ZCML="kitconcept.volto.cors"
-      - PROFILES="kitconcept.volto:default-homepage"
+      - SITE=Plone
+      - ADDONS=kitconcept.volto
+      - ZCML=kitconcept.volto.cors
+      - PROFILES=kitconcept.volto:default-homepage
 
     # Uncomment if you need the data to be persistent
     # volumes:
