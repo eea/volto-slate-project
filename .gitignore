@@ -12,6 +12,11 @@ build
 .env.test.local
 .env.production.local
 
+cypress/videos/
+cypress/screenshots
+
+src/addons 
+
 data
 omelette
 *~
