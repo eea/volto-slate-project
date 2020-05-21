@@ -1,4 +1,4 @@
 {
-  "baseUrl": "http://localhost:3000",
+  "baseUrl": "http://webapp:3000",
   "viewportWidth": 1280
 }

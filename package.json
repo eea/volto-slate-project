@@ -33,12 +33,12 @@
     "lint:fix": "./node_modules/eslint/bin/eslint.js --fix 'src/**/*.{js,jsx,json}'",
     "style": "yarn stylelint:fix",
     "start:prod": "NODE_ENV=production node build/server.js",
-    "cypress:open": "CYPRESS_API=plone cypress open",
-    "cypress:run": "CYPRESS_API=plone CYPRESS_RETRIES=2 cypress run",
-    "ci:start-api-plone": "docker run -it --rm -e SITE=Plone -p 55001:8080 plone",
-    "ci:start-frontend": "start-test 'RAZZLE_API_PATH=http://localhost:55001/Plone yarn build && yarn start:prod' http-get://localhost:3000 cypress:run",
-    "ci:cypress:run": "start-test ci:start-api-plone http-get://localhost:55001/Plone ci:start-frontend"
-
+    "cypress:run": "docker run --network testing --name cypress -it -v $(./get_correct_pwd.sh):/e2e -w /e2e  -e NODE_ENV=production -e CYPRESS_API=plone -e CYPRESS_RETRIES=2 --rm cypress/included:3.2.0",
+    "ci:cypress:end": "docker stop webapp plone && docker network rm testing",
+    "ci:start-api-plone": "docker network create testing && docker run --network testing --name plone -it --rm -e SITE=Plone -p 55001:8080 plone",
+    "ci:start-frontend": "docker run --network testing --name webapp -e RAZZLE_API_PATH=http://plone:8080/Plone -e NODE_ENV=production -v $(./get_correct_pwd.sh):/$(pwd) -w /$(pwd) -p 55002:3000 --rm node:12-slim /bin/sh -c 'yarn build && yarn start:prod'",
+    "ci:start-tests": "start-test ci:start-frontend http-get://localhost:55002 cypress:run",
+    "ci:cypress:run": "start-test ci:start-api-plone http-get://localhost:55001/Plone ci:start-tests"
   },
   "prettier": {
     "trailingComma": "all",
@@ -91,7 +91,6 @@
     "stylelint-config-idiomatic-order": "8.1.0",
     "stylelint-config-prettier": "8.0.1",
     "stylelint-prettier": "1.1.2",
-    "cypress": "4.5.0",
     "start-server-and-test": "1.10.6"
   }
 }
