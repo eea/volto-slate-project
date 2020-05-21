@@ -38,7 +38,9 @@ stages {
                stage("Unit tests") {
                    steps {
                             sh "hostname"
-                            sh "yarn test-addon --watchAll=false --collectCoverage"  
+                            catchError(buildResult: 'SUCCESS', stageResult: 'UNSTABLE') {
+                              sh "yarn test-addon --watchAll=false --collectCoverage"
+                            }
                          }                      
                }
                stage("Sonarqube") {
