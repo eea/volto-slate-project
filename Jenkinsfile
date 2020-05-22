@@ -72,10 +72,10 @@ stages {
               }       
             }
             sh "ls -ltr cypress/"
-            sh "ls -ltr cypress/screenshots/"
             sh "ls -ltr cypress/videos/"
-            archiveArtifacts artifacts: 'cypress/screenshots/**/*.*', fingerprint: true
             archiveArtifacts artifacts: 'cypress/videos/*.mp4', fingerprint: true
+            sh "ls -ltr cypress/screenshots/"
+            archiveArtifacts artifacts: 'cypress/screenshots/**/*.*', fingerprint: true
 
           }
         }
@@ -86,7 +86,7 @@ stages {
 
   post {
     always { 
-      cleanWs(cleanWhenAborted: true, cleanWhenFailure: true, cleanWhenNotBuilt: true, cleanWhenSuccess: true, cleanWhenUnstable: true, deleteDirs: true)
+      cleanWs(cleanWhenAborted: true, cleanWhenFailure: false, cleanWhenNotBuilt: false, cleanWhenSuccess: true, cleanWhenUnstable: true, deleteDirs: true)
     }
     changed {
       script {
