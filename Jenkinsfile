@@ -38,9 +38,7 @@ stages {
                stage("Unit tests") {
                    steps {
                             sh "hostname"
-                            catchError(buildResult: 'SUCCESS', stageResult: 'UNSTABLE') {
-                              sh "yarn test-addon --watchAll=false --collectCoverage"
-                            }
+                            sh "yarn test-addon --watchAll=false --collectCoverage"
                          }                      
                }
                stage("Sonarqube") {
@@ -60,17 +58,18 @@ stages {
         node(label: 'docker') {
           script{
             checkout scm
-            String port = sh(script: 'echo $(python -c \'import socket; s=socket.socket(); s.bind(("", 0)); print(s.getsockname()[1]); s.close()\');', returnStdout: true);
+            String port1 = sh(script: 'echo $(python -c \'import socket; s=socket.socket(); s.bind(("", 0)); print(s.getsockname()[1]); s.close()\');', returnStdout: true);
+            String port2 = sh(script: 'echo $(python -c \'import socket; s=socket.socket(); s.bind(("", 0)); print(s.getsockname()[1]); s.close()\');', returnStdout: true);
             def nodeJS = tool 'NodeJS12';
             sh "hostname"
             sh "env"
             sh "yarn install"
-            catchError(buildResult: 'SUCCESS', stageResult: 'UNSTABLE') {
-              sh "yarn ci:cypress:run"
-            }
-            catchError(buildResult: 'SUCCESS', stageResult: 'UNSTABLE') {
+            sh "yarn ci:cypress:run"
+            catchError(buildResult: 'SUCCESS', stageResult: 'SUCCESS') {
               sh "yarn ci:cypress:end"
             }
+            archiveArtifacts artifacts: 'cypress/screenshots/**/*.png', fingerprint: true
+            archiveArtifacts artifacts: 'cypress/videos/*.mp4', fingerprint: true
 
           }
         }
