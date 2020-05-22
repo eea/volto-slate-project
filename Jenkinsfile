@@ -73,8 +73,12 @@ pipeline {
                   checkout scm
                   String port1 = sh(script: 'echo $(python -c \'import socket; s=socket.socket(); s.bind(("", 0)); print(s.getsockname()[1]); s.close()\');', returnStdout: true);
                   String port2 = sh(script: 'echo $(python -c \'import socket; s=socket.socket(); s.bind(("", 0)); print(s.getsockname()[1]); s.close()\');', returnStdout: true);
+                  
                   def nodeJS = tool 'NodeJS12';
                   sh "hostname"
+                  sh '''sed -i "s/8080:8080/$port1:8080/" package.json; sed -i "s/localhost:8080/localhost:$port1/" package.json'''
+                  sh '''sed -i "s/3000:3000/$port2:3000/" package.json; sed -i "s/localhost:3000/localhost:$port2/" package.json'''
+
                   sh "yarn install"
                   try {
                     sh "yarn ci:cypress:run"
@@ -89,11 +93,15 @@ pipeline {
             } 
          }
          post {
+           failure {
+              catchError(buildResult: 'SUCCESS', stageResult: 'SUCCESS') {
+                    archiveArtifacts artifacts: 'cypress/screenshots/**/*.*', fingerprint: true
+              }  
+           }
            always {
               sh '''yarn cache clean'''
               catchError(buildResult: 'SUCCESS', stageResult: 'SUCCESS') {
                     archiveArtifacts artifacts: 'cypress/videos/*.mp4', fingerprint: true
-                    archiveArtifacts artifacts: 'cypress/screenshots/**/*.*', fingerprint: true
               }  
               cleanWs(cleanWhenAborted: true, cleanWhenFailure: true, cleanWhenNotBuilt: true, cleanWhenSuccess: true, cleanWhenUnstable: true, deleteDirs: true)
            }
