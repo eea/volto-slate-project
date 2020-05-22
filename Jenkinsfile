@@ -64,11 +64,17 @@ stages {
             sh "hostname"
             sh "env"
             sh "yarn install"
-            sh "yarn ci:cypress:run"
-            catchError(buildResult: 'SUCCESS', stageResult: 'SUCCESS') {
-              sh "yarn ci:cypress:end"
+            try {
+              sh "yarn ci:cypress:run"
+            } finally {
+              catchError(buildResult: 'SUCCESS', stageResult: 'SUCCESS') {
+                sh "yarn ci:cypress:end"
+              }       
             }
-            archiveArtifacts artifacts: 'cypress/screenshots/**/*.png', fingerprint: true
+            sh "ls -ltr cypress/"
+            sh "ls -ltr cypress/screenshots/"
+            sh "ls -ltr cypress/videos/"
+            archiveArtifacts artifacts: 'cypress/screenshots/**/*.*', fingerprint: true
             archiveArtifacts artifacts: 'cypress/videos/*.mp4', fingerprint: true
 
           }
