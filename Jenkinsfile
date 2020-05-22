@@ -65,8 +65,8 @@ pipeline {
          }
          environment {
             PATH = "${tool 'NodeJS12'}/bin:$PATH"
-            port1 = sh(script: 'echo $(python -c \'import socket; s=socket.socket(); s.bind(("", 0)); print(s.getsockname()[1], end = ""); s.close()\');', returnStdout: true);
-            port2 = sh(script: 'echo $(python -c \'import socket; s=socket.socket(); s.bind(("", 0)); print(s.getsockname()[1], end = ""); s.close()\');', returnStdout: true);      
+            port1 = sh(script: 'echo $(python3 -c \'import socket; s=socket.socket(); s.bind(("", 0)); print(s.getsockname()[1], end = ""); s.close()\');', returnStdout: true);
+            port2 = sh(script: 'echo $(python3 -c \'import socket; s=socket.socket(); s.bind(("", 0)); print(s.getsockname()[1], end = ""); s.close()\');', returnStdout: true);      
           }
          stages {
             stage('Integration Tests') {
@@ -76,6 +76,7 @@ pipeline {
                   
                   def nodeJS = tool 'NodeJS12';
                   sh "hostname"
+                  sh "env"
                   sh '''sed -i "s/8080:8080/$port1:8080/" package.json; sed -i "s/localhost:8080/localhost:$port1/" package.json'''
                   sh '''sed -i "s/3000:3000/$port2:3000/" package.json; sed -i "s/localhost:3000/localhost:$port2/" package.json'''
 
