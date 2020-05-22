@@ -1,5 +1,5 @@
 pipeline {
-  agent { node { label 'eea' } } 
+  agent none
   
   
   environment {
@@ -8,8 +8,13 @@ pipeline {
         PATH = "${tool 'NodeJS12'}/bin:${tool 'SonarQubeScanner'}/bin:$PATH"
   }
 
-  
-stages {
+  stage("Test Code and Integration") {
+    parallel {
+       stage("Code") {
+          agent {
+            node { label 'eea' } 
+          }
+          stages {              
                stage("Installation for Testing") {
                    steps {
                        script{
@@ -51,37 +56,39 @@ stages {
                        }
                    }
                }
-  
-  
-    stage('Integration Tests') {
-      steps {
-        node(label: 'docker') {
-          script{
-            checkout scm
-            String port1 = sh(script: 'echo $(python -c \'import socket; s=socket.socket(); s.bind(("", 0)); print(s.getsockname()[1]); s.close()\');', returnStdout: true);
-            String port2 = sh(script: 'echo $(python -c \'import socket; s=socket.socket(); s.bind(("", 0)); print(s.getsockname()[1]); s.close()\');', returnStdout: true);
-            def nodeJS = tool 'NodeJS12';
-            sh "hostname"
-            sh "env"
-            sh "yarn install"
-            try {
-              sh "yarn ci:cypress:run"
-            } finally {
-              catchError(buildResult: 'SUCCESS', stageResult: 'SUCCESS') {
-                sh "yarn ci:cypress:end"
-              }       
-            }
-            sh "ls -ltr cypress/"
-            sh "ls -ltr cypress/videos/"
-            archiveArtifacts artifacts: 'cypress/videos/*.mp4', fingerprint: true
-            sh "ls -ltr cypress/screenshots/"
-            archiveArtifacts artifacts: 'cypress/screenshots/**/*.*', fingerprint: true
-
-          }
-        }
-      }
-    } 
-  
+         } 
+       stage("Integration") {
+         agent {
+              node { label 'docker'}
+         }
+         stages {
+            stage('Integration Tests') {
+              steps {
+                script{
+                  checkout scm
+                  String port1 = sh(script: 'echo $(python -c \'import socket; s=socket.socket(); s.bind(("", 0)); print(s.getsockname()[1]); s.close()\');', returnStdout: true);
+                  String port2 = sh(script: 'echo $(python -c \'import socket; s=socket.socket(); s.bind(("", 0)); print(s.getsockname()[1]); s.close()\');', returnStdout: true);
+                  def nodeJS = tool 'NodeJS12';
+                  sh "hostname"
+                  sh "yarn install"
+                  try {
+                    sh "yarn ci:cypress:run"
+                  } finally {
+                    catchError(buildResult: 'SUCCESS', stageResult: 'SUCCESS') {
+                      sh "yarn ci:cypress:end"
+                    }       
+                  }
+                  sh "ls -ltr cypress/"
+                  sh "ls -ltr cypress/videos/"
+                  archiveArtifacts artifacts: 'cypress/videos/*.mp4', fingerprint: true
+                  sh "ls -ltr cypress/screenshots/"
+                  archiveArtifacts artifacts: 'cypress/screenshots/**/*.*', fingerprint: true
+                }
+              }
+            } 
+         }
+       }               
+    }                
   }
 
   post {
