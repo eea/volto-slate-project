@@ -40,7 +40,6 @@ pipeline {
                    steps {
                             sh '''hostname'''
                             sh '''yarn test-addon --watchAll=false --collectCoverage --coverageReporters lcov cobertura text'''
-                            cobertura coberturaReportFile: 'coverage/cobertura-coverage.xml'
                             publishHTML (target : [allowMissing: false,
                              alwaysLinkToLastBuild: true,
                              keepAll: true,
@@ -48,7 +47,13 @@ pipeline {
                              reportFiles: 'index.html',
                              reportName: 'Coverage',
                              reportTitles: 'Code Coverage'])
-                         }                      
+                         }
+                 
+                  post {
+                   always {
+                      step([$class: 'CoberturaPublisher', coberturaReportFile: 'coverage/cobertura-coverage.xml'])
+                          }
+                  }
                }
                stage("Sonarqube") {
                    steps {
