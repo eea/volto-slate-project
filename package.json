@@ -22,8 +22,23 @@
     "test-addon": "jest --env=jsdom src/addons/volto-slate",
     "start:prod": "NODE_ENV=production node build/server.js",
     "i18n": "NODE_ENV=production node node_modules/@plone/volto/src/i18n.js",
+    "code-analysis:i18n": "yarn i18n && git diff -G'^[^\"POT]' --exit-code",
     "pretty": "yarn prettier:fix",
-    "style": "yarn stylelint:fix"
+    "prettier": "./node_modules/.bin/prettier --single-quote --check 'src/**/*.{js,jsx,ts,tsx,json,css,scss,md}'",
+    "prettier:fix": "./node_modules/.bin/prettier --single-quote --write 'src/**/*.{js,jsx,ts,tsx,json,css,scss,md}'",
+    "stylelint": "./node_modules/.bin/stylelint 'theme/**/*.{css,less}' 'src/**/*.{css,less}'",
+    "stylelint:overrides": "./node_modules/.bin/stylelint --syntax less 'theme/**/*.overrides' 'src/**/*.overrides'",
+    "stylelint:fix": "yarn stylelint --fix && yarn stylelint:overrides --fix",
+    "lint": "./node_modules/eslint/bin/eslint.js --max-warnings=0 'src/**/*.{js,jsx,json}'",
+    "lint:fix": "./node_modules/eslint/bin/eslint.js --fix 'src/**/*.{js,jsx,json}'",
+    "style": "yarn stylelint:fix",
+    "start:prod": "NODE_ENV=production node build/server.js",
+    "cypress:run": "docker run --link webapp:webapp --name cypress -v $(./get_correct_pwd.sh):/e2e -w /e2e  -e NODE_ENV=production -e CYPRESS_API=plone -e CYPRESS_RETRIES=2 --rm cypress/included:3.2.0",
+    "ci:cypress:end": "docker stop webapp plone",
+    "ci:start-api-plone": "docker run --name plone --rm -e SITE=Plone -p 55001:8080 plone",
+    "ci:start-frontend": "docker run --link plone:plone --name webapp -e RAZZLE_API_PATH=http://plone:8080/Plone -v $(./get_correct_pwd.sh):/$(pwd) -w /$(pwd) -p 55002:3000 --rm node:12-slim /bin/sh -c 'yarn build && yarn start:prod'",
+    "ci:start-tests": "start-test ci:start-frontend http-get://localhost:55002 cypress:run",
+    "ci:cypress:run": "start-test ci:start-api-plone http-get://localhost:55001/Plone ci:start-tests"
   },
   "prettier": {
     "trailingComma": "all",
@@ -75,6 +90,7 @@
     "prettier": "2.0.5",
     "stylelint-config-idiomatic-order": "8.1.0",
     "stylelint-config-prettier": "8.0.1",
-    "stylelint-prettier": "1.1.2"
+    "stylelint-prettier": "1.1.2",
+    "start-server-and-test": "1.10.6"
   }
 }
