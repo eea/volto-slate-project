@@ -48,13 +48,7 @@ pipeline {
                              reportName: 'Coverage',
                              reportTitles: 'Code Coverage'])
                          }
-                 
-                  post {
-                   always {
-                      step([$class: 'CoberturaPublisher', coberturaReportFile: 'coverage/cobertura-coverage.xml'])
-                          }
-                  }
-               }
+                   }
                stage("Sonarqube") {
                    steps {
                        withSonarQubeEnv('Sonarqube') {
