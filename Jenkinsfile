@@ -7,8 +7,8 @@ pipeline {
         SONARQUBE_TAGS = "www.eionet.europa.eu,forest.eea.europa.eu"
         PATH = "${tool 'NodeJS12'}/bin:${tool 'SonarQubeScanner'}/bin:$PATH"
   }
-
-  stage("Test Code and Integration") {
+  stages{ 
+   stage("Test Code and Integration") {
     parallel {
        stage("Code") {
           agent {
@@ -90,8 +90,8 @@ pipeline {
          }
        }               
     }                
+   }
   }
-
   post {
     always { 
       cleanWs(cleanWhenAborted: true, cleanWhenFailure: false, cleanWhenNotBuilt: false, cleanWhenSuccess: true, cleanWhenUnstable: true, deleteDirs: true)
