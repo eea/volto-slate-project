@@ -6,7 +6,7 @@ pipeline {
     parallel {
        stage("Code") {
           agent {
-            node { label 'eea' } 
+            label "eea"
           }
           environment {
             GIT_NAME = "volto-slate-project"
@@ -61,7 +61,7 @@ pipeline {
        } 
        stage("Integration") {
          agent {
-              node { label 'docker-host'}
+              label "docker-host"
          }
          environment {
             PATH = "${tool 'NodeJS12'}/bin:$PATH"
