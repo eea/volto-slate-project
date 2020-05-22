@@ -79,7 +79,8 @@ pipeline {
                   sh "env"
                   sh '''sed -i "s/8080:8080/$port1:8080/" package.json; sed -i "s/localhost:8080/localhost:$port1/" package.json'''
                   sh '''sed -i "s/3000:3000/$port2:3000/" package.json; sed -i "s/localhost:3000/localhost:$port2/" package.json'''
-
+                  sh '''sed -i "s/backend/backend_$port1/" package.json'''
+                  sh '''sed -i "s/frontend/frontend_$port2/" package.json'''
                   sh "yarn install"
                   try {
                     sh "yarn ci:cypress:run"
