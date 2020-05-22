@@ -39,6 +39,7 @@ pipeline {
                }
                stage("Unit tests") {
                    steps {
+                            sh '''hostname'''
                             sh '''yarn test-addon --watchAll=false --collectCoverage'''
                          }                      
                }
@@ -60,7 +61,7 @@ pipeline {
        } 
        stage("Integration") {
          agent {
-              node { label 'docker'}
+              node { label 'docker-host'}
          }
          environment {
             PATH = "${tool 'NodeJS12'}/bin:$PATH"
