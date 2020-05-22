@@ -56,7 +56,8 @@ pipeline {
                        }
                    }
                }
-         } 
+          }
+       } 
        stage("Integration") {
          agent {
               node { label 'docker'}
