@@ -39,7 +39,15 @@ pipeline {
                stage("Unit tests") {
                    steps {
                             sh '''hostname'''
-                            sh '''yarn test-addon --watchAll=false --collectCoverage'''
+                            sh '''yarn test-addon --watchAll=false --collectCoverage --coverageReporters lcov cobertura text'''
+                            cobertura coberturaReportFile: 'coverage/cobertura-coverage.xml'
+                            publishHTML (target : [allowMissing: false,
+                             alwaysLinkToLastBuild: true,
+                             keepAll: true,
+                             reportDir: 'coverage/lcov-report',
+                             reportFiles: 'index.html',
+                             reportName: 'Coverage',
+                             reportTitles: 'Code Coverage'])
                          }                      
                }
                stage("Sonarqube") {
