@@ -9,8 +9,8 @@ if (Cypress.env('API') !== 'guillotina') {
         .type('admin')
         .should('have.value', 'admin');
       cy.get('#password')
-        .type('secret')
-        .should('have.value', 'secret');
+        .type('admin')
+        .should('have.value', 'admin');
       cy.get('#login-form-submit').click();
       cy.get('body').should('have.class', 'has-toolbar');
     });
