@@ -65,14 +65,14 @@ pipeline {
          }
          environment {
             PATH = "${tool 'NodeJS12'}/bin:$PATH"
+            port1 = sh(script: 'echo $(python -c \'import socket; s=socket.socket(); s.bind(("", 0)); print(s.getsockname()[1]); s.close()\');', returnStdout: true);
+            port2 = sh(script: 'echo $(python -c \'import socket; s=socket.socket(); s.bind(("", 0)); print(s.getsockname()[1]); s.close()\');', returnStdout: true);      
           }
          stages {
             stage('Integration Tests') {
               steps {
                 script{
                   checkout scm
-                  String port1 = sh(script: 'echo $(python -c \'import socket; s=socket.socket(); s.bind(("", 0)); print(s.getsockname()[1]); s.close()\');', returnStdout: true);
-                  String port2 = sh(script: 'echo $(python -c \'import socket; s=socket.socket(); s.bind(("", 0)); print(s.getsockname()[1]); s.close()\');', returnStdout: true);
                   
                   def nodeJS = tool 'NodeJS12';
                   sh "hostname"
