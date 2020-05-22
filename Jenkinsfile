@@ -1,5 +1,4 @@
 pipeline {
-  agent none
   
   stages{ 
    stage("Test Code and Integration") {
@@ -55,6 +54,7 @@ pipeline {
           }
          post {
            always { 
+             sh '''yarn cache clean'''
              cleanWs(cleanWhenAborted: true, cleanWhenFailure: true, cleanWhenNotBuilt: true, cleanWhenSuccess: true, cleanWhenUnstable: true, deleteDirs: true)
            }
          }
@@ -90,6 +90,7 @@ pipeline {
          }
          post {
            always {
+              sh '''yarn cache clean'''
               catchError(buildResult: 'SUCCESS', stageResult: 'SUCCESS') {
                     archiveArtifacts artifacts: 'cypress/videos/*.mp4', fingerprint: true
                     archiveArtifacts artifacts: 'cypress/screenshots/**/*.*', fingerprint: true
