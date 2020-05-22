@@ -1,18 +1,17 @@
 pipeline {
   agent none
   
-  
-  environment {
-        GIT_NAME = "volto-slate-project"
-        SONARQUBE_TAGS = "www.eionet.europa.eu,forest.eea.europa.eu"
-        PATH = "${tool 'NodeJS12'}/bin:${tool 'SonarQubeScanner'}/bin:$PATH"
-  }
   stages{ 
    stage("Test Code and Integration") {
     parallel {
        stage("Code") {
           agent {
             node { label 'eea' } 
+          }
+          environment {
+            GIT_NAME = "volto-slate-project"
+            SONARQUBE_TAGS = "www.eionet.europa.eu,forest.eea.europa.eu"
+            PATH = "${tool 'NodeJS12'}/bin:${tool 'SonarQubeScanner'}/bin:$PATH"
           }
           stages {              
                stage("Installation for Testing") {
@@ -62,6 +61,9 @@ pipeline {
          agent {
               node { label 'docker'}
          }
+         environment {
+            PATH = "${tool 'NodeJS12'}/bin:$PATH"
+          }
          stages {
             stage('Integration Tests') {
               steps {
