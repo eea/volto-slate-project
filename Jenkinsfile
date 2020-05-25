@@ -39,7 +39,7 @@ pipeline {
                stage("Unit tests") {
                    steps {
                             sh '''hostname'''
-                            sh '''yarn test-addon --watchAll=false --collectCoverage --coverageReporters lcov cobertura text'''
+                            sh '''yarn test-addon --watchAll=false --collectCoverage --coverageReporters lcov cobertura text | tee -a unit_tests_log.txt'''
                             publishHTML (target : [allowMissing: false,
                              alwaysLinkToLastBuild: true,
                              keepAll: true,
@@ -48,7 +48,14 @@ pipeline {
                              reportName: 'Coverage',
                              reportTitles: 'Code Coverage'])
                          }
-                   }
+                         post {
+                           failure {
+                              catchError(buildResult: 'SUCCESS', stageResult: 'SUCCESS') {
+                                    archiveArtifacts artifacts: 'unit_tests_log.txt', fingerprint: true
+                              }  
+                           }
+                         }
+               }
                stage("Sonarqube") {
                    steps {
                        withSonarQubeEnv('Sonarqube') {
@@ -108,13 +115,11 @@ pipeline {
            failure {
               catchError(buildResult: 'SUCCESS', stageResult: 'SUCCESS') {
                     archiveArtifacts artifacts: 'cypress/screenshots/**/*.*', fingerprint: true
+                    archiveArtifacts artifacts: 'cypress/videos/*.mp4', fingerprint: true 
               }  
            }
            always {
               sh '''yarn cache clean'''
-              catchError(buildResult: 'SUCCESS', stageResult: 'SUCCESS') {
-                    archiveArtifacts artifacts: 'cypress/videos/*.mp4', fingerprint: true
-              }  
               cleanWs(cleanWhenAborted: true, cleanWhenFailure: true, cleanWhenNotBuilt: true, cleanWhenSuccess: true, cleanWhenUnstable: true, deleteDirs: true)
            }
          }
