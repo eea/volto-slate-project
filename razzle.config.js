@@ -55,6 +55,11 @@ module.exports = {
       },
     };
 
+    const resolveUrlLoader = {
+      loader: require.resolve('resolve-url-loader'),
+      options: {},
+    };
+
     const LESSLOADER = {
       test: /\.less$/,
       include: [
@@ -95,10 +100,10 @@ module.exports = {
         : [
             MiniCssExtractPlugin.loader,
             {
-              ...BASE_CSS_LOADER,
+              loader: 'css-loader',
               options: {
-                ...BASE_CSS_LOADER.options,
-                modules: true,
+                importLoaders: 2,
+                sourceMap: true,
               },
             },
             POST_CSS_LOADER,
