@@ -12,10 +12,11 @@ build
 .env.test.local
 .env.production.local
 
+cypress/fixtures/
 cypress/videos/
 cypress/screenshots
 
-src/addons 
+src/addons/
 
 data
 omelette
