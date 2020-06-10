@@ -5,10 +5,8 @@ if (Cypress.env('API') !== 'guillotina') {
 
       cy.get('#toolbar-add').click();
       cy.get('#toolbar-add-document').click();
-      cy.get('.eight > .ui > #field-title').type('Testing Slate blocks');
-      cy.get(
-        '.block-editor-text > [style="position: relative;"] > .inner > .block > .DraftEditor-root > .DraftEditor-editorContainer > .notranslate > [data-contents="true"] > [data-block="true"] > .public-DraftStyleDefault-block',
-      ).click();
+      cy.get('.block-editor-title').type('Testing Slate blocks');
+      cy.get('.block-editor-text').last().click();
 
       const createSlateBlock = (isFirstSlateBlock = false) => {
         if (!isFirstSlateBlock) {
@@ -28,13 +26,13 @@ if (Cypress.env('API') !== 'guillotina') {
       };
 
       let s1 = createSlateBlock(true);
-      s1.typeInSlate('Hello Slate World!', { delay: 10 });
+      s1.typeInSlate('Hello Slate World!');
 
       let s2 = createSlateBlock();
-      s2.typeInSlate('Hello Volto World!', { delay: 10 });
+      s2.typeInSlate('Hello Volto World!');
 
       let s3 = createSlateBlock();
-      s3.typeInSlate('Hello Cypress World!', { delay: 10 });
+      s3.typeInSlate('Hello Cypress World!');
     });
   });
 }
