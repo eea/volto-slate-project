@@ -24,8 +24,6 @@
 // -- This will overwrite an existing command --
 // Cypress.Commands.overwrite("visit", (originalFn, url, options) => { ... })
 
-
-
 /**
  * Slate commands taken from this page because of that issue:
  * https://github.com/ianstormtaylor/slate/issues/3476
@@ -229,13 +227,13 @@ Cypress.Commands.add(
 Cypress.Commands.add('waitForResourceToLoad', (fileName, type) => {
   const resourceCheckInterval = 40;
 
-  return new Cypress.Promise(resolve => {
+  return new Cypress.Promise((resolve) => {
     const checkIfResourceHasBeenLoaded = () => {
       const resource = cy
         .state('window')
         .performance.getEntriesByType('resource')
-        .filter(entry => !type || entry.initiatorType === type)
-        .find(entry => entry.name.includes(fileName));
+        .filter((entry) => !type || entry.initiatorType === type)
+        .find((entry) => entry.name.includes(fileName));
 
       if (resource) {
         resolve();
@@ -274,10 +272,7 @@ Cypress.Commands.add('setRegistry', (record, value) => {
 
 // Low level command reused by `setSelection` and low level command `setCursor`
 Cypress.Commands.add('selection', { prevSubject: true }, (subject, fn) => {
-  cy.wrap(subject)
-    .trigger('mousedown')
-    .then(fn)
-    .trigger('mouseup');
+  cy.wrap(subject).trigger('mousedown').then(fn).trigger('mouseup');
 
   cy.document().trigger('selectionchange');
   return cy.wrap(subject);
@@ -287,7 +282,7 @@ Cypress.Commands.add(
   'setSelection',
   { prevSubject: true },
   (subject, query, endQuery) => {
-    return cy.wrap(subject).selection($el => {
+    return cy.wrap(subject).selection(($el) => {
       if (typeof query === 'string') {
         const anchorNode = getTextNode($el[0], query);
         const focusNode = endQuery ? getTextNode($el[0], endQuery) : anchorNode;
@@ -315,7 +310,7 @@ Cypress.Commands.add(
   'setCursor',
   { prevSubject: true },
   (subject, query, atStart) => {
-    return cy.wrap(subject).selection($el => {
+    return cy.wrap(subject).selection(($el) => {
       const node = getTextNode($el[0], query);
       const offset =
         node.wholeText.indexOf(query) + (atStart ? 0 : query.length);
@@ -367,17 +362,11 @@ function setBaseAndExtent(...args) {
 }
 
 Cypress.Commands.add('navigate', (route = '') => {
-  return cy
-    .window()
-    .its('appHistory')
-    .invoke('push', route);
+  return cy.window().its('appHistory').invoke('push', route);
 });
 
 Cypress.Commands.add('store', () => {
-  return cy
-    .window()
-    .its('store')
-    .invoke('getStore', '');
+  return cy.window().its('store').invoke('getStore', '');
 });
 
 Cypress.Commands.add('settings', (key, value) => {
