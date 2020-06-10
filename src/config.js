@@ -15,14 +15,10 @@
 import * as voltoConfig from '@plone/volto/config';
 
 import { applyConfig as installVoltoSlate } from 'volto-slate/config';
-//
-// import installLinkPlugin from 'volto-slate/editor/plugins/Link';
-// , installLinkPlugin
-//
-const config = [installVoltoSlate].reduce(
-  (acc, apply) => apply(acc),
-  voltoConfig,
-);
+
+const config = [installVoltoSlate].reduce((acc, apply) => apply(acc), {
+  ...voltoConfig,
+});
 
 export const settings = {
   ...config.settings,
@@ -39,3 +35,6 @@ export const widgets = {
 export const blocks = {
   ...config.blocks,
 };
+
+export const addonReducers = { ...config.addonReducers };
+export const addonRoutes = [];
