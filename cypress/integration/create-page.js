@@ -6,12 +6,9 @@ if (Cypress.env('API') !== 'guillotina') {
       cy.get('#toolbar-add').click();
       cy.get('#toolbar-add-document').click();
       cy.get('.block-editor-title').type('Testing Slate blocks');
-      cy.get('.block-editor-text').last().click();
 
-      const createSlateBlock = (isFirstSlateBlock = false) => {
-        if (!isFirstSlateBlock) {
-          cy.get('.block-editor-text').last().click();
-        }
+      const createSlateBlock = () => {
+        cy.get('.block-editor-text').last().click();
 
         // click the add block button
         cy.get('.inner > .block > .ui > .icon').click();
@@ -25,7 +22,7 @@ if (Cypress.env('API') !== 'guillotina') {
         return cy.get('.slate-editor.selected [contenteditable=true]');
       };
 
-      let s1 = createSlateBlock(true);
+      let s1 = createSlateBlock();
       s1.typeInSlate('Hello Slate World!');
 
       let s2 = createSlateBlock();
