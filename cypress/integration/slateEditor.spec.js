@@ -1,9 +1,15 @@
+/// <reference types="Cypress" />
+/// <reference types="../support" />
+
 // TODO: remake this file and test it
 
-cy.getEditor('[data-testid=slateEditor1] [contenteditable]').typeInSlate(
-  'Some input text ',
-);
+describe('Test that setup works', () => {
+  beforeEach(function () {
+    cy.visit('https://www.slatejs.org/examples/richtext');
+  });
 
-cy.getEditor('[data-testid=slateEditor2] [contenteditable]')
-  .clearInSlate()
-  .typeInSlate('http://httpbin.org/status/409');
+  it('Can type in Slate using helper commands', function () {
+    cy.getEditor('[contenteditable=true]').clearAllInSlate();
+    cy.getEditor('[contenteditable=true]').typeInSlate('Some text here');
+  });
+});

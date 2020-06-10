@@ -1,15 +1,7 @@
 if (Cypress.env('API') !== 'guillotina') {
   describe('Login Tests', () => {
-    beforeEach(() => {
-      cy.visit('/');
-      // cy.contains('Log in').click();
-    });
     it('Creates a new page with 3 Slate blocks', () => {
-      cy.autologin(); // TODO: is this used well? It does not seem to work.
-
-      // cy.get('#login').type('admin').should('have.value', 'admin');
-      // cy.get('#password').type('admin').should('have.value', 'admin');
-      // cy.get('#login-form-submit').click();
+      cy.voltoLogin('admin', 'admin');
       cy.get('body').should('have.class', 'has-toolbar');
 
       cy.get('#toolbar-add').click();
@@ -19,30 +11,31 @@ if (Cypress.env('API') !== 'guillotina') {
         '.block-editor-text > [style="position: relative;"] > .inner > .block > .DraftEditor-root > .DraftEditor-editorContainer > .notranslate > [data-contents="true"] > [data-block="true"] > .public-DraftStyleDefault-block',
       ).click();
 
-      // click the add block button
-      cy.get('.inner > .block > .ui > .icon').click();
+      const createSlateBlock = (isFirstSlateBlock = false) => {
+        if (!isFirstSlateBlock) {
+          cy.get('.block-editor-text').last().click();
+        }
 
-      // Text section in block type selector
-      cy.get('.accordion > :nth-child(3)').click();
+        // click the add block button
+        cy.get('.inner > .block > .ui > .icon').click();
 
-      // click the Slate block button (the first one is in the Most Used section, the last one is surely the good one)
-      cy.get('button.ui.basic.icon.button.slate').last().click();
+        // Text section in block type selector
+        cy.get('.accordion > :nth-child(3)').click();
 
-      // type something in the new Slate block
-      // cy.get(
-      //   '#page-add > div > div > div.block-editor-slate > div > div.ui.drag.block.inner.slate > div > div > div:nth-child(2)',
-      // ).type('Hello Slate World!');
+        // click the Slate block button (the first one is in the Most Used section, the last one is surely the good one)
+        cy.get('button.ui.basic.icon.button.slate').last().click();
 
-      let block1 = cy.get('.slate-editor.selected [contenteditable=true]');
+        return cy.get('.slate-editor.selected [contenteditable=true]');
+      };
 
-      // cy.get('.block-editor-slate').click();
+      let s1 = createSlateBlock(true);
+      s1.typeInSlate('Hello Slate World!', { delay: 10 });
 
-      // setTimeout(() => {
-      block1
-        // .get('[data-slate-length]')
-        // .first()
-        .type('Hello Slate World!{enter}', { delay: 10 });
-      // }, 1000);
+      let s2 = createSlateBlock();
+      s2.typeInSlate('Hello Volto World!', { delay: 10 });
+
+      let s3 = createSlateBlock();
+      s3.typeInSlate('Hello Cypress World!', { delay: 10 });
     });
   });
 }

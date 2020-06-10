@@ -24,6 +24,14 @@
 // -- This will overwrite an existing command --
 // Cypress.Commands.overwrite("visit", (originalFn, url, options) => { ... })
 
+Cypress.Commands.add('voltoLogin', (username, password) => {
+  cy.visit('/');
+  cy.contains('Log in').click();
+  cy.get('#login').type(username);
+  cy.get('#password').type(password);
+  cy.get('#login-form-submit').click();
+});
+
 /**
  * Slate commands taken from this page because of that issue:
  * https://github.com/ianstormtaylor/slate/issues/3476
@@ -49,6 +57,18 @@ Cypress.Commands.add('clearInSlate', { prevSubject: true }, (subject) => {
     );
     return subject;
   });
+});
+
+Cypress.Commands.add('clearAllInSlate', { prevSubject: true }, (subject) => {
+  // TODO: do not hardcode this 10 here
+  for (let i = 0; i < 10; ++i) {
+    cy.wrap(subject).then((subject) => {
+      subject[0].dispatchEvent(
+        new InputEvent('beforeinput', { inputType: 'deleteHardLineBackward' }),
+      );
+      return subject;
+    });
+  }
 });
 
 /**
