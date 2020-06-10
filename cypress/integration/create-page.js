@@ -2,7 +2,6 @@ if (Cypress.env('API') !== 'guillotina') {
   describe('Login Tests', () => {
     it('Creates a new page with 3 Slate blocks', () => {
       cy.voltoLogin('admin', 'admin');
-      cy.get('body').should('have.class', 'has-toolbar');
 
       cy.get('#toolbar-add').click();
       cy.get('#toolbar-add-document').click();

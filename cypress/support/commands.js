@@ -25,11 +25,12 @@
 // Cypress.Commands.overwrite("visit", (originalFn, url, options) => { ... })
 
 Cypress.Commands.add('voltoLogin', (username, password) => {
+  cy.autologin();
   cy.visit('/');
-  cy.contains('Log in').click();
-  cy.get('#login').type(username);
-  cy.get('#password').type(password);
-  cy.get('#login-form-submit').click();
+  // cy.contains('Log in').click();
+  // cy.get('#login').type(username);
+  // cy.get('#password').type(password);
+  // cy.get('#login-form-submit').click();
 });
 
 /**
