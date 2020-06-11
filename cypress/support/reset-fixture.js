@@ -6,12 +6,18 @@ const command = process.argv[2];
 // create a client
 const client = xmlrpc.createClient({
   host: 'localhost',
-  port: 49999,
+  port: 55001,
   path: '/plone/RobotRemote',
 });
 
 function setup() {
+  // for / path
   // Setup site
+  // client.methodCall(
+  //   'zodb_setup',
+  //   [],
+  //   () => {},
+  // );
   client.methodCall(
     'run_keyword',
     [
@@ -23,7 +29,16 @@ function setup() {
 }
 
 function teardown() {
+  // for / path
+  // client.methodCall(
+  //   'zodb_teardown',
+  //   [],
+  //   (error, value) => {
+  //     console.log('err + val', { error, value });
+  //   },
+  // );
   // Tearing down
+  //
   client.methodCall(
     'run_keyword',
     [

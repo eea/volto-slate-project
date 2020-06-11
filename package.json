@@ -32,7 +32,7 @@
     "lint": "./node_modules/eslint/bin/eslint.js --max-warnings=0 'src/**/*.{js,jsx}'",
     "lint:fix": "./node_modules/eslint/bin/eslint.js --fix 'src/**/*.{js,jsx}'",
     "style": "yarn stylelint:fix",
-    "cypress:run:local": "NODE_ENV=production CYPRESS_API=plone CYPRESS_RETRIES=2 cypress open",
+    "cypress:run:local": "NODE_ENV=development CYPRESS_API=plone CYPRESS_RETRIES=2 cypress open",
     "cypress:run": "docker run --link webapp:webapp --link plone:plone --name cypress -v $(./get_correct_pwd.sh):/e2e -w /e2e  -e NODE_ENV=production -e CYPRESS_API=plone -e CYPRESS_RETRIES=2 --rm cypress/included:3.2.0",
     "ci:cypress:end": "docker stop webapp plone",
     "ci:start-api-plone": "docker run --name plone --rm -p 8080:8080 -e SITE=Plone -e ADDONS='kitconcept.volto' -e ZCML='kitconcept.volto.cors' -e CORS_ALLOW_ORIGIN='http://webapp:3000' -e PROFILES='kitconcept.volto:default-homepage' plone",
@@ -40,8 +40,8 @@
     "ci:start-tests": "start-test ci:start-frontend http-get://localhost:3000 cypress:run",
     "ci:cypress:run": "start-test ci:start-api-plone http-get://localhost:8080/Plone ci:start-tests",
     "cy:test:fixture:setup": "node cypress/support/reset-fixture.js",
-    "cy:test:fixture:teardown": "node cypress/support/reset-fixture.js teardown"
-    "upgrade-volto": "yarn upgrade @plone/volto; rm -rf node_modules; curl https://raw.githubusercontent.com/plone/volto/master/yarn.lock > yarn.lock; yarn install"
+    "cy:test:fixture:teardown": "node cypress/support/reset-fixture.js teardown",
+    "upgrade-volto": "yarn upgrade @plone/volto; cp node_modules/@plone/volto/yarn.lock yarn.lock; yarn install"
   },
   "prettier": {
     "trailingComma": "all",
@@ -82,7 +82,7 @@
     "node": "^10 || ^12"
   },
   "dependencies": {
-    "@plone/volto": "plone/volto#master",
+    "@plone/volto": "plone/volto#load_addons_1531",
     "mrs-developer": "1.1.6",
     "resolve-url-loader": "3.1.1"
   },
