@@ -39,7 +39,7 @@ pipeline {
                stage("Unit tests") {
                    steps {
                             sh '''hostname'''
-                            sh '''yarn test-addon --watchAll=false --collectCoverage --coverageReporters lcov cobertura text | tee -a unit_tests_log.txt'''
+                            sh '''yarn test-addon --watchAll=false --collectCoverage --coverageReporters lcov cobertura text '''
                             publishHTML (target : [allowMissing: false,
                              alwaysLinkToLastBuild: true,
                              keepAll: true,

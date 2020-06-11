@@ -29,8 +29,8 @@
     "stylelint": "./node_modules/.bin/stylelint 'theme/**/*.{css,less}' 'src/**/*.{css,less}'",
     "stylelint:overrides": "./node_modules/.bin/stylelint --syntax less 'theme/**/*.overrides' 'src/**/*.overrides'",
     "stylelint:fix": "yarn stylelint --fix && yarn stylelint:overrides --fix",
-    "lint": "./node_modules/eslint/bin/eslint.js --max-warnings=0 'src/**/*.{js,jsx,json}'",
-    "lint:fix": "./node_modules/eslint/bin/eslint.js --fix 'src/**/*.{js,jsx,json}'",
+    "lint": "./node_modules/eslint/bin/eslint.js --max-warnings=0 'src/**/*.{js,jsx}'",
+    "lint:fix": "./node_modules/eslint/bin/eslint.js --fix 'src/**/*.{js,jsx}'",
     "style": "yarn stylelint:fix",
     "cypress:run:local": "NODE_ENV=production CYPRESS_API=plone CYPRESS_RETRIES=2 cypress open",
     "cypress:run": "docker run --link webapp:webapp --link plone:plone --name cypress -v $(./get_correct_pwd.sh):/e2e -w /e2e  -e NODE_ENV=production -e CYPRESS_API=plone -e CYPRESS_RETRIES=2 --rm cypress/included:3.2.0",
@@ -41,6 +41,7 @@
     "ci:cypress:run": "start-test ci:start-api-plone http-get://localhost:8080/Plone ci:start-tests",
     "cy:test:fixture:setup": "node cypress/support/reset-fixture.js",
     "cy:test:fixture:teardown": "node cypress/support/reset-fixture.js teardown"
+    "upgrade-volto": "yarn upgrade @plone/volto; rm -rf node_modules; curl https://raw.githubusercontent.com/plone/volto/master/yarn.lock > yarn.lock; yarn install"
   },
   "prettier": {
     "trailingComma": "all",
