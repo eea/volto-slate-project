@@ -1,12 +1,27 @@
 if (Cypress.env('API') !== 'guillotina') {
   describe('Login Tests', () => {
+    beforeEach(() => {
+      cy.exec('yarn cy:test:fixture:teardown');
+      cy.exec('yarn cy:test:fixture:setup');
+
+      cy.autologin();
+      cy.createContent({
+        contentType: 'Document',
+        contentId: 'my-page',
+        contentTitle: 'My Page',
+      });
+      cy.visit('/my-page');
+
+      cy.waitForResourceToLoad('@navigation');
+      cy.waitForResourceToLoad('@breadcrumbs');
+      cy.waitForResourceToLoad('@actions');
+      cy.waitForResourceToLoad('@types');
+      cy.waitForResourceToLoad('my-page?fullobjects');
+
+      cy.navigate('/my-page/edit');
+    });
+
     it('Creates a new page with 3 Slate blocks', () => {
-      cy.voltoLogin('admin', 'admin');
-
-      cy.get('#toolbar-add').click();
-      cy.get('#toolbar-add-document').click();
-      cy.get('.block-editor-title').type('Testing Slate blocks');
-
       const createSlateBlock = () => {
         cy.get('.block-editor-text').last().click();
 

@@ -38,7 +38,9 @@
     "ci:start-api-plone": "docker run --name plone --rm -p 8080:8080 -e SITE=Plone -e ADDONS='kitconcept.volto' -e ZCML='kitconcept.volto.cors' -e CORS_ALLOW_ORIGIN='http://webapp:3000' -e PROFILES='kitconcept.volto:default-homepage' plone",
     "ci:start-frontend": "docker run --link plone:plone --name webapp -e RAZZLE_API_PATH=http://plone:8080/Plone -v $(./get_correct_pwd.sh):/$(pwd) -w /$(pwd) -p 3000:3000 --rm node:12-slim /bin/sh -c 'yarn build && yarn start:prod'",
     "ci:start-tests": "start-test ci:start-frontend http-get://localhost:3000 cypress:run",
-    "ci:cypress:run": "start-test ci:start-api-plone http-get://localhost:8080/Plone ci:start-tests"
+    "ci:cypress:run": "start-test ci:start-api-plone http-get://localhost:8080/Plone ci:start-tests",
+    "cy:test:fixture:setup": "node cypress/support/reset-fixture.js",
+    "cy:test:fixture:teardown": "node cypress/support/reset-fixture.js teardown"
   },
   "prettier": {
     "trailingComma": "all",
@@ -93,6 +95,7 @@
     "start-server-and-test": "1.10.6",
     "stylelint-config-idiomatic-order": "8.1.0",
     "stylelint-config-prettier": "8.0.1",
-    "stylelint-prettier": "1.1.2"
+    "stylelint-prettier": "1.1.2",
+    "xmlrpc": "1.3.2"
   }
 }

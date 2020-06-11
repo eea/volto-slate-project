@@ -24,15 +24,6 @@
 // -- This will overwrite an existing command --
 // Cypress.Commands.overwrite("visit", (originalFn, url, options) => { ... })
 
-Cypress.Commands.add('voltoLogin', (username, password) => {
-  cy.autologin();
-  cy.visit('/');
-  // cy.contains('Log in').click();
-  // cy.get('#login').type(username);
-  // cy.get('#password').type(password);
-  // cy.get('#login-form-submit').click();
-});
-
 /**
  * Slate commands taken from this page because of that issue:
  * https://github.com/ianstormtaylor/slate/issues/3476
@@ -72,10 +63,13 @@ Cypress.Commands.add('clearAllInSlate', { prevSubject: true }, (subject) => {
   }
 });
 
+const myUser = 'admin';
+const myPassword = 'secret';
+
 /**
  * Volto commands as on 09.06.2020 from
  * Source: https://github.com/plone/volto/blob/master/cypress/support/commands.js
- * (replaced localhost:55001/plone with localhost:3000/api)
+ * (replaced localhost:55001/plone with localhost:3000/api and started using myUser and myPassword from above)
  */
 
 // --- AUTOLOGIN -------------------------------------------------------------
@@ -86,9 +80,9 @@ Cypress.Commands.add('autologin', () => {
     user = 'root';
     password = 'root';
   } else {
-    api_url = 'http://localhost:3000/api';
-    user = 'admin';
-    password = 'admin';
+    api_url = 'http://localhost:55001/plone';
+    user = myUser;
+    password = myPassword;
   }
 
   return cy
@@ -121,10 +115,10 @@ Cypress.Commands.add(
         pass: 'root',
       };
     } else {
-      api_url = 'http://localhost:3000/api';
+      api_url = 'http://localhost:55001/plone';
       auth = {
-        user: 'admin',
-        pass: 'secret',
+        user: myUser,
+        pass: myPassword,
       };
     }
     if (contentType === 'File') {
@@ -219,10 +213,10 @@ Cypress.Commands.add(
     include_children = true,
   }) => {
     let api_url, auth;
-    api_url = 'http://localhost:3000/api';
+    api_url = 'http://localhost:55001/plone';
     auth = {
-      user: 'admin',
-      pass: 'secret',
+      user: myUser,
+      pass: myPassword,
     };
     return cy.request({
       method: 'POST',
@@ -272,10 +266,10 @@ Cypress.Commands.add('waitForResourceToLoad', (fileName, type) => {
 // --- CREATE CONTENT --------------------------------------------------------
 Cypress.Commands.add('setRegistry', (record, value) => {
   let api_url, auth;
-  api_url = 'http://localhost:3000/api';
+  api_url = 'http://localhost:55001/plone';
   auth = {
-    user: 'admin',
-    pass: 'secret',
+    user: myUser,
+    pass: myPassword,
   };
 
   return cy.request({
