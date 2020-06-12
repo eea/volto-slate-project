@@ -19,6 +19,12 @@ if (Cypress.env('API') !== 'guillotina') {
       return sb.invoke('text');
     };
 
+    const getSlateBlockValue = (sb) => {
+      return sb.invoke('attr', 'data-slate-value').then((str) => {
+        return JSON.parse(str);
+      });
+    };
+
     beforeEach(() => {
       // if I use these 2 calls as in https://github.com/plone/volto/blob/master/cypress/support/index.js the tests fail for sure
       cy.exec('yarn cy:test:fixture:teardown');
@@ -70,15 +76,18 @@ if (Cypress.env('API') !== 'guillotina') {
 
       cy.get('.block-editor-slate').should('have.length', 2);
 
-      // TODO: check actual value, not plain text value
-      getSlateBlockPlaintext(cy.get('.slate-editor').first()).should(
-        'eq',
-        'hello, ',
-      );
-      getSlateBlockPlaintext(cy.get('.slate-editor').last()).should(
-        'eq',
-        'world',
-      );
+      getSlateBlockValue(cy.get('.slate-editor').first()).should('deep.eq', [
+        {
+          type: 'paragraph',
+          children: [{ text: 'hello, ' }],
+        },
+      ]);
+      getSlateBlockValue(cy.get('.slate-editor').last()).should('deep.eq', [
+        {
+          type: 'paragraph',
+          children: [{ text: 'world' }],
+        },
+      ]);
     });
 
     // it('should do the same as the test above but within a list (including edge cases)', () => {});
