@@ -15,6 +15,10 @@ if (Cypress.env('API') !== 'guillotina') {
       return cy.get('.slate-editor.selected [contenteditable=true]');
     };
 
+    const getSlateBlockPlaintext = (sb) => {
+      return sb.invoke('text');
+    };
+
     beforeEach(() => {
       // if I use these 2 calls as in https://github.com/plone/volto/blob/master/cypress/support/index.js the tests fail for sure
       cy.exec('yarn cy:test:fixture:teardown');
@@ -50,5 +54,33 @@ if (Cypress.env('API') !== 'guillotina') {
 
       cy.get('.block-editor-slate').should('have.length', 4);
     });
+
+    it('should create a block with some text, move the cursor in the middle of the text, insert a line break, and then have 2 blocks with the two parts of the initial text', () => {
+      let s1 = createSlateBlock();
+
+      s1.typeInSlate('hello, world');
+
+      s1.type('{leftarrow}');
+      s1.type('{leftarrow}');
+      s1.type('{leftarrow}');
+      s1.type('{leftarrow}');
+      s1.type('{leftarrow}');
+
+      s1.lineBreakInSlate();
+
+      cy.get('.block-editor-slate').should('have.length', 2);
+
+      // TODO: check actual value, not plain text value
+      getSlateBlockPlaintext(cy.get('.slate-editor').first()).should(
+        'eq',
+        'hello, ',
+      );
+      getSlateBlockPlaintext(cy.get('.slate-editor').last()).should(
+        'eq',
+        'world',
+      );
+    });
+
+    // it('should do the same as the test above but within a list (including edge cases)', () => {});
   });
 }
