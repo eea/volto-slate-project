@@ -1,6 +1,7 @@
 if (Cypress.env('API') !== 'guillotina') {
   describe('Login Tests', () => {
     beforeEach(() => {
+      // if I use these 2 calls as in https://github.com/plone/volto/blob/master/cypress/support/index.js the tests fail for sure
       cy.exec('yarn cy:test:fixture:teardown');
       cy.exec('yarn cy:test:fixture:setup');
 
