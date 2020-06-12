@@ -51,6 +51,15 @@ Cypress.Commands.add('clearInSlate', { prevSubject: true }, (subject) => {
   });
 });
 
+Cypress.Commands.add('lineBreakInSlate', { prevSubject: true }, (subject) => {
+  return cy.wrap(subject).then((subject) => {
+    subject[0].dispatchEvent(
+      new InputEvent('beforeinput', { inputType: 'insertLineBreak' }),
+    );
+    return subject;
+  });
+});
+
 Cypress.Commands.add('clearAllInSlate', { prevSubject: true }, (subject) => {
   // TODO: do not hardcode this 10 here
   for (let i = 0; i < 10; ++i) {
