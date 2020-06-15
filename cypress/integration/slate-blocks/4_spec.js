@@ -10,7 +10,7 @@ if (Cypress.env('API') !== 'guillotina') {
   describe('Slate.js Volto blocks', () => {
     beforeEach(slateBeforeEach);
 
-    it('should create a block with a numbered list with a single item, move the cursor in approximatively the middle of the item, insert a line break, and then have 2 items with the two parts of the initial item: two items in a single numbered list: 1. and 2.', () => {
+    it('should create a block with a numbered list with a single item, move the cursor to the end of the item, insert line break and have 2 items in the list, the second one empty, and the cursor on it', () => {
       let s1 = createSlateBlock();
 
       s1.typeInSlate('hello, world');
@@ -25,9 +25,7 @@ if (Cypress.env('API') !== 'guillotina') {
       cy.get('.slate-inline-toolbar > :nth-child(8)').click();
 
       // move the text cursor
-      getSelectedSlateEditor().type(
-        '{leftarrow}{rightarrow}{rightarrow}{rightarrow}{rightarrow}{rightarrow}',
-      );
+      getSelectedSlateEditor().type('{rightarrow}');
 
       // simulate pressing Enter
       getSelectedSlateEditor().lineBreakInSlate();
@@ -43,7 +41,7 @@ if (Cypress.env('API') !== 'guillotina') {
               type: 'list-item',
               children: [
                 {
-                  text: 'hello',
+                  text: 'hello, world',
                 },
               ],
             },
@@ -51,7 +49,7 @@ if (Cypress.env('API') !== 'guillotina') {
               type: 'list-item',
               children: [
                 {
-                  text: ', world',
+                  text: '',
                 },
               ],
             },
