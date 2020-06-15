@@ -1,15 +1,14 @@
 import {
   createSlateBlock,
   getSlateBlockValue,
-  slateBeforeEach,
   getSelectedSlateEditor,
-} from './common';
+  selectSlateNodeOfWord,
+  slateBeforeEach,
+} from '../../support';
 
 if (Cypress.env('API') !== 'guillotina') {
   describe('Slate.js Volto blocks', () => {
-    beforeEach(() => {
-      slateBeforeEach();
-    });
+    beforeEach(slateBeforeEach);
 
     it('should create a block with a numbered list with a single item, move the cursor in approximatively the middle of the item, insert a line break, and then have 2 blocks with the two parts of the initial list: two numbered lists, both starting with 1.', () => {
       let s1 = createSlateBlock();
@@ -19,12 +18,7 @@ if (Cypress.env('API') !== 'guillotina') {
       // select all contents of slate block
       // - this opens hovering toolbar
       cy.contains('hello, world').then((el) => {
-        cy.window().then((win) => {
-          var event = new CustomEvent('Test_SelectWord', {
-            detail: el[0],
-          });
-          win.document.dispatchEvent(event);
-        });
+        selectSlateNodeOfWord(el);
       });
 
       // this is the numbered list option in the hovering toolbar

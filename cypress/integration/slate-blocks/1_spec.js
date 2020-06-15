@@ -1,10 +1,8 @@
-import { createSlateBlock, slateBeforeEach } from './common';
+import { createSlateBlock, slateBeforeEach } from '../../support';
 
 if (Cypress.env('API') !== 'guillotina') {
   describe('Slate.js Volto blocks', () => {
-    beforeEach(() => {
-      slateBeforeEach();
-    });
+    beforeEach(slateBeforeEach);
 
     it('should create 4 slate blocks, first 3 with mouse, the last with an Enter in the third block', () => {
       let s1 = createSlateBlock();
