@@ -1,9 +1,4 @@
-import {
-  createSlateBlock,
-  getSlateBlockPlaintext,
-  getSlateBlockValue,
-  slateBeforeEach,
-} from './common';
+import { createSlateBlock, slateBeforeEach } from './common';
 
 if (Cypress.env('API') !== 'guillotina') {
   describe('Slate.js Volto blocks', () => {

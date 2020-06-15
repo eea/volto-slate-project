@@ -1,6 +1,5 @@
 import {
   createSlateBlock,
-  getSlateBlockPlaintext,
   getSlateBlockValue,
   slateBeforeEach,
 } from './common';

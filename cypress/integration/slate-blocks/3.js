@@ -1,6 +1,5 @@
 import {
   createSlateBlock,
-  getSlateBlockPlaintext,
   getSlateBlockValue,
   slateBeforeEach,
   getSelectedSlateEditor,
@@ -12,7 +11,7 @@ if (Cypress.env('API') !== 'guillotina') {
       slateBeforeEach();
     });
 
-    it('should do the same as the test above but within a list (including edge cases)', () => {
+    it('should create a block with a numbered list with a single item, move the cursor in approximatively the middle of the item, insert a line break, and then have 2 blocks with the two parts of the initial list: two numbered lists, both starting with 1.', () => {
       let s1 = createSlateBlock();
 
       s1.typeInSlate('hello, world');
@@ -35,26 +34,47 @@ if (Cypress.env('API') !== 'guillotina') {
       // this is the numbered list option in the hovering toolbar
       cy.get('.slate-inline-toolbar > :nth-child(8)').click();
 
-      getSelectedSlateEditor()
-        .type(
-          '{leftarrow}{rightarrow}{rightarrow}{rightarrow}{rightarrow}{rightarrow}',
-        )
-        .lineBreakInSlate();
+      // move the text cursor
+      getSelectedSlateEditor().type(
+        '{leftarrow}{rightarrow}{rightarrow}{rightarrow}{rightarrow}{rightarrow}',
+      );
 
+      // simulate pressing Enter
+      getSelectedSlateEditor().lineBreakInSlate();
+
+      // there should be 2 slate blocks on the page
       cy.get('.block-editor-slate').should('have.length', 2);
 
-      // getSlateBlockValue(cy.get('.slate-editor').first()).should('deep.eq', [
-      //   {
-      //     type: 'paragraph',
-      //     children: [{ text: 'hello, ' }],
-      //   },
-      // ]);
-      // getSlateBlockValue(cy.get('.slate-editor').last()).should('deep.eq', [
-      //   {
-      //     type: 'paragraph',
-      //     children: [{ text: 'world' }],
-      //   },
-      // ]);
+      getSlateBlockValue(cy.get('.slate-editor').first()).should('deep.eq', [
+        {
+          type: 'numbered-list',
+          children: [
+            {
+              type: 'list-item',
+              children: [
+                {
+                  text: 'hello',
+                },
+              ],
+            },
+          ],
+        },
+      ]);
+      getSlateBlockValue(cy.get('.slate-editor').last()).should('deep.eq', [
+        {
+          type: 'numbered-list',
+          children: [
+            {
+              type: 'list-item',
+              children: [
+                {
+                  text: ', world',
+                },
+              ],
+            },
+          ],
+        },
+      ]);
     });
   });
 }
