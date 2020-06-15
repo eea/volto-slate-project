@@ -18,18 +18,14 @@ if (Cypress.env('API') !== 'guillotina') {
 
       // select all contents of slate block
       // - this opens hovering toolbar
-      cy.contains('hello, world')
-        .click()
-        .then((el) => {
-          cy.window().then((win) => {
-            var event = new CustomEvent('Test_SelectWord', {
-              detail: el[0],
-              bubbles: true,
-            });
-            let r = win.document.dispatchEvent(event);
-            console.log('dispatchEvent result', r);
+      cy.contains('hello, world').then((el) => {
+        cy.window().then((win) => {
+          var event = new CustomEvent('Test_SelectWord', {
+            detail: el[0],
           });
+          win.document.dispatchEvent(event);
         });
+      });
 
       // this is the numbered list option in the hovering toolbar
       cy.get('.slate-inline-toolbar > :nth-child(8)').click();
