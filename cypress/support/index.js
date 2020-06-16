@@ -48,6 +48,13 @@ export const getSlateBlockValue = (sb) => {
   });
 };
 
+export const getSlateBlockSelection = (sb) => {
+  return sb.invoke('attr', 'data-slate-selection').then((str) => {
+    console.log('data-slate-selection', str);
+    return str ? JSON.parse(str) : null;
+  });
+};
+
 export const selectSlateNodeOfWord = (el) => {
   return cy.window().then((win) => {
     var event = new CustomEvent('Test_SelectWord', {
