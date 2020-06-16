@@ -64,7 +64,7 @@ export const selectSlateNodeOfWord = (el) => {
   });
 };
 
-export const slateBeforeEach = () => {
+export const slateBefore = () => {
   // if I use these 2 calls as in https://github.com/plone/volto/blob/master/cypress/support/index.js the tests fail for sure
   cy.exec('yarn cy:test:fixture:teardown');
   cy.exec('yarn cy:test:fixture:setup');
@@ -75,13 +75,17 @@ export const slateBeforeEach = () => {
     contentId: 'my-page',
     contentTitle: 'My Page',
   });
-  cy.visit('/my-page');
+
+  cy.visit('/my-page/edit');
 
   cy.waitForResourceToLoad('@navigation');
   cy.waitForResourceToLoad('@breadcrumbs');
   cy.waitForResourceToLoad('@actions');
   cy.waitForResourceToLoad('@types');
   cy.waitForResourceToLoad('my-page?fullobjects');
+};
 
-  cy.navigate('/my-page/edit');
+export const slateBeforeEach = () => {
+  cy.autologin();
+  cy.reload();
 };
