@@ -86,6 +86,8 @@ export const slateBefore = () => {
 };
 
 export const slateBeforeEach = () => {
+  // TODO: do not autologin before each test, just once,
+  // in slateBefore function above
   cy.autologin();
   cy.reload();
 };
