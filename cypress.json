@@ -10,8 +10,4 @@
 		    "mochaJunitReporterReporterOptions": {
 			"mochaFile": "cypress/results/results-[hash].xml"
 		     }
-		
-    "mochaFile": "results/my-test-output.xml",
-    "toConsole": true
-	}
 }
