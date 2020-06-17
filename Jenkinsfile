@@ -1,8 +1,6 @@
 pipeline {
   agent none
   stages{ 
-   stage("Test Code and Integration") {
-    parallel {
        stage("Code") {
           agent {
             node { label "eea" }
@@ -124,8 +122,6 @@ pipeline {
            }
          }
        }               
-    }                
-   }
   }
   post {
     changed {
