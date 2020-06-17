@@ -98,7 +98,7 @@ pipeline {
                   sh '''sed -i "s/--name plone/--name backend_$port1/" package.json; sed -i "s/--link plone:plone/--link backend_$port1:plone/g" package.json'''
                   sh '''sed -i "s/--name webapp/--name frontend_$port2/" package.json; sed -i "s/--link webapp:webapp/--link frontend_$port2:webapp/g" package.json'''
                   sh '''sed -i "s/--name cypress/--name cypress_$port2/" package.json'''
-                  sh '''sed -i 's/"baseUrl": .*/"baseUrl": "http:\/\/webapp:3000",/' cypress.json'''
+                  sh '''sed -i 's#"baseUrl": .*#"baseUrl": "http://webapp:3000",#' cypress.json'''
                   sh '''sed -i "s/docker stop webapp plone/docker stop frontend_$port2 backend_$port1/" package.json'''
                   sh '''cat package.json'''
                   sh "yarn install"
