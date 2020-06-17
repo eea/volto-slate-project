@@ -38,7 +38,7 @@ pipeline {
                    steps {
                          catchError(buildResult: 'SUCCESS', stageResult: 'UNSTABLE') {
                             sh '''hostname'''
-                            sh '''set -o pipefail; yarn test-addon --watchAll=false --collectCoverage --coverageReporters lcov cobertura text 2>&1 | tee -a unit_tests_log.txt'''
+                            sh '''set -o pipefail; yarn test-addon --watchAll=false --reporters=default --reporters=jest-junit --collectCoverage --coverageReporters lcov cobertura text 2>&1 | tee -a unit_tests_log.txt'''
                             publishHTML (target : [allowMissing: false,
                              alwaysLinkToLastBuild: true,
                              keepAll: true,
