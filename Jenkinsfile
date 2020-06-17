@@ -46,8 +46,7 @@ pipeline {
                              reportFiles: 'index.html',
                              reportName: 'Coverage',
                              reportTitles: 'Code Coverage'])
-                           sh '''ls -ltr'''
-                           sh '''find . -name junit.xml'''
+                           junit 'junit.xml'
                          }
                          }
                          post {
