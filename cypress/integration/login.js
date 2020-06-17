@@ -1,5 +1,10 @@
+
+
+// File: cypress/integration/Sample.spec.js
+const specTitle = require("cypress-sonarqube-reporter/specTitle");
+
 if (Cypress.env('API') !== 'guillotina') {
-  describe('Login Tests', () => {
+  describe(specTitle('Login Tests'), () => {
     beforeEach(() => {
       cy.visit('/');
       cy.contains('Log in').click();
