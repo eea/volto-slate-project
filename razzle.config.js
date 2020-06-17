@@ -29,7 +29,8 @@ module.exports = {
     //   /src\/addons\/.+\/node_modules/,
     // ];
     //
-    // console.log('resolve', vc.resolve.alias);
+    console.log('resolve', vc.resolve.alias);
+    // require.context('src/addons/volto-slate/src', true, /\.(js|jsx|mjs)$/, 'sync');
 
     const BASE_CSS_LOADER = {
       loader: 'css-loader',
@@ -53,11 +54,6 @@ module.exports = {
           }),
         ],
       },
-    };
-
-    const resolveUrlLoader = {
-      loader: require.resolve('resolve-url-loader'),
-      options: {},
     };
 
     const LESSLOADER = {

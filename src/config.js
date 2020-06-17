@@ -13,15 +13,18 @@
  */
 
 import * as voltoConfig from '@plone/volto/config';
+const config = voltoConfig;
+// import loadAddons from 'volto-load-addons';
+// const config = loadAddons(voltoConfig);
+
 // import applyAddonsConfiguration from '@plone/volto/helpers/Addons/applyAddonsConfiguration';
-
-import { applyConfig as installVoltoSlate } from 'volto-slate/config';
-
-const config = [installVoltoSlate].reduce((acc, apply) => apply(acc), {
-  ...voltoConfig,
-});
-
 // const config = applyAddonsConfiguration(voltoConfig);
+
+// import installVoltoSlate from 'volto-slate';
+//
+// const config = [installVoltoSlate].reduce((acc, apply) => apply(acc), {
+//   ...voltoConfig,
+// });
 
 export const settings = {
   ...config.settings,
