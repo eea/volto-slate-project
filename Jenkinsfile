@@ -36,6 +36,7 @@ pipeline {
                }
                stage("Unit tests") {
                    steps {
+                         catchError(buildResult: 'SUCCESS', stageResult: 'UNSTABLE') {
                             sh '''hostname'''
                             sh '''set -o pipefail; yarn test-addon --watchAll=false --collectCoverage --coverageReporters lcov cobertura text 2>&1 | tee -a unit_tests_log.txt'''
                             publishHTML (target : [allowMissing: false,
@@ -45,6 +46,7 @@ pipeline {
                              reportFiles: 'index.html',
                              reportName: 'Coverage',
                              reportTitles: 'Code Coverage'])
+                         }
                          }
                          post {
                            failure {
