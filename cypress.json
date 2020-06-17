@@ -3,10 +3,7 @@
   "viewportWidth": 1280,
 	"reporter": "cypress-multi-reporters",
 	"reporterOptions": {
-		"reporterEnabled": "cypress-sonarqube-reporter, mocha-junit-reporter",
-		"cypressSonarqubeReporterReporterOptions": {
-			"outputDir":	"./dist"
-		},
+		"reporterEnabled": "spec, mocha-junit-reporter",
 		    "mochaJunitReporterReporterOptions": {
 			"mochaFile": "cypress/results/results-[hash].xml"
 		     }
