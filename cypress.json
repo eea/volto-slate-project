@@ -3,15 +3,16 @@
   "viewportWidth": 1280,
 	"reporter": "cypress-multi-reporters",
 	"reporterOptions": {
-		"reporterEnabled": "cypress-sonarqube-reporter, mochawesome", "junit"
+		"reporterEnabled": "cypress-sonarqube-reporter, mochawesome, junit"
 		"mochawesomeReporterOptions": {
-			// mochawesome options...
+			"outputDir":	"cypress/results"
+		       
 		},
 		"cypressSonarqubeReporterReporterOptions": {
-			// see "Reporter Options" section
+			"outputDir":	"./dist"
 		},
-    "mochaJunitReporterReporterOptions": {
-        "mochaFile": "cypress/results/results-[hash].xml"
-     }
+		    "mochaJunitReporterReporterOptions": {
+			"mochaFile": "cypress/results/results-[hash].xml"
+		     }
 	}
 }
