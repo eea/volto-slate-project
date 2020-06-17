@@ -1,4 +1,17 @@
 {
   "baseUrl": "http://localhost:3000",
-  "viewportWidth": 1280
+  "viewportWidth": 1280,
+	"reporter": "cypress-multi-reporters",
+	"reporterOptions": {
+		"reporterEnabled": "cypress-sonarqube-reporter, mochawesome", "junit"
+		"mochawesomeReporterOptions": {
+			// mochawesome options...
+		},
+		"cypressSonarqubeReporterReporterOptions": {
+			// see "Reporter Options" section
+		},
+    "mochaJunitReporterReporterOptions": {
+        "mochaFile": "cypress/results/results-[hash].xml"
+     }
+	}
 }
