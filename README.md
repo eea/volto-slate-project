@@ -4,7 +4,7 @@
 [![Build Status](https://ci.eionet.europa.eu/buildStatus/icon?job=Eionet/volto-slate-project/master&subject=Latest%20Build)](https://ci.eionet.europa.eu/job/Eionet/job/volto-slate-project/job/master/display/redirect)
 
 
-A demo project that integrates Volto with a volto addon, volto-slate.
+A demo project that integrates Volto with a Volto add-on called *volto-slate*.
 
 ## Quick Start
 
