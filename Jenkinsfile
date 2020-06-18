@@ -1,16 +1,15 @@
 pipeline {
-  agent none
-  stages{ 
-       stage("Code") {
-          agent {
-            node { label "eea" }
-          }
-          environment {
+  agent {
+            node { label "docker-host" }
+  }
+  environment {
             GIT_NAME = "volto-slate-project"
             SONARQUBE_TAGS = "www.eionet.europa.eu,forest.eea.europa.eu"
-            PATH = "${tool 'NodeJS12'}/bin:${tool 'SonarQubeScanner'}/bin:$PATH"
-          }
-          stages {              
+            PATH = "${tool 'NodeJS12'}/bin:${tool 'SonarQubeScanner'}/bin:$PATH
+            port1 = sh(script: 'echo $(python3 -c \'import socket; s=socket.socket(); s.bind(("", 0)); print(s.getsockname()[1], end = ""); s.close()\');', returnStdout: true).trim();
+            port2 = sh(script: 'echo $(python3 -c \'import socket; s=socket.socket(); s.bind(("", 0)); print(s.getsockname()[1], end = ""); s.close()\');', returnStdout: true).trim();
+  }
+  stages{         
                stage("Installation for Testing") {
                    steps {
                        script{
@@ -66,32 +65,10 @@ pipeline {
                        }
                    }
                }
-          }
-         post {
-           always { 
-             sh '''yarn cache clean'''
-             cleanWs(cleanWhenAborted: true, cleanWhenFailure: true, cleanWhenNotBuilt: true, cleanWhenSuccess: true, cleanWhenUnstable: true, deleteDirs: true)
-           }
-         }
-       } 
-       stage("Integration") {
-         agent {
-           node { label "docker-host" }
-         }
-         environment {
-            PATH = "${tool 'NodeJS12'}/bin:$PATH"
-            port1 = sh(script: 'echo $(python3 -c \'import socket; s=socket.socket(); s.bind(("", 0)); print(s.getsockname()[1], end = ""); s.close()\');', returnStdout: true).trim();
-            port2 = sh(script: 'echo $(python3 -c \'import socket; s=socket.socket(); s.bind(("", 0)); print(s.getsockname()[1], end = ""); s.close()\');', returnStdout: true).trim();
-          }
-         stages {
-            stage('Integration Tests') {
-              steps {
-                script{
-                  checkout scm
-                  
-                  def nodeJS = tool 'NodeJS12';
+              stage('Integration Tests') {
+                steps {
+                  script {
                   sh "hostname"
-                  sh "env"
                   // make sure docker will have the exposed ports available and the docker names are unique
                   sh '''sed -i "s/8080:8080/$port1:8080/" package.json; sed -i "s/localhost:8080/localhost:$port1/" package.json'''
                   sh '''sed -i "s/3000:3000/$port2:3000/" package.json; sed -i "s/localhost:3000/localhost:$port2/" package.json'''
@@ -100,7 +77,6 @@ pipeline {
                   sh '''sed -i "s/--name cypress/--name cypress_$port2/" package.json'''
                   sh '''sed -i 's#"baseUrl": .*#"baseUrl": "http://webapp:3000",#' cypress.json'''
                   sh '''sed -i "s/docker stop webapp plone/docker stop frontend_$port2 backend_$port1/" package.json'''
-                  sh '''cat package.json'''
                   sh "yarn install"
                   try {
                     sh "yarn ci:cypress:run"
@@ -111,26 +87,23 @@ pipeline {
                     }       
                   }
                  
+                  }
                 }
-              }
-            } 
-         }
-         post {
-           failure {
-              catchError(buildResult: 'SUCCESS', stageResult: 'SUCCESS') {
-                    archiveArtifacts artifacts: 'cypress/screenshots/**/*.*', fingerprint: true
-                    archiveArtifacts artifacts: 'cypress/videos/*.mp4', fingerprint: true 
-              }  
-           }
-           always {
-              sh '''yarn cache clean'''
-              cleanWs(cleanWhenAborted: true, cleanWhenFailure: true, cleanWhenNotBuilt: true, cleanWhenSuccess: true, cleanWhenUnstable: true, deleteDirs: true)
-           }
-         }
-       }               
+                post {
+                 failure {
+                    catchError(buildResult: 'SUCCESS', stageResult: 'SUCCESS') {
+                          archiveArtifacts artifacts: 'cypress/screenshots/**/*.*', fingerprint: true
+                          archiveArtifacts artifacts: 'cypress/videos/*.mp4', fingerprint: true 
+                    }  
+                 }
+                }
+              }               
   }
   post {
     always {
+      sh '''yarn cache clean'''
+      cleanWs(cleanWhenAborted: true, cleanWhenFailure: true, cleanWhenNotBuilt: true, cleanWhenSuccess: true, cleanWhenUnstable: true, deleteDirs: true)
+
       script {
         
         def url = "${env.BUILD_URL}/display/redirect"
@@ -147,6 +120,13 @@ pipeline {
         } else if (status == 'FAILURE') {
           color = '#FF0000'
         }
+        
+
+        step([$class: 'Mailer', notifyEveryUnstableBuild: true, 
+             recipients: emailextrecipients([[$class: 'CulpritsRecipientProvider'],
+              [$class: 'RequesterRecipientProvider']])])
+
+
         def recipients = emailextrecipients([ [$class: 'DevelopersRecipientProvider'],[$class: 'CulpritsRecipientProvider'], [$class: 'UpstreamComitterRecipientProvider']])
         
         echo "Recipients is ${recipients}"        
