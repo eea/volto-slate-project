@@ -105,6 +105,7 @@ pipeline {
                   try {
                     sh "yarn ci:cypress:run"
                   } finally {
+                    junit 'cypress/results/*.xml'
                     catchError(buildResult: 'SUCCESS', stageResult: 'SUCCESS') {
                       sh "yarn ci:cypress:end"
                     }       
