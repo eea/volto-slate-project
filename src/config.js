@@ -12,19 +12,7 @@
  * }
  */
 
-import * as voltoConfig from '@plone/volto/config';
-// const config = voltoConfig;
-// import loadAddons from 'volto-load-addons';
-// const config = loadAddons(voltoConfig);
-
-// import applyAddonsConfiguration from '@plone/volto/helpers/Addons/applyAddonsConfiguration';
-// const config = applyAddonsConfiguration(voltoConfig);
-
-import installVoltoSlate from 'volto-slate';
-//
-const config = [installVoltoSlate].reduce((acc, apply) => apply(acc), {
-  ...voltoConfig,
-});
+import * as config from '@plone/volto/config';
 
 export const settings = {
   ...config.settings,
@@ -43,4 +31,4 @@ export const blocks = {
 };
 
 export const addonReducers = { ...config.addonReducers };
-export const addonRoutes = [];
+export const addonRoutes = [...(config.addonRoutes || [])];

@@ -82,12 +82,13 @@
     "node": "^10 || ^12"
   },
   "dependencies": {
-    "@plone/volto": "file:.yalc/@plone/volto",
+    "@plone/volto": "plone/volto#load_addons_1531",
     "mrs-developer": "1.1.6",
     "resolve-url-loader": "3.1.1"
   },
   "devDependencies": {
     "cypress": "^4.8.0",
+    "cypress-plugin-tab": "1.0.5",
     "eslint-plugin-prettier": "3.1.3",
     "isomorphic-style-loader": "5.1.0",
     "jest": "26.0.1",
@@ -97,7 +98,6 @@
     "stylelint-config-idiomatic-order": "8.1.0",
     "stylelint-config-prettier": "8.0.1",
     "stylelint-prettier": "1.1.2",
-    "xmlrpc": "1.3.2",
-    "cypress-plugin-tab": "1.0.5"
+    "xmlrpc": "1.3.2"
   }
 }
