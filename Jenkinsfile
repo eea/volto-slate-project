@@ -153,7 +153,7 @@ pipeline {
         body: details,
         attachLog: true,
         compressLog: true,
-        recipientProviders: [[$class: 'DevelopersRecipientProvider']]
+        recipientProviders: [[$class: 'UpstreamComitterRecipientProvider']]
           )
         
       }
