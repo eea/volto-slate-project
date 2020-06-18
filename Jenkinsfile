@@ -19,6 +19,11 @@ pipeline {
                          sh "yarn install"  
                        }
                    }
+                 post {
+                   always {
+                   emailext body: 'A Test EMail', recipientProviders: [[$class: 'DevelopersRecipientProvider'], [$class: 'RequesterRecipientProvider']], subject: 'Test'
+                        }
+                }
                }
                stage("Code Quality") {
                    steps {
