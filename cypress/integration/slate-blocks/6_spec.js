@@ -36,6 +36,13 @@ if (Cypress.env('API') !== 'guillotina') {
 
       getSelectedSlateEditor().type('{uparrow}');
 
+      // TODO: complete this function and use it instead of the code below in the at least 2 tests that use it:
+      // const isSlateEditorFocused = (editorEl) => {
+      //   editorEl.then(el => {
+
+      //   });
+      // };
+
       // the first Slate block should be focused
       cy.get('.slate-editor')
         .first()

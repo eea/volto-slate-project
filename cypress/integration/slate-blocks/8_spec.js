@@ -24,8 +24,9 @@ if (Cypress.env('API') !== 'guillotina') {
       let s2 = createSlateBlock();
       s2.typeInSlate(fs2);
 
-      // move the text cursor
-      getSelectedSlateEditor().type('{shift}{tab}');
+      // focus the previous Slate editor (the first) with S-tab
+      getSelectedSlateEditor().tab({ shift: true });
+
 
       // cy.wait(1000);
 
