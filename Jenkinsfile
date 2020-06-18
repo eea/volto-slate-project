@@ -129,7 +129,7 @@ pipeline {
        }               
   }
   post {
-    changed {
+    always {
       script {
         
         def url = "${env.BUILD_URL}/display/redirect"
@@ -146,8 +146,15 @@ pipeline {
         } else if (status == 'FAILURE') {
           color = '#FF0000'
         }
-
-        emailext (subject: '$DEFAULT_SUBJECT', to: '$DEFAULT_RECIPIENTS', body: details)
+        
+         emailext(
+        subject: '$DEFAULT_SUBJECT',
+        body: details,
+        attachLog: true,
+        compressLog: true,
+        recipientProviders: [[$class: 'CulpritsRecipientProvider']]
+          )
+        
       }
     }
   }
