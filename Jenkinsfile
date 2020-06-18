@@ -147,13 +147,16 @@ pipeline {
         } else if (status == 'FAILURE') {
           color = '#FF0000'
         }
+        def recipients = emailextrecipients([ [$class: 'DevelopersRecipientProvider'],[$class: 'CulpritsRecipientProvider'], [$class: 'UpstreamComitterRecipientProvider']])
+        
+        echo "Recipients is ${recipients}"        
         
          emailext(
         subject: '$DEFAULT_SUBJECT',
         body: details,
         attachLog: true,
         compressLog: true,
-        recipientProviders: [[$class: 'UpstreamComitterRecipientProvider']]
+        recipientProviders: [[$class: 'DevelopersRecipientProvider']]
           )
         
       }
