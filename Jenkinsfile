@@ -13,7 +13,7 @@ pipeline {
                stage("Installation for Testing") {
                    steps {
                        script{
-                         checkout sc
+                         checkout scm
                          sh '''curl --silent ${BUILD_URL}/api/json | tr "{}" "\n" | grep "Started by"''' 
                          sh '''env'''
                          
