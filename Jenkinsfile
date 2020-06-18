@@ -14,7 +14,7 @@ pipeline {
                    steps {
                        script{
                          checkout scm
-                         sh '''curl --silent ${BUILD_URL}/api/json | tr "{}" "\n" | grep "Started by"''' 
+                         sh '''echo ${BUILD_URL}''' 
                          sh '''env'''
                          
                          tool 'NodeJS12'
