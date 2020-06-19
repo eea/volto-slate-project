@@ -13,20 +13,12 @@ pipeline {
                stage("Installation for Testing") {
                    steps {
                        script{
-                         checkout scm
-                         sh '''echo ${BUILD_URL}''' 
-                         sh '''env'''
-                         
+                         checkout scm                         
                          tool 'NodeJS12'
                          tool 'SonarQubeScanner'
                          sh "yarn install"  
                        }
                    }
-                 post {
-                   always {
-                   emailext body: 'A Test EMail', recipientProviders: [[$class: 'CulpritsRecipientProvider'], [$class: 'DevelopersRecipientProvider'], [$class: 'RequesterRecipientProvider']], subject: 'Test'
-                        }
-                }
                }
                stage("Code Quality") {
                    steps {
@@ -129,13 +121,7 @@ pipeline {
           color = '#FF0000'
         }
         
-
-        step([$class: 'Mailer', notifyEveryUnstableBuild: true, 
-             recipients: emailextrecipients([[$class: 'CulpritsRecipientProvider'],
-              [$class: 'RequesterRecipientProvider']])])
-
-
-        def recipients = emailextrecipients([ [$class: 'DevelopersRecipientProvider'],[$class: 'CulpritsRecipientProvider'], [$class: 'UpstreamComitterRecipientProvider']])
+        def recipients = emailextrecipients([ [$class: 'DevelopersRecipientProvider']])
         
         echo "Recipients is ${recipients}"        
         
