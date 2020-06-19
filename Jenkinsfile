@@ -80,7 +80,12 @@ pipeline {
                   sh "yarn install"
                   try {
                     sh "yarn ci:cypress:run"
+                    sh "ls -ltr"
+                    sh "ls -ltr coverage/*"
+                    archiveArtifacts artifacts: 'coverage/*.*', fingerprint: true
+                    sh "npx nyc report --reporter=text-summary --reporter=lcov"
                   } finally {
+                    sh "ls -ltr"
                     junit 'cypress/results/*.xml'
                     catchError(buildResult: 'SUCCESS', stageResult: 'SUCCESS') {
                       sh "yarn ci:cypress:end"
