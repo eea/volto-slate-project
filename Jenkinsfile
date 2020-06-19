@@ -73,6 +73,8 @@ pipeline {
                   sh "yarn install"
                   try {
                     sh "yarn ci:cypress:run"
+                    sh "ls -ltr cypress/*"
+                    sh "ls -ltr cypress/report/*"
                     sh "ls -ltr cypress/results/*"
                     publishHTML (target : [allowMissing: false,
                              alwaysLinkToLastBuild: true,
