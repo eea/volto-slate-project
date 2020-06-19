@@ -46,6 +46,7 @@ pipeline {
                              reportName: 'UTCoverage',
                              reportTitles: 'Unit Tests Code Coverage'])
                            junit 'junit.xml'
+                           sh "mv coverage coverage_unit_tests"
                          }
                          }
                          post {
@@ -71,9 +72,8 @@ pipeline {
                   sh '''sed -i "s/docker stop webapp plone/docker stop frontend_$port2 backend_$port1/" package.json'''
                   sh "yarn install"
                   try {
-                    sh "mv coverage coverage_unit_tests"
                     sh "yarn ci:cypress:run"
-                    sh "ls -ltr coverage/*"
+                    sh "ls -ltr cypress/results/*"
                     publishHTML (target : [allowMissing: false,
                              alwaysLinkToLastBuild: true,
                              keepAll: true,
