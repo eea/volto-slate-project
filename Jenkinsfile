@@ -43,8 +43,8 @@ pipeline {
                              keepAll: true,
                              reportDir: 'coverage/lcov-report',
                              reportFiles: 'index.html',
-                             reportName: 'Coverage',
-                             reportTitles: 'Code Coverage'])
+                             reportName: 'UTCoverage',
+                             reportTitles: 'Unit Tests Code Coverage'])
                            junit 'junit.xml'
                          }
                          }
@@ -56,15 +56,7 @@ pipeline {
                            }
                          }
                }
-               stage("Sonarqube") {
-                   steps {
-                       withSonarQubeEnv('Sonarqube') {
-                               sh '''sonar-scanner -Dsonar.javascript.lcov.reportPaths=./coverage/lcov.info -Dsonar.sources=./src -Dsonar.projectKey=$GIT_NAME-$BRANCH_NAME -Dsonar.projectVersion=$BRANCH_NAME-$BUILD_NUMBER'''
-                               sh '''try=2; while [ \$try -gt 0 ]; do curl -s -XPOST -u "${SONAR_AUTH_TOKEN}:" "${SONAR_HOST_URL}api/project_tags/set?project=${GIT_NAME}-${BRANCH_NAME}&tags=${SONARQUBE_TAGS},${BRANCH_NAME}" > set_tags_result; if [ \$(grep -ic error set_tags_result ) -eq 0 ]; then try=0; else cat set_tags_result; echo "... Will retry"; sleep 60; try=\$(( \$try - 1 )); fi; done'''
-                            
-                       }
-                   }
-               }
+
               stage('Integration Tests') {
                 steps {
                   script {
@@ -81,10 +73,15 @@ pipeline {
                   try {
                     sh "mv coverage coverage_unit_tests"
                     sh "yarn ci:cypress:run"
-                    sh "ls -ltr"
                     sh "ls -ltr coverage/*"
-                    archiveArtifacts artifacts: 'coverage/*.*', fingerprint: true
-                    sh "npx nyc report --reporter=text-summary --reporter=lcov"
+                    publishHTML (target : [allowMissing: false,
+                             alwaysLinkToLastBuild: true,
+                             keepAll: true,
+                             reportDir: 'coverage/lcov-report',
+                             reportFiles: 'index.html',
+                             reportName: 'CypressCoverage',
+                             reportTitles: 'Integration Tests Code Coverage'])
+                    
                   } finally {
                     sh "ls -ltr"
                     junit 'cypress/results/*.xml'
@@ -103,7 +100,16 @@ pipeline {
                     }  
                  }
                 }
-              }               
+              }   
+               stage("Sonarqube") {
+                   steps {
+                       withSonarQubeEnv('Sonarqube') {
+                               sh '''sonar-scanner -Dsonar.javascript.lcov.reportPaths=./coverage*/lcov.info -Dsonar.sources=./src -Dsonar.projectKey=$GIT_NAME-$BRANCH_NAME -Dsonar.projectVersion=$BRANCH_NAME-$BUILD_NUMBER'''
+                               sh '''try=2; while [ \$try -gt 0 ]; do curl -s -XPOST -u "${SONAR_AUTH_TOKEN}:" "${SONAR_HOST_URL}api/project_tags/set?project=${GIT_NAME}-${BRANCH_NAME}&tags=${SONARQUBE_TAGS},${BRANCH_NAME}" > set_tags_result; if [ \$(grep -ic error set_tags_result ) -eq 0 ]; then try=0; else cat set_tags_result; echo "... Will retry"; sleep 60; try=\$(( \$try - 1 )); fi; done'''
+                            
+                       }
+                   }
+               }    
   }
   post {
     always {
