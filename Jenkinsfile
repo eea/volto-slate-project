@@ -73,9 +73,8 @@ pipeline {
                   sh "yarn install"
                   try {
                     sh "yarn ci:cypress:run"
-                    sh "ls -ltr cypress/*"
-                    sh "ls -ltr cypress/report/*"
-                    sh "ls -ltr cypress/results/*"
+                    sh "ls -ltr *"
+                    sh "ls -ltr mochawesome-report/*"
                     publishHTML (target : [allowMissing: false,
                              alwaysLinkToLastBuild: true,
                              keepAll: true,
@@ -83,6 +82,16 @@ pipeline {
                              reportFiles: 'index.html',
                              reportName: 'CypressCoverage',
                              reportTitles: 'Integration Tests Code Coverage'])
+                    
+
+                    publishHTML (target : [allowMissing: false,
+                             alwaysLinkToLastBuild: true,
+                             keepAll: true,
+                             reportDir: 'mochawesome-report',
+                             reportFiles: 'mochawesome.html',
+                             reportName: 'CypressReport',
+                             reportTitles: 'Integration Tests Report'])
+                    
                     
                   } finally {
                     sh "ls -ltr"
