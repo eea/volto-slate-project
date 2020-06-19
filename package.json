@@ -32,7 +32,7 @@
     "lint:fix": "./node_modules/eslint/bin/eslint.js --fix 'src/**/*.{js,jsx,json}'",
     "style": "yarn stylelint:fix",
     "cypress:run:local": "NODE_ENV=production CYPRESS_API=plone CYPRESS_RETRIES=2 cypress open",
-    "cypress:run": "docker run --link webapp:webapp --link plone:plone --name cypress -v $(./get_correct_pwd.sh):/e2e -w /e2e  -e NODE_ENV=production -e CYPRESS_API=plone -e CYPRESS_RETRIES=2 --rm cypress/included:3.2.0",
+    "cypress:run": "docker run --link webapp:webapp --link plone:plone --name cypress -v $(./get_correct_pwd.sh):/e2e -w /e2e  -e NODE_ENV=production -e CYPRESS_API=plone -e CYPRESS_RETRIES=2 --rm cypress/included:4.8.0",
     "ci:cypress:end": "docker stop webapp plone",
     "ci:start-api-plone": "docker run --name plone --rm -p 8080:8080 -e SITE=Plone -e ADDONS='kitconcept.volto' -e ZCML='kitconcept.volto.cors' -e CORS_ALLOW_ORIGIN='http://webapp:3000' -e PROFILES='kitconcept.volto:default-homepage' plone",
     "ci:start-frontend": "docker run --link plone:plone --name webapp -e RAZZLE_API_PATH=http://plone:8080/Plone -v $(./get_correct_pwd.sh):/$(pwd) -w /$(pwd) -p 3000:3000 --rm node:12-slim /bin/sh -c 'yarn build && yarn start:prod'",
