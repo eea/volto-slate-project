@@ -3,7 +3,7 @@ const defaultBabel = require('@plone/volto/babel');
 function applyDefault(api) {
   const voltoBabel = defaultBabel(api);
   if (process.env.CI) {
-    voltoBabel.plugins.push('...');
+    voltoBabel.plugins.push('transform-class-properties', 'istanbul');
   }
   return voltoBabel;
 }
