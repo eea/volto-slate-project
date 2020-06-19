@@ -79,6 +79,7 @@ pipeline {
                   sh '''sed -i "s/docker stop webapp plone/docker stop frontend_$port2 backend_$port1/" package.json'''
                   sh "yarn install"
                   try {
+                    sh "mv coverage coverage_unit_tests"
                     sh "yarn ci:cypress:run"
                     sh "ls -ltr"
                     sh "ls -ltr coverage/*"
