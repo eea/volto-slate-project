@@ -82,8 +82,10 @@ pipeline {
                              reportFiles: 'index.html',
                              reportName: 'CypressCoverage',
                              reportTitles: 'Integration Tests Code Coverage'])
+                    sh "yarn mochawesome-merge > mochawesome.json"
+                    sh "yarn marge mochawesome.json"
+                    sh "ls -ltr"
                     
-
                     publishHTML (target : [allowMissing: false,
                              alwaysLinkToLastBuild: true,
                              keepAll: true,
