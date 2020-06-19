@@ -3,9 +3,16 @@
   "viewportWidth": 1280,
 	"reporter": "cypress-multi-reporters",
 	"reporterOptions": {
-		"reporterEnabled": "spec, mocha-junit-reporter",
+		"reporterEnabled": "spec, mocha-junit-reporter, mochawesome",
 		    "mochaJunitReporterReporterOptions": {
-			"mochaFile": "cypress/results/results-[hash].xml"
-		     }
+			 "mochaFile": "cypress/results/results-[hash].xml"
+		     },
+		    "mochawesomeReporterOptions": {
+			 "outputDir":	"cypress/results",
+		         "charts": true,
+			 "overwrite": true,
+			 "html": true,
+			 "reportTitle": "Integration Tests"
+                   }
 	}
 }
