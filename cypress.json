@@ -8,10 +8,11 @@
 			 "mochaFile": "cypress/results/results-[hash].xml"
 		     },
 		    "mochawesomeReporterOptions": {
-			 "outputDir":	"cypress/results",
+			 "outputDir":	"cypress/report",
 		         "charts": true,
 			 "overwrite": true,
 			 "html": true,
+			 "json": true,
 			 "reportTitle": "Integration Tests"
                    }
 	}
