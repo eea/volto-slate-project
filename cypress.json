@@ -9,11 +9,8 @@
 		     },
 		    "mochawesomeReporterOptions": {
 			 "outputDir":	"cypress/report",
-		         "charts": true,
-			 "overwrite": true,
 			 "html": true,
-			 "json": true,
-			 "reportTitle": "Integration Tests"
+			 "json": true
                    }
 	}
 }
