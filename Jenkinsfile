@@ -85,7 +85,7 @@ pipeline {
 
                     archiveArtifacts artifacts: 'mochawesome-report/*', fingerprint: true 
 
-                    sh "yarn mochawesome-merge  --reportDir mochawesome-report > mochawesome.json"
+                    sh "yarn mochawesome-merge  --reportDir mochawesome-report -o mochawesome.json"
                     sh "cat mochawesome.json"
                     sh "yarn marge mochawesome.json"
                     sh "ls -ltr"
