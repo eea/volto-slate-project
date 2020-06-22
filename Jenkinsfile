@@ -87,14 +87,14 @@ pipeline {
 
                     sh "yarn mochawesome-merge  --reportDir mochawesome-report -o mochawesome.json"
                     sh "cat mochawesome.json"
-                    sh "yarn marge mochawesome.json"
+                    sh "yarn marge --reportDir=cypress/report --charts=true --reportTitle=ITReport --reportPageTitle='Cypress Integration Tests' mochawesome.json "
                     sh "ls -ltr"
                     
                     
                     publishHTML (target : [allowMissing: false,
                              alwaysLinkToLastBuild: true,
                              keepAll: true,
-                             reportDir: 'mochawesome-report',
+                             reportDir: 'cypress/report',
                              reportFiles: 'mochawesome.html',
                              reportName: 'CypressReport',
                              reportTitles: 'Integration Tests Report'])
