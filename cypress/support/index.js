@@ -40,6 +40,10 @@ export const getSelectedSlateEditor = () => {
   return cy.get('.slate-editor.selected [contenteditable=true]');
 };
 
+export const getSelectedUneditableSlateEditor = () => {
+  return cy.get('.slate-editor.selected'); // [contenteditable=true] fails sometimes
+};
+
 export const getSlateBlockPlaintext = (sb) => {
   return sb.invoke('text');
 };
