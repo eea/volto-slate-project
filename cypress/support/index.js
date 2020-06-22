@@ -131,7 +131,7 @@ export const slateBeforeEach = () => {
   // TODO: do not autologin before each test, just once,
   // in slateBefore function, and run slateBefore just at the
   // beginning of the testing session.
-  cy.autologin();
+  // cy.autologin();
   slateBefore();
   // cy.visit('/my-page/edit');
 };
