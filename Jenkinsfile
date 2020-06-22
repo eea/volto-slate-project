@@ -73,8 +73,6 @@ pipeline {
                   sh "yarn install"
                   try {
                     sh "yarn ci:cypress:run"
-                    sh "ls -ltr *"
-                    sh "ls -ltr mochawesome-report/*"
                     publishHTML (target : [allowMissing: false,
                              alwaysLinkToLastBuild: true,
                              keepAll: true,
@@ -86,10 +84,9 @@ pipeline {
                     archiveArtifacts artifacts: 'mochawesome-report/*', fingerprint: true 
 
                     sh "yarn mochawesome-merge  --reportDir mochawesome-report -o mochawesome.json"
-                    sh "cat mochawesome.json"
                     sh "yarn marge --reportDir=cypress/report --charts=true --reportTitle=ITReport --reportPageTitle='Cypress Integration Tests' mochawesome.json "
-                    sh "ls -ltr"
-                    
+                    sh "ls -ltr cypress/report/*"
+                    sh "cat cypress/report/mochawesome.html"
                     
                     publishHTML (target : [allowMissing: false,
                              alwaysLinkToLastBuild: true,
@@ -101,7 +98,6 @@ pipeline {
                     
                     
                   } finally {
-                    sh "ls -ltr"
                     junit 'cypress/results/*.xml'
                     catchError(buildResult: 'SUCCESS', stageResult: 'SUCCESS') {
                       sh "yarn ci:cypress:end"
