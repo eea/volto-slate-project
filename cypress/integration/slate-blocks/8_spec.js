@@ -14,7 +14,7 @@ if (Cypress.env('API') !== 'guillotina') {
     // TODO: should create a slate block after a normal block, after a title block etc.
     // TODO: test numbered list context as well
 
-    it('should go to next block when pressing Tab key at beginning, end of a block, S-tab should do the opposite', () => {
+    it('[not fully implemented] should go to next block when pressing Tab key at beginning, end of a block, S-tab should do the opposite', () => {
       const fs1 = 'hello, world';
       const fs2 = 'welcome aboard';
 

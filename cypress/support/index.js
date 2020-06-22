@@ -46,13 +46,12 @@ export const getSlateBlockPlaintext = (sb) => {
 
 export const getSlateBlockValue = (sb) => {
   return sb.invoke('attr', 'data-slate-value').then((str) => {
-    return JSON.parse(str);
+    return typeof str === 'undefined' ? [] : JSON.parse(str);
   });
 };
 
 export const getSlateBlockSelection = (sb) => {
   return sb.invoke('attr', 'data-slate-selection').then((str) => {
-    console.log('data-slate-selection', str);
     return str ? JSON.parse(str) : null;
   });
 };
@@ -64,6 +63,43 @@ export const selectSlateNodeOfWord = (el) => {
     });
     win.document.dispatchEvent(event);
   });
+};
+
+export const createSlateBlockWithList = ({
+  numbered,
+  firstItemText,
+  secondItemText,
+}) => {
+  let s1 = createSlateBlock();
+
+  s1.typeInSlate(firstItemText + secondItemText);
+
+  // select all contents of slate block
+  // - this opens hovering toolbar
+  cy.contains(firstItemText + secondItemText).then((el) => {
+    selectSlateNodeOfWord(el);
+  });
+
+  // TODO: do not hardcode these selectors:
+  if (numbered) {
+    // this is the numbered list option in the hovering toolbar
+    cy.get('.slate-inline-toolbar > :nth-child(8)').click();
+  } else {
+    // this is the bulleted list option in the hovering toolbar
+    cy.get('.slate-inline-toolbar > :nth-child(9)').click();
+  }
+
+  // move the text cursor
+  const sse = getSelectedSlateEditor();
+  sse.type('{leftarrow}');
+  for (let i = 0; i < firstItemText.length; ++i) {
+    sse.type('{rightarrow}');
+  }
+
+  // simulate pressing Enter
+  getSelectedSlateEditor().lineBreakInSlate();
+
+  return s1;
 };
 
 export const slateBefore = () => {
@@ -91,7 +127,7 @@ export const slateBeforeEach = () => {
   // TODO: do not autologin before each test, just once,
   // in slateBefore function, and run slateBefore just at the
   // beginning of the testing session.
-  slateBefore();
   cy.autologin();
-  cy.visit('/my-page/edit');
+  slateBefore();
+  // cy.visit('/my-page/edit');
 };

@@ -4,14 +4,103 @@ import {
   getSelectedSlateEditor,
   selectSlateNodeOfWord,
   slateBeforeEach,
+  getSlateBlockSelection,
+  createSlateBlockWithList,
 } from '../../support';
 
 if (Cypress.env('API') !== 'guillotina') {
-  describe('Not implemented tests', () => {
+  describe('Slate.js Volto blocks', () => {
     beforeEach(slateBeforeEach);
 
-    it.skip('should increase indent level of current list item on tab', () => {});
+    // TODO: should create a slate block after a normal block, after a title block etc.
+    // TODO: test numbered list context as well
 
-    it.skip('should create a block with a numbered list with a single item, move the cursor to the middle of the item, insert line break, have two items, the first one with the left part of the first item, and the second one with the right part of the initial first item, press again line break, have an empty second item ith cursor at the beginning of the third, press line break again and have 2 blocks with the first item one, and the rest in the second block', () => {});
+    // TODO: test the reverse, with Shift-Tab too!
+    it('[not fully implemented] in a list item, pressing Tab should increase indent level', () => {
+      // TODO: make a test with numbered: false
+      createSlateBlockWithList({
+        numbered: true,
+        firstItemText: 'hello world',
+        secondItemText: 'welcome aboard',
+      });
+
+      cy.wait(2000);
+      let se = cy.get('.slate-editor').first();
+      cy.wait(2000);
+
+      cy.focused().tab();
+      cy.wait(2000);
+
+      // there should be 1 slate blocks on the page
+      // TODO: the same test with 2 slate blocks in the page
+      cy.get('.block-editor-slate').should('have.length', 1);
+
+      getSlateBlockValue(se).then((val) => {
+        expect(val).to.deep.equal([
+          {
+            type: 'numbered-list',
+            children: [
+              {
+                type: 'list-item',
+                children: [
+                  {
+                    text: 'hello world',
+                  },
+                ],
+              },
+              {
+                type: 'numbered-list',
+                children: [
+                  {
+                    type: 'list-item',
+                    children: [
+                      {
+                        text: 'welcome aboard',
+                      },
+                    ],
+                  },
+                ],
+              },
+            ],
+          },
+        ]);
+      });
+
+      cy.focused().tab();
+      cy.pause();
+
+      getSlateBlockValue(se).should('deep.eq', [
+        {
+          type: 'numbered-list',
+          children: [
+            {
+              type: 'list-item',
+              children: [
+                {
+                  text: 'hello world',
+                },
+              ],
+            },
+            {
+              type: 'numbered-list',
+              children: [
+                {
+                  type: 'list-item',
+                  children: [
+                    {
+                      text: 'welcome aboard',
+                    },
+                  ],
+                },
+              ],
+            },
+          ],
+        },
+      ]);
+
+      cy.focused().tab({ shift: true });
+
+      cy.focused().tab({ shift: true });
+    });
   });
 }
