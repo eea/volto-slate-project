@@ -84,7 +84,7 @@ pipeline {
                     archiveArtifacts artifacts: 'mochawesome-report/*', fingerprint: true 
 
                     sh "yarn mochawesome-merge  --reportDir mochawesome-report -o mochawesome.json"
-                    sh "yarn marge --reportDir=cypress/report --charts=true --inline=true --reportTitle=ITReport --reportPageTitle='Cypress Integration Tests' mochawesome.json "
+                    sh "yarn marge --reportDir=cypress/report --charts=true --cdn=true --reportTitle=ITReport --reportPageTitle='Cypress Integration Tests' mochawesome.json "
                     sh "ls -ltr cypress/report/*"
                     sh "cat cypress/report/mochawesome.html"
                     
