@@ -9,7 +9,7 @@
 		     },
 		    "mochawesomeReporterOptions": {
 			 "outputDir":	"cypress/report",
-			 "html": true,
+			 "html": false,
 			 "json": true
                    }
 	}
