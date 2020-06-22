@@ -82,9 +82,14 @@ pipeline {
                              reportFiles: 'index.html',
                              reportName: 'CypressCoverage',
                              reportTitles: 'Integration Tests Code Coverage'])
-                    sh "yarn mochawesome-merge > mochawesome.json"
+
+                    archiveArtifacts artifacts: 'mochawesome-report/*', fingerprint: true 
+
+                    sh "yarn mochawesome-merge  --reportDir mochawesome-report > mochawesome.json"
+                    sh "cat mochawesome.json"
                     sh "yarn marge mochawesome.json"
                     sh "ls -ltr"
+                    
                     
                     publishHTML (target : [allowMissing: false,
                              alwaysLinkToLastBuild: true,
