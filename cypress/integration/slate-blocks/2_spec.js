@@ -23,18 +23,24 @@ if (Cypress.env('API') !== 'guillotina') {
 
       cy.get('.block-editor-slate').should('have.length', 2);
 
-      getSlateBlockValue(cy.get('.slate-editor').first()).should('deep.eq', [
-        {
-          type: 'paragraph',
-          children: [{ text: 'hello, ' }],
-        },
-      ]);
-      getSlateBlockValue(cy.get('.slate-editor').last()).should('deep.eq', [
-        {
-          type: 'paragraph',
-          children: [{ text: 'world' }],
-        },
-      ]);
+      getSlateBlockValue(cy.get('.slate-editor').first()).then((val) => {
+        console.log({ moment: 'first', val });
+        expect(val).to.deep.eq([
+          {
+            type: 'paragraph',
+            children: [{ text: 'hello, ' }],
+          },
+        ]);
+      });
+      getSlateBlockValue(cy.get('.slate-editor').last()).then((val) => {
+        console.log({ moment: 'last', val });
+        expect(val).to.deep.eq([
+          {
+            type: 'paragraph',
+            children: [{ text: 'world' }],
+          },
+        ]);
+      });
     });
   });
 }

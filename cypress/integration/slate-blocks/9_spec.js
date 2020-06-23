@@ -63,7 +63,7 @@ const indent1 = [
 ];
 
 if (Cypress.env('API') !== 'guillotina') {
-  describe('Slate.js Volto blocks', () => {
+  describe.skip('Slate.js Volto blocks', () => {
     beforeEach(slateBeforeEach);
 
     // TODO: should create a slate block after a normal block, after a title block etc.
