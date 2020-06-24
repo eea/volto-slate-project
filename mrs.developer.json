@@ -1,6 +1,7 @@
 {
   "volto-slate": {
     "url": "https://github.com/eea/volto-slate.git",
+    "branch": "stable_tests",
     "path": "src"
   }
 }
