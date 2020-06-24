@@ -1,22 +1,19 @@
 pipeline {
-  agent none
-  stages{ 
-   stage("Test Code and Integration") {
-    parallel {
-       stage("Code") {
-          agent {
-            node { label "eea" }
-          }
-          environment {
+  agent {
+            node { label "docker-host" }
+  }
+  environment {
             GIT_NAME = "volto-slate-project"
             SONARQUBE_TAGS = "www.eionet.europa.eu,forest.eea.europa.eu"
             PATH = "${tool 'NodeJS12'}/bin:${tool 'SonarQubeScanner'}/bin:$PATH"
-          }
-          stages {              
+            port1 = sh(script: 'echo $(python3 -c \'import socket; s=socket.socket(); s.bind(("", 0)); print(s.getsockname()[1], end = ""); s.close()\');', returnStdout: true).trim();
+            port2 = sh(script: 'echo $(python3 -c \'import socket; s=socket.socket(); s.bind(("", 0)); print(s.getsockname()[1], end = ""); s.close()\');', returnStdout: true).trim();
+  }
+  stages{         
                stage("Installation for Testing") {
                    steps {
                        script{
-                         checkout scm
+                         checkout scm                         
                          tool 'NodeJS12'
                          tool 'SonarQubeScanner'
                          sh "yarn install"  
@@ -38,15 +35,19 @@ pipeline {
                }
                stage("Unit tests") {
                    steps {
+                         catchError(buildResult: 'SUCCESS', stageResult: 'UNSTABLE') {
                             sh '''hostname'''
-                            sh '''yarn test-addon --watchAll=false --collectCoverage --coverageReporters lcov cobertura text '''
+                            sh '''set -o pipefail; yarn test-addon --watchAll=false --reporters=default --reporters=jest-junit --collectCoverage --coverageReporters lcov cobertura text 2>&1 | tee -a unit_tests_log.txt'''
                             publishHTML (target : [allowMissing: false,
                              alwaysLinkToLastBuild: true,
                              keepAll: true,
                              reportDir: 'coverage/lcov-report',
                              reportFiles: 'index.html',
-                             reportName: 'Coverage',
-                             reportTitles: 'Code Coverage'])
+                             reportName: 'UTCoverage',
+                             reportTitles: 'Unit Tests Code Coverage'])
+                           junit 'junit.xml'
+                           sh "mv coverage coverage_unit_tests"
+                         }
                          }
                          post {
                            failure {
@@ -56,79 +57,74 @@ pipeline {
                            }
                          }
                }
-               stage("Sonarqube") {
-                   steps {
-                       withSonarQubeEnv('Sonarqube') {
-                               sh '''sonar-scanner -Dsonar.javascript.lcov.reportPaths=./coverage/lcov.info -Dsonar.sources=./src -Dsonar.projectKey=$GIT_NAME-$BRANCH_NAME -Dsonar.projectVersion=$BRANCH_NAME-$BUILD_NUMBER'''
-                               sh '''try=2; while [ \$try -gt 0 ]; do curl -s -XPOST -u "${SONAR_AUTH_TOKEN}:" "${SONAR_HOST_URL}api/project_tags/set?project=${GIT_NAME}-${BRANCH_NAME}&tags=${SONARQUBE_TAGS},${BRANCH_NAME}" > set_tags_result; if [ \$(grep -ic error set_tags_result ) -eq 0 ]; then try=0; else cat set_tags_result; echo "... Will retry"; sleep 60; try=\$(( \$try - 1 )); fi; done'''
-                            
-                       }
-                   }
-               }
-          }
-         post {
-           always { 
-             sh '''yarn cache clean'''
-             cleanWs(cleanWhenAborted: true, cleanWhenFailure: true, cleanWhenNotBuilt: true, cleanWhenSuccess: true, cleanWhenUnstable: true, deleteDirs: true)
-           }
-         }
-       } 
-       stage("Integration") {
-         agent {
-           node { label "docker-host" }
-         }
-         environment {
-            PATH = "${tool 'NodeJS12'}/bin:$PATH"
-            port1 = sh(script: 'echo $(python3 -c \'import socket; s=socket.socket(); s.bind(("", 0)); print(s.getsockname()[1], end = ""); s.close()\');', returnStdout: true).trim();
-            port2 = sh(script: 'echo $(python3 -c \'import socket; s=socket.socket(); s.bind(("", 0)); print(s.getsockname()[1], end = ""); s.close()\');', returnStdout: true).trim();
-          }
-         stages {
-            stage('Integration Tests') {
-              steps {
-                script{
-                  checkout scm
-                  
-                  def nodeJS = tool 'NodeJS12';
+
+              stage('Integration Tests') {
+                steps {
+                  script {
                   sh "hostname"
-                  sh "env"
                   // make sure docker will have the exposed ports available and the docker names are unique
                   sh '''sed -i "s/8080:8080/$port1:8080/" package.json; sed -i "s/localhost:8080/localhost:$port1/" package.json'''
                   sh '''sed -i "s/3000:3000/$port2:3000/" package.json; sed -i "s/localhost:3000/localhost:$port2/" package.json'''
                   sh '''sed -i "s/--name plone/--name backend_$port1/" package.json; sed -i "s/--link plone:plone/--link backend_$port1:plone/g" package.json'''
                   sh '''sed -i "s/--name webapp/--name frontend_$port2/" package.json; sed -i "s/--link webapp:webapp/--link frontend_$port2:webapp/g" package.json'''
+                  sh '''sed -i "s/--name cypress/--name cypress_$port2/" package.json'''
                   sh '''sed -i "s/docker stop webapp plone/docker stop frontend_$port2 backend_$port1/" package.json'''
-                  sh '''cat package.json'''
                   sh "yarn install"
                   try {
                     sh "yarn ci:cypress:run"
+                    publishHTML (target : [allowMissing: false,
+                             alwaysLinkToLastBuild: true,
+                             keepAll: true,
+                             reportDir: 'coverage/lcov-report',
+                             reportFiles: 'index.html',
+                             reportName: 'CypressCoverage',
+                             reportTitles: 'Integration Tests Code Coverage'])
+
+                    sh "yarn mochawesome-merge  --reportDir mochawesome-report -o mochawesome.json"
+                    sh "yarn marge --reportDir=cypress/report --charts=true --reportTitle=ITReport --reportPageTitle='Cypress Integration Tests' mochawesome.json "
+                  
+                    publishHTML (target : [allowMissing: false,
+                             alwaysLinkToLastBuild: true,
+                             keepAll: true,
+                             reportDir: 'cypress/report',
+                             reportFiles: 'mochawesome.html',
+                             reportName: 'CypressReport',
+                             reportTitles: 'Integration Tests Report'])
+                    
+                    
                   } finally {
+                    junit 'cypress/results/*.xml'
                     catchError(buildResult: 'SUCCESS', stageResult: 'SUCCESS') {
                       sh "yarn ci:cypress:end"
                     }       
                   }
                  
+                  }
                 }
-              }
-            } 
-         }
-         post {
-           failure {
-              catchError(buildResult: 'SUCCESS', stageResult: 'SUCCESS') {
-                    archiveArtifacts artifacts: 'cypress/screenshots/**/*.*', fingerprint: true
-                    archiveArtifacts artifacts: 'cypress/videos/*.mp4', fingerprint: true 
-              }  
-           }
-           always {
-              sh '''yarn cache clean'''
-              cleanWs(cleanWhenAborted: true, cleanWhenFailure: true, cleanWhenNotBuilt: true, cleanWhenSuccess: true, cleanWhenUnstable: true, deleteDirs: true)
-           }
-         }
-       }               
-    }                
-   }
+                post {
+                 failure {
+                    catchError(buildResult: 'SUCCESS', stageResult: 'SUCCESS') {
+                          archiveArtifacts artifacts: 'cypress/screenshots/**/*.*', fingerprint: true
+                          archiveArtifacts artifacts: 'cypress/videos/*.mp4', fingerprint: true 
+                    }  
+                 }
+                }
+              }   
+               stage("Sonarqube") {
+                   steps {
+                       withSonarQubeEnv('Sonarqube') {
+                               sh '''sonar-scanner -Dsonar.javascript.lcov.reportPaths=./coverage_unit_tests/lcov.info,./coverage/lcov.info -Dsonar.sources=./src -Dsonar.projectKey=$GIT_NAME-$BRANCH_NAME -Dsonar.projectVersion=$BRANCH_NAME-$BUILD_NUMBER'''
+                               sh '''try=2; while [ \$try -gt 0 ]; do curl -s -XPOST -u "${SONAR_AUTH_TOKEN}:" "${SONAR_HOST_URL}api/project_tags/set?project=${GIT_NAME}-${BRANCH_NAME}&tags=${SONARQUBE_TAGS},${BRANCH_NAME}" > set_tags_result; if [ \$(grep -ic error set_tags_result ) -eq 0 ]; then try=0; else cat set_tags_result; echo "... Will retry"; sleep 60; try=\$(( \$try - 1 )); fi; done'''
+                            
+                       }
+                   }
+               }    
   }
   post {
-    changed {
+    always {
+      sh '''yarn cache clean'''
+      cleanWs(cleanWhenAborted: true, cleanWhenFailure: true, cleanWhenNotBuilt: true, cleanWhenSuccess: true, cleanWhenUnstable: true, deleteDirs: true)
+
       script {
         
         def url = "${env.BUILD_URL}/display/redirect"
@@ -145,8 +141,19 @@ pipeline {
         } else if (status == 'FAILURE') {
           color = '#FF0000'
         }
-
-        emailext (subject: '$DEFAULT_SUBJECT', to: '$DEFAULT_RECIPIENTS', body: details)
+        
+        def recipients = emailextrecipients([ [$class: 'DevelopersRecipientProvider']])
+        
+        echo "Recipients is ${recipients}"        
+        
+         emailext(
+        subject: '$DEFAULT_SUBJECT',
+        body: details,
+        attachLog: true,
+        compressLog: true,
+        recipientProviders: [[$class: 'DevelopersRecipientProvider']]
+          )
+        
       }
     }
   }

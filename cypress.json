@@ -1,5 +1,17 @@
 {
   "baseUrl": "http://localhost:3000",
   "viewportWidth": 1280,
-  "projectId": "8dntrn"
+  "projectId": "8dntrn",
+  "reporter": "cypress-multi-reporters",
+  "reporterOptions": {
+	"reporterEnabled": "spec, mocha-junit-reporter, mochawesome",
+        "mochaJunitReporterReporterOptions": {
+			 "mochaFile": "cypress/results/results-[hash].xml"
+        },
+        "mochawesomeReporterOptions": {
+			 "outputDir":	"cypress/report",
+			 "html": false,
+			 "json": true
+       }
+  }
 }

@@ -21,6 +21,9 @@ import './commands';
 // Alternatively you can use CommonJS syntax:
 // require('./commands')
 
+//https://docs.cypress.io/guides/tooling/code-coverage.htm
+import '@cypress/code-coverage/support'
+
 export const createSlateBlock = () => {
   cy.get('.block-editor-text').last().click();
 
