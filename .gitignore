@@ -12,6 +12,11 @@ build
 .env.test.local
 .env.production.local
 
+.nyc_output/
+cypress/mochawesome/
+cypress/report/
+cypress/results/
+mochawesome-report/
 cypress/videos/
 cypress/screenshots
 

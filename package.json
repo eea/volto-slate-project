@@ -39,6 +39,8 @@
     "ci:start-frontend": "docker run --link plone:plone --name webapp -e RAZZLE_API_PATH=http://plone:8080/Plone -v $(./get_correct_pwd.sh):/$(pwd) -w /$(pwd) -p 3000:3000 --rm node:12-slim /bin/sh -c 'yarn build && yarn start:prod'",
     "ci:start-tests": "start-test ci:start-frontend http-get://localhost:3000 cypress:run",
     "ci:cypress:run": "start-test ci:start-api-plone http-get://localhost:8080/Plone ci:start-tests",
+    "ci:cypress:mochawsome:merge": "mochawesome-merge  --reportDir mochawesome-report -o cypress/mochawesome/mochawesome.json",
+    "ci:cypress:mochawsome:report": "marge --reportDir=cypress/report --charts=true --reportTitle=ITReport --reportPageTitle='Cypress Integration Tests' cypress/mochawesome/mochawesome.json",
     "cy:test:fixture:setup": "node cypress/support/reset-fixture.js",
     "cy:test:fixture:teardown": "node cypress/support/reset-fixture.js teardown",
     "upgrade-volto": "yarn upgrade @plone/volto; cp node_modules/@plone/volto/yarn.lock yarn.lock; yarn install"
