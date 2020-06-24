@@ -41,6 +41,36 @@ Runs the test i18n runner which extracts all the translation strings and
 generates the needed files.
 
 
+## CI-related commands
+
+### `yarn ci:cypress:run`
+
+Starts plone, frontend and cypress in docker. Runs cypress tests. Instuments the code and creates code coverage reports. Creates junit type reports. Generates json report per test.
+
+### `yarn ci:start-api-plone`
+
+Starts plone container, site /Plone exposed on port 8080
+
+### `yarn ci:start-frontend`
+
+Starts frontend container(builds the existing code in a node12 docker), exposed on port 3000. Add instrumentation for code coverage.
+
+### `yarn cypress:run`
+
+Starts a cypress container, connects to webapp container to run the tests. 
+
+### `yarn ci:cypress:end`
+
+Stops plone and webapp containers. They are removed on stop.
+
+### `yarn ci:cypress:mochawsome:merge`
+
+Merges the json test results files into one single json file. Location cypress/mochawesome/mochawesome.json
+
+### `yarn ci:cypress:mochawsome:report`
+
+Generates html report for tests. Location cypress/report/mochawesome.html
+
 ### mr_developer
 
 [mr_developer](https://www.npmjs.com/package/mr-developer) is a great tool
