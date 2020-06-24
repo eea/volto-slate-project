@@ -15,6 +15,8 @@ module.exports = {
   moduleNameMapper: {
     '@plone/volto/babel': '<rootDir>/node_modules/@plone/volto/babel',
     '@plone/volto/(.*)$': '<rootDir>/node_modules/@plone/volto/src/$1',
+    'load-volto-addons':
+      '<rootDir>/node_modules/@plone/volto/dummy-addons-loader.js',
     'volto-slate/(.*)$': '<rootDir>/src/addons/volto-slate/src/$1',
     '@package/(.*)$': '<rootDir>/src/$1',
     '~/(.*)$': '<rootDir>/src/$1',
