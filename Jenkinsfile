@@ -142,7 +142,7 @@ pipeline {
           color = '#FF0000'
         }
         
-        def recipients = emailextrecipients([ [$class: 'DevelopersRecipientProvider']])
+        def recipients = emailextrecipients([ [$class: 'DevelopersRecipientProvider'], [$class: 'CulpritsRecipientProvider']])
         
         echo "Recipients is ${recipients}"        
         
@@ -151,7 +151,7 @@ pipeline {
         body: details,
         attachLog: true,
         compressLog: true,
-        recipientProviders: [[$class: 'DevelopersRecipientProvider']]
+        recipientProviders: [[$class: 'DevelopersRecipientProvider'], [$class: 'CulpritsRecipientProvider']]
           )
         
       }
