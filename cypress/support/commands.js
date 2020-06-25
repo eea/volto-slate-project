@@ -89,7 +89,7 @@ Cypress.Commands.add('autologin', () => {
     user = 'root';
     password = 'root';
   } else {
-    api_url = 'http://localhost:55001/plone';
+    api_url =  process.env.BACKEND_URL || 'http://localhost:55001/plone';
     user = myUser;
     password = myPassword;
   }
