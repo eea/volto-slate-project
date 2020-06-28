@@ -9,8 +9,9 @@
 			 "mochaFile": "cypress/results/results-[hash].xml"
         },
         "mochawesomeReporterOptions": {
-			 "outputDir":	"cypress/report",
+			 "reportDir": "cypress/mochawesome/json",
 			 "html": false,
+			 "overwrite": false,
 			 "json": true
        }
   }

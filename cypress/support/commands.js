@@ -74,6 +74,8 @@ Cypress.Commands.add('clearAllInSlate', { prevSubject: true }, (subject) => {
 
 const myUser = 'admin';
 const myPassword = 'secret';
+const apiUrl = Cypress.env('BACKEND_URL') || 'http://localhost:55001/localhost';
+ 
 
 /**
  * Volto commands as on 09.06.2020 from
@@ -89,7 +91,7 @@ Cypress.Commands.add('autologin', () => {
     user = 'root';
     password = 'root';
   } else {
-    api_url =  process.env.BACKEND_URL || 'http://localhost:55001/plone';
+    api_url = apiUrl;
     user = myUser;
     password = myPassword;
   }
@@ -124,7 +126,7 @@ Cypress.Commands.add(
         pass: 'root',
       };
     } else {
-      api_url = 'http://localhost:55001/plone';
+      api_url = apiUrl;
       auth = {
         user: myUser,
         pass: myPassword,
@@ -222,7 +224,7 @@ Cypress.Commands.add(
     include_children = true,
   }) => {
     let api_url, auth;
-    api_url = 'http://localhost:55001/plone';
+    api_url = apiUrl;
     auth = {
       user: myUser,
       pass: myPassword,
@@ -275,7 +277,7 @@ Cypress.Commands.add('waitForResourceToLoad', (fileName, type) => {
 // --- CREATE CONTENT --------------------------------------------------------
 Cypress.Commands.add('setRegistry', (record, value) => {
   let api_url, auth;
-  api_url = 'http://localhost:55001/plone';
+  api_url = apiUrl;
   auth = {
     user: myUser,
     pass: myPassword,

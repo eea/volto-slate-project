@@ -16,7 +16,6 @@ build
 cypress/mochawesome/
 cypress/report/
 cypress/results/
-mochawesome-report/
 cypress/videos/
 cypress/screenshots
 
