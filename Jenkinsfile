@@ -63,8 +63,8 @@ pipeline {
                   script {
                   sh "hostname"
                   // make sure docker will have the exposed ports available and the docker names are unique
-                  sh '''sed -i "s/\\\"ploneport\\\":.*/\\\"ploneport\\\": $port1/" package.json'''
-                  sh '''sed -i "s/\\\"webappport\\\":.*/\\\"webappport\\\": $port2/" package.json'''
+                  sh '''sed -i "s/\\\"ploneport\\\":.*/\\\"ploneport\\\": $port1,/" package.json'''
+                  sh '''sed -i "s/\\\"webappport\\\":.*/\\\"webappport\\\": $port2,/" package.json'''
                   
                   sh '''sed -i "s/--name plone/--name backend_$port1/" package.json'''
                   sh '''sed -i "s/--name webapp/--name frontend_$port2/" package.json'''
