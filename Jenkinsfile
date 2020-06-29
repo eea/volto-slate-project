@@ -63,12 +63,14 @@ pipeline {
                   script {
                   sh "hostname"
                   // make sure docker will have the exposed ports available and the docker names are unique
-                  sh '''sed -i "s/55001:55001/$port1:55001/" package.json; sed -i "s/localhost:55001/localhost:$port1/" package.json'''
-                  sh '''sed -i "s/3000:3000/$port2:3000/" package.json; sed -i "s/localhost:3000/localhost:$port2/" package.json'''
-                  sh '''sed -i "s/--name plone/--name backend_$port1/" package.json; sed -i "s/--link plone:plone/--link backend_$port1:plone/g" package.json'''
-                  sh '''sed -i "s/--name webapp/--name frontend_$port2/" package.json; sed -i "s/--link webapp:webapp/--link frontend_$port2:webapp/g" package.json'''
+                  sh '''sed -i "s/\"ploneport\":.*/\"ploneport\": $port1/" package.json'''
+                  sh '''sed -i "s/\"webappport\":.*/\"webappport\": $port2/" package.json'''
+                  
+                  sh '''sed -i "s/--name plone/--name backend_$port1/" package.json'''
+                  sh '''sed -i "s/--name webapp/--name frontend_$port2/" package.json'''
                   sh '''sed -i "s/--name cypress/--name cypress_$port2/" package.json'''
                   sh '''sed -i "s/docker stop webapp plone/docker stop frontend_$port2 backend_$port1/" package.json'''
+                  
                   sh "yarn install"
                   try {
                     sh "yarn ci:cypress:run"
@@ -95,7 +97,7 @@ pipeline {
                   } finally {
                     junit 'cypress/results/*.xml'
                     catchError(buildResult: 'SUCCESS', stageResult: 'SUCCESS') {
-                      sh "yarn ci:cypress:end"
+                      //sh "#yarn ci:cypress:end"
                     }       
                   }
                  
