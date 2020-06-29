@@ -13,7 +13,7 @@
   "custom": {
 	  "ploneport": 55001,
 	  "webappport": 3000,
-	  "localIP": ""
+	  "localIP": "localhost"
   },
   "scripts": {
     "develop:npx": "npx -p mrs-developer missdev --config=jsconfig.json --output=addons",
