@@ -5,7 +5,7 @@ cd ./api
 python3 -m venv .
 bin/pip install --upgrade pip
 apt-get update -q 
-apt-get install -y --no-install-recommends gcc
+apt-get install -y gcc
 bin/pip install -r requirements.txt
 echo "Start buildout"
 bin/buildout
