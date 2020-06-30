@@ -70,9 +70,11 @@ pipeline {
                   sh '''sed -i "s/--name webapp/--name frontend_$port2/" package.json'''
                   sh '''sed -i "s/--name cypress/--name cypress_$port2/" package.json'''
                   sh '''sed -i "s/docker stop webapp plone/docker stop frontend_$port2 backend_$port1/" package.json'''
-                  sh '''cat  package.json''' 
+
                   sh "yarn install"
                   try {
+                    sh "yarn ci:prepare"
+                    sh '''cat  package.json''' 
                     sh "yarn ci:cypress:run"
                     publishHTML (target : [allowMissing: false,
                              alwaysLinkToLastBuild: true,
