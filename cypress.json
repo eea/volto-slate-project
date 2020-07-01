@@ -2,6 +2,7 @@
   "baseUrl": "http://localhost:3000",
   "viewportWidth": 1280,
   "projectId": "8dntrn",
+  "numTestsKeptInMemory": 4,
   "reporter": "cypress-multi-reporters",
   "reporterOptions": {
 	"reporterEnabled": "spec, mocha-junit-reporter, mochawesome",
