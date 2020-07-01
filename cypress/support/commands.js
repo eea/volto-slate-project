@@ -75,7 +75,6 @@ Cypress.Commands.add('clearAllInSlate', { prevSubject: true }, (subject) => {
 const myUser = 'admin';
 const myPassword = 'secret';
 const apiUrl = Cypress.env('BACKEND_URL') || 'http://localhost:55001/localhost';
- 
 
 /**
  * Volto commands as on 09.06.2020 from
@@ -92,6 +91,7 @@ Cypress.Commands.add('autologin', () => {
     password = 'root';
   } else {
     api_url = apiUrl;
+    //throw new Error('api url : ' + Cypress.env('BACKEND_URL') + ' and '+ apiUrl + ' and ' + api_url);
     user = myUser;
     password = myPassword;
   }
