@@ -74,7 +74,6 @@ pipeline {
                   sh "yarn install"
                   try {
                     sh "yarn ci:prepare"
-                    sh '''cat  package.json''' 
                     sh "yarn ci:cypress:run"
                     publishHTML (target : [allowMissing: false,
                              alwaysLinkToLastBuild: true,
@@ -99,7 +98,7 @@ pipeline {
                   } finally {
                     junit 'cypress/results/*.xml'
                     catchError(buildResult: 'SUCCESS', stageResult: 'SUCCESS') {
-                      //sh "#yarn ci:cypress:end"
+                      sh "yarn ci:cypress:end"
                     }       
                   }
                  
