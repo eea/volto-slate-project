@@ -26,7 +26,7 @@
     "test": "razzle test --env=jsdom",
     "test-addon": "jest --env=jsdom src/addons/volto-slate",
     "start:prod": "NODE_ENV=production node build/server.js",
-    "i18n": "NODE_ENV=production node node_modules/@plone/volto/src/i18n.js",
+    "i18n": "NODE_ENV=production node src/i18n.js",
     "code-analysis:i18n": "yarn i18n && git diff -G'^[^\"POT]' --exit-code",
     "pretty": "yarn prettier:fix",
     "prettier": "./node_modules/.bin/prettier --single-quote --check 'src/**/*.{js,jsx,ts,tsx,json,css,scss,md}'",
