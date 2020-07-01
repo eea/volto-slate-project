@@ -45,7 +45,7 @@
     "ci:start-frontend": "yarn ci:prepare; docker run --name webapp --rm -p $npm_package_custom_webappport:3000 -e RAZZLE_API_PATH=http://$npm_package_custom_localIP:$npm_package_custom_ploneport/plone -e HOST=$npm_package_custom_localIP -e CI=yes -v $(./get_correct_pwd.sh):/$(pwd) -w /$(pwd) --rm node:12-slim /bin/sh -c 'yarn build && yarn start:prod'",
     "ci:start-tests": "start-test ci:start-frontend http-get://$npm_package_custom_localIP:$npm_package_custom_webappport cypress:run",
     "ci:cypress:run": "start-test ci:start-api-plone http-get://$npm_package_custom_localIP:$npm_package_custom_ploneport/plone ci:start-tests",
-    "ci:cypress:mochawsome:merge": "mochawesome-merge  --reportDir cypress/mochawesome/json -o cypress/mochawesome/mochawesome.json",
+    "ci:cypress:mochawsome:merge": "mochawesome-merge  cypress/mochawesome/json/*.json -o cypress/mochawesome/mochawesome.json",
     "ci:cypress:mochawsome:report": "marge --reportDir=cypress/report --charts=true --reportTitle=ITReport --reportPageTitle='Cypress Integration Tests' cypress/mochawesome/mochawesome.json",
     "cy:test:fixture:setup": "node cypress/support/reset-fixture.js",
     "cy:test:fixture:teardown": "node cypress/support/reset-fixture.js teardown",
