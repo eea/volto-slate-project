@@ -34,12 +34,22 @@ Cypress.Commands.add('getEditor', (selector) => {
 });
 
 Cypress.Commands.add('typeInSlate', { prevSubject: true }, (subject, text) => {
-  return cy.wrap(subject).then((subject) => {
-    subject[0].dispatchEvent(
-      new InputEvent('beforeinput', { inputType: 'insertText', data: text }),
-    );
-    return subject;
-  });
+  return (
+    cy
+      .wrap(subject)
+      .then((subject) => {
+        subject[0].dispatchEvent(
+          new InputEvent('beforeinput', {
+            inputType: 'insertText',
+            data: text,
+          }),
+        );
+        return subject;
+      })
+      // TODO: do this only for Electron-based browser which does not understand instantaneously
+      // that the user inserted some text in the block
+      .wait(1000)
+  );
 });
 
 Cypress.Commands.add('clearInSlate', { prevSubject: true }, (subject) => {
@@ -51,13 +61,21 @@ Cypress.Commands.add('clearInSlate', { prevSubject: true }, (subject) => {
   });
 });
 
+// TODO: make this command chainable (so that it passes the `subject` to the next chained command)
 Cypress.Commands.add('lineBreakInSlate', { prevSubject: true }, (subject) => {
-  return cy.wrap(subject).then((subject) => {
-    subject[0].dispatchEvent(
-      new InputEvent('beforeinput', { inputType: 'insertLineBreak' }),
-    );
-    return subject;
-  });
+  return (
+    cy
+      .wrap(subject)
+      .then((subject) => {
+        subject[0].dispatchEvent(
+          new InputEvent('beforeinput', { inputType: 'insertLineBreak' }),
+        );
+        return subject;
+      })
+      // TODO: do this only for Electron-based browser which does not understand instantaneously
+      // that the block was split
+      .wait(1000)
+  );
 });
 
 Cypress.Commands.add('clearAllInSlate', { prevSubject: true }, (subject) => {
