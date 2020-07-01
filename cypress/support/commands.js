@@ -91,7 +91,6 @@ Cypress.Commands.add('autologin', () => {
     password = 'root';
   } else {
     api_url = apiUrl;
-    //throw new Error('api url : ' + Cypress.env('BACKEND_URL') + ' and '+ apiUrl + ' and ' + api_url);
     user = myUser;
     password = myPassword;
   }
