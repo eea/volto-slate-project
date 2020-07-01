@@ -30,7 +30,8 @@ if (Cypress.env('API') !== 'guillotina') {
               type: 'list-item',
               children: [
                 {
-                  text: 'hello',
+                  type: 'paragraph',
+                  children: [{ text: 'hello' }],
                 },
               ],
             },
@@ -38,7 +39,8 @@ if (Cypress.env('API') !== 'guillotina') {
               type: 'list-item',
               children: [
                 {
-                  text: ', world',
+                  type: 'paragraph',
+                  children: [{ text: ', world' }],
                 },
               ],
             },

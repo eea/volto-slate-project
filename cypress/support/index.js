@@ -87,10 +87,10 @@ export const createSlateBlockWithList = ({
   // TODO: do not hardcode these selectors:
   if (numbered) {
     // this is the numbered list option in the hovering toolbar
-    cy.get('.slate-inline-toolbar > :nth-child(8)').click();
+    cy.get('.slate-inline-toolbar > :nth-child(9)').click();
   } else {
     // this is the bulleted list option in the hovering toolbar
-    cy.get('.slate-inline-toolbar > :nth-child(9)').click();
+    cy.get('.slate-inline-toolbar > :nth-child(10)').click();
   }
 
   // move the text cursor

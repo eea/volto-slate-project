@@ -22,7 +22,7 @@ if (Cypress.env('API') !== 'guillotina') {
       });
 
       // this is the numbered list option in the hovering toolbar
-      cy.get('.slate-inline-toolbar > :nth-child(8)').click();
+      cy.get('.slate-inline-toolbar > :nth-child(9)').click();
 
       // move the text cursor
       getSelectedSlateEditor().type('{rightarrow}');
@@ -44,7 +44,8 @@ if (Cypress.env('API') !== 'guillotina') {
               type: 'list-item',
               children: [
                 {
-                  text: 'hello, world',
+                  type: 'paragraph',
+                  children: [{ text: 'hello, world' }],
                 },
               ],
             },

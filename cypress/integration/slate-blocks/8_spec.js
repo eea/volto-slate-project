@@ -27,7 +27,7 @@ if (Cypress.env('API') !== 'guillotina') {
       // focus the previous Slate editor (the first) with S-tab
       getSelectedSlateEditor().tab({ shift: true });
 
-
+      // TODO: update the rest, the comments below when used again:
       // cy.wait(1000);
 
       // getSelectedSlateEditor().type('{uparrow}');

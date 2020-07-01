@@ -17,7 +17,8 @@ const indent0 = [
         type: 'list-item',
         children: [
           {
-            text: 'hello world',
+            type: 'paragraph',
+            children: [{ text: 'hello world' }],
           },
         ],
       },
@@ -25,7 +26,8 @@ const indent0 = [
         type: 'list-item',
         children: [
           {
-            text: 'welcome aboard',
+            type: 'paragraph',
+            children: [{ text: 'welcome aboard' }],
           },
         ],
       },
@@ -41,7 +43,8 @@ const indent1 = [
         type: 'list-item',
         children: [
           {
-            text: 'hello world',
+            type: 'paragraph',
+            children: [{ text: 'hello world' }],
           },
         ],
       },
@@ -52,7 +55,8 @@ const indent1 = [
             type: 'list-item',
             children: [
               {
-                text: 'welcome aboard',
+                type: 'paragraph',
+                children: [{ text: 'welcome aboard' }],
               },
             ],
           },
@@ -104,7 +108,8 @@ if (Cypress.env('API') !== 'guillotina') {
               type: 'list-item',
               children: [
                 {
-                  text: 'hello world',
+                  type: 'paragraph',
+                  children: [{ text: 'hello world' }],
                 },
               ],
             },
@@ -118,7 +123,8 @@ if (Cypress.env('API') !== 'guillotina') {
                       type: 'list-item',
                       children: [
                         {
-                          text: 'welcome aboard',
+                          type: 'paragraph',
+                          children: [{ text: 'welcome aboard' }],
                         },
                       ],
                     },
