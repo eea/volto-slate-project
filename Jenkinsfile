@@ -130,6 +130,12 @@ pipeline {
                 }
               }   
                stage("Sonarqube") {
+                  // Exclude Pull-Requests
+                  when {
+                    allOf {
+                      environment name: 'CHANGE_ID', value: ''
+                    }
+                  }
                    steps {
                        withSonarQubeEnv('Sonarqube') {
                                sh '''sonar-scanner -Dsonar.javascript.lcov.reportPaths=./coverage_unit_tests/lcov.info,./coverage/lcov.info -Dsonar.sources=./src -Dsonar.projectKey=$GIT_NAME-$BRANCH_NAME -Dsonar.projectVersion=$BRANCH_NAME-$BUILD_NUMBER'''
