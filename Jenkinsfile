@@ -10,6 +10,22 @@ pipeline {
             port2 = sh(script: 'echo $(python3 -c \'import socket; s=socket.socket(); s.bind(("", 0)); print(s.getsockname()[1], end = ""); s.close()\');', returnStdout: true).trim();
   }
   stages{         
+                  stage('Check pull Request') {
+                    when {
+                      not {
+                        environment name: 'CHANGE_ID', value: ''
+                      }
+                      environment name: 'CHANGE_TARGET', value: 'master'
+                    }
+                    steps {
+                        script {
+                          if ( env.CHANGE_BRANCH != "develop" &&  !( env.CHANGE_BRANCH.startsWith("hotfix")) ) {
+                              error "Pipeline aborted due to PR not made from develop or hotfix branch"
+                          }
+                        }
+                    }
+                  }
+    
                stage("Installation for Testing") {
                    steps {
                        script{
@@ -114,6 +130,12 @@ pipeline {
                 }
               }   
                stage("Sonarqube") {
+                  // Exclude Pull-Requests
+                  when {
+                    allOf {
+                      environment name: 'CHANGE_ID', value: ''
+                    }
+                  }
                    steps {
                        withSonarQubeEnv('Sonarqube') {
                                sh '''sonar-scanner -Dsonar.javascript.lcov.reportPaths=./coverage_unit_tests/lcov.info,./coverage/lcov.info -Dsonar.sources=./src -Dsonar.projectKey=$GIT_NAME-$BRANCH_NAME -Dsonar.projectVersion=$BRANCH_NAME-$BUILD_NUMBER'''
