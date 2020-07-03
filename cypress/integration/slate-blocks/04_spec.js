@@ -22,7 +22,7 @@ if (Cypress.env('API') !== 'guillotina') {
       });
 
       // this is the numbered list option in the hovering toolbar
-      cy.get('.slate-inline-toolbar > :nth-child(9)').click();
+      cy.get('.slate-inline-toolbar .button-wrapper:nth-child(9)').click();
 
       // move the text cursor
       getSelectedSlateEditor().type('{rightarrow}');
