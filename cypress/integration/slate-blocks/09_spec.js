@@ -76,6 +76,7 @@ if (Cypress.env('API') !== 'guillotina') {
     it('in a list item, pressing Tab should increase indent level, Shift-Tab the reverse', () => {
       // TODO: make a test with numbered: false
       createSlateBlockWithList({
+        firstInPage: true,
         numbered: true,
         firstItemText: 'hello world',
         secondItemText: 'welcome aboard',
@@ -90,9 +91,9 @@ if (Cypress.env('API') !== 'guillotina') {
       cy.focused().tab();
       cy.wait(1000);
 
-      // there should be 1 slate blocks on the page
-      // TODO: the same test with 2 slate blocks in the page
-      cy.get('.block-editor-slate').should('have.length', 1);
+      // there should be 2 slate blocks on the page
+      // TODO: the same test with 3 slate blocks in the page
+      cy.get('.block-editor-slate').should('have.length', 2);
 
       getSlateBlockValue(getSelectedUneditableSlateEditor()).then((val) => {
         expect(val).to.deep.equal(indent1);

@@ -18,10 +18,11 @@ if (Cypress.env('API') !== 'guillotina') {
       const fs1 = 'hello, world';
       const fs2 = 'welcome aboard';
 
-      let s1 = createSlateBlock();
+      let s1 = createSlateBlock(true);
       s1.typeInSlate(fs1);
+      s1.lineBreakInSlate();
 
-      let s2 = createSlateBlock();
+      let s2 = getSelectedSlateEditor();
       s2.typeInSlate(fs2);
 
       // focus the previous Slate editor (the first) with S-tab
