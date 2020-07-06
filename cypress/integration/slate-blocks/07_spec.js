@@ -18,10 +18,11 @@ if (Cypress.env('API') !== 'guillotina') {
       const fs1 = 'hello, world';
       const fs2 = 'welcome aboard';
 
-      let s1 = createSlateBlock();
+      let s1 = createSlateBlock(true);
       s1.typeInSlate(fs1);
+      s1.lineBreakInSlate();
 
-      let s2 = createSlateBlock();
+      let s2 = getSelectedSlateEditor();
       s2.typeInSlate(fs2);
 
       // move the text cursor
@@ -57,7 +58,7 @@ if (Cypress.env('API') !== 'guillotina') {
 
       // the last Slate block should be focused
       cy.get('.slate-editor')
-        .last()
+        .eq(1)
         .then((editorElement) => {
           return cy.focused().then((focusedEl) => {
             return Cypress.$.contains(editorElement[0], focusedEl[0]);
@@ -65,11 +66,11 @@ if (Cypress.env('API') !== 'guillotina') {
         })
         .should('eq', true);
 
-      // there should be 2 slate blocks on the page
-      cy.get('.block-editor-slate').should('have.length', 2);
+      // there should be 3 slate blocks on the page
+      cy.get('.block-editor-slate').should('have.length', 3);
 
       // selection of last block should be at end of the block
-      getSlateBlockSelection(cy.get('.slate-editor').last()).should('deep.eq', {
+      getSlateBlockSelection(cy.get('.slate-editor').eq(1)).should('deep.eq', {
         anchor: { path: [0, 0], offset: fs2.length },
         focus: { path: [0, 0], offset: fs2.length },
       });
