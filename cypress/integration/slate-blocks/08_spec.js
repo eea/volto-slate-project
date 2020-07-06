@@ -5,6 +5,7 @@ import {
   selectSlateNodeOfWord,
   slateBeforeEach,
   getSlateBlockSelection,
+  createSlateBlocks,
 } from '../../support';
 
 if (Cypress.env('API') !== 'guillotina') {
@@ -17,13 +18,7 @@ if (Cypress.env('API') !== 'guillotina') {
     it('[not fully implemented] should go to next block when pressing Tab key at beginning, end of a block, S-tab should do the opposite', () => {
       const fs1 = 'hello, world';
       const fs2 = 'welcome aboard';
-
-      let s1 = createSlateBlock(true);
-      s1.typeInSlate(fs1);
-      s1.lineBreakInSlate();
-
-      let s2 = getSelectedSlateEditor();
-      s2.typeInSlate(fs2);
+      createSlateBlocks([fs1, fs2]);
 
       // focus the previous Slate editor (the first) with S-tab
       getSelectedSlateEditor().tab({ shift: true });

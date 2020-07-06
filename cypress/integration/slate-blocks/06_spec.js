@@ -5,6 +5,7 @@ import {
   selectSlateNodeOfWord,
   slateBeforeEach,
   getSlateBlockSelection,
+  createSlateBlocks,
 } from '../../support';
 
 if (Cypress.env('API') !== 'guillotina') {
@@ -15,12 +16,7 @@ if (Cypress.env('API') !== 'guillotina') {
     // TODO: test numbered list context as well
 
     it('should create two slate blocks, type something in the second block, press Up, go to start of block, press Up, focus previous Slate block', () => {
-      let s1 = createSlateBlock(true);
-      s1.typeInSlate('hello, world');
-      s1.lineBreakInSlate();
-
-      let s2 = getSelectedSlateEditor();
-      s2.typeInSlate('welcome aboard');
+      createSlateBlocks(['hello, world', 'welcome aboard']);
 
       // move the text cursor
       getSelectedSlateEditor().type(

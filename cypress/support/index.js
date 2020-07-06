@@ -44,6 +44,32 @@ export const createSlateBlock = (firstInPage = false) => {
   return getSelectedSlateEditor();
 };
 
+export const createSlateBlocks = (arr) => {
+  let fip = true;
+  for (let i = 0; i < arr.length; ++i) {
+    let x = arr[i];
+
+    let b;
+    if (i !== 0) {
+      b = getSelectedSlateEditor();
+    } else {
+      b = createSlateBlock(fip);
+    }
+
+    if (x !== '') {
+      b.typeInSlate(x);
+    }
+
+    if (i !== arr.length - 1) {
+      b.lineBreakInSlate();
+    }
+
+    if (fip) {
+      fip = false;
+    }
+  }
+}
+
 export const getSelectedSlateEditor = () => {
   return cy.get('.slate-editor.selected [contenteditable=true]');
 };
