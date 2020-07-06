@@ -3,6 +3,7 @@ import {
   slateBeforeEach,
   getSelectedSlateEditor,
   createSlateBlocks,
+  getAllSlateBlocks,
 } from '../../support';
 
 if (Cypress.env('API') !== 'guillotina') {
@@ -18,7 +19,7 @@ if (Cypress.env('API') !== 'guillotina') {
       ]);
 
       // fifth = the new-default-block block at the end, created automatically
-      cy.get('.block-editor-slate').should('have.length', 5);
+      getAllSlateBlocks().should('have.length', 5);
     });
   });
 }

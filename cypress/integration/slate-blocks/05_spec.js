@@ -4,6 +4,7 @@ import {
   getSelectedSlateEditor,
   selectSlateNodeOfWord,
   slateBeforeEach,
+  getAllSlateBlocks,
 } from '../../support';
 
 if (Cypress.env('API') !== 'guillotina') {
@@ -36,7 +37,7 @@ if (Cypress.env('API') !== 'guillotina') {
       getSelectedSlateEditor().lineBreakInSlate();
 
       // there should be 3 slate blocks on the page
-      cy.get('.block-editor-slate').should('have.length', 3);
+      getAllSlateBlocks().should('have.length', 3);
 
       getSlateBlockValue(cy.get('.slate-editor').eq(0)).should('deep.eq', [
         {

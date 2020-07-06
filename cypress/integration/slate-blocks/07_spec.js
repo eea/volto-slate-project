@@ -6,6 +6,7 @@ import {
   slateBeforeEach,
   getSlateBlockSelection,
   createSlateBlocks,
+  getAllSlateBlocks,
 } from '../../support';
 
 if (Cypress.env('API') !== 'guillotina') {
@@ -62,7 +63,7 @@ if (Cypress.env('API') !== 'guillotina') {
         .should('eq', true);
 
       // there should be 3 slate blocks on the page
-      cy.get('.block-editor-slate').should('have.length', 3);
+      getAllSlateBlocks().should('have.length', 3);
 
       // selection of last block should be at end of the block
       getSlateBlockSelection(cy.get('.slate-editor').eq(1)).should('deep.eq', {

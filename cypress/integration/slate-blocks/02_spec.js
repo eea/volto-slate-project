@@ -2,6 +2,7 @@ import {
   createSlateBlock,
   getSlateBlockValue,
   slateBeforeEach,
+  getAllSlateBlocks,
 } from '../../support';
 
 if (Cypress.env('API') !== 'guillotina') {
@@ -21,7 +22,7 @@ if (Cypress.env('API') !== 'guillotina') {
 
       s1.lineBreakInSlate();
 
-      cy.get('.block-editor-slate').should('have.length', 3); // 2, + 1 from the default-new-block block at the end
+      getAllSlateBlocks().should('have.length', 3); // 2, + 1 from the default-new-block block at the end
 
       getSlateBlockValue(cy.get('.slate-editor').eq(0)).then((val) => {
         console.log({ moment: 'first', val });

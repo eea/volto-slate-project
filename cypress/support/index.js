@@ -68,7 +68,11 @@ export const createSlateBlocks = (arr) => {
       fip = false;
     }
   }
-}
+};
+
+export const getAllSlateBlocks = () => {
+  return cy.get('.block-editor-slate');
+};
 
 export const getSelectedSlateEditor = () => {
   return cy.get('.slate-editor.selected [contenteditable=true]');

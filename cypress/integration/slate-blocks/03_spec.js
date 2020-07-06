@@ -5,6 +5,7 @@ import {
   selectSlateNodeOfWord,
   slateBeforeEach,
   createSlateBlockWithList,
+  getAllSlateBlocks,
 } from '../../support';
 
 if (Cypress.env('API') !== 'guillotina') {
@@ -21,7 +22,7 @@ if (Cypress.env('API') !== 'guillotina') {
       });
 
       // there should be 2 slate blocks on the page
-      cy.get('.block-editor-slate').should('have.length', 2);
+      getAllSlateBlocks().should('have.length', 2);
 
       getSlateBlockValue(cy.get('.slate-editor').first()).should('deep.eq', [
         {
