@@ -9,7 +9,7 @@ if (Cypress.env('API') !== 'guillotina') {
     beforeEach(slateBeforeEach);
 
     it('should create a block with some text, move the cursor in the middle of the text, insert a line break, and then have 2 blocks with the two parts of the initial text', () => {
-      let s1 = createSlateBlock();
+      let s1 = createSlateBlock(true);
 
       s1.typeInSlate('hello, world');
 
@@ -21,9 +21,9 @@ if (Cypress.env('API') !== 'guillotina') {
 
       s1.lineBreakInSlate();
 
-      cy.get('.block-editor-slate').should('have.length', 2);
+      cy.get('.block-editor-slate').should('have.length', 3); // 2, + 1 from the default-new-block block at the end
 
-      getSlateBlockValue(cy.get('.slate-editor').first()).then((val) => {
+      getSlateBlockValue(cy.get('.slate-editor').eq(0)).then((val) => {
         console.log({ moment: 'first', val });
         expect(val).to.deep.eq([
           {
@@ -32,8 +32,8 @@ if (Cypress.env('API') !== 'guillotina') {
           },
         ]);
       });
-      getSlateBlockValue(cy.get('.slate-editor').last()).then((val) => {
-        console.log({ moment: 'last', val });
+      getSlateBlockValue(cy.get('.slate-editor').eq(1)).then((val) => {
+        console.log({ moment: 'second', val });
         expect(val).to.deep.eq([
           {
             type: 'paragraph',
