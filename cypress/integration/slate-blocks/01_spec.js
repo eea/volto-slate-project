@@ -1,21 +1,31 @@
-import { createSlateBlock, slateBeforeEach } from '../../support';
+import {
+  createSlateBlock,
+  slateBeforeEach,
+  getSelectedSlateEditor,
+} from '../../support';
 
 if (Cypress.env('API') !== 'guillotina') {
   describe('Slate.js Volto blocks', () => {
     beforeEach(slateBeforeEach);
 
     it('should create 4 slate blocks, first 3 with mouse, the last with an Enter in the third block', () => {
-      let s1 = createSlateBlock();
+      // first Slate block
+      let s1 = createSlateBlock(true);
       s1.typeInSlate('Hello Slate World!');
+      s1.lineBreakInSlate(); // second
 
-      let s2 = createSlateBlock();
-      s2.typeInSlate('Hello Volto World!');
+      let se = getSelectedSlateEditor();
 
-      let s3 = createSlateBlock();
-      s3.typeInSlate('Hello Cypress World!');
-      s3.lineBreakInSlate();
+      se.typeInSlate('Hello Volto World!');
+      se.lineBreakInSlate(); // third
 
-      cy.get('.block-editor-slate').should('have.length', 4);
+      se = getSelectedSlateEditor();
+
+      se.typeInSlate('Hello Cypress World!');
+      se.lineBreakInSlate(); // fourth
+
+      // fifth = the new-default-block at the end, created automatically
+      cy.get('.block-editor-slate').should('have.length', 5);
     });
   });
 }

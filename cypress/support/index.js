@@ -22,19 +22,24 @@ import './commands';
 // require('./commands')
 
 //https://docs.cypress.io/guides/tooling/code-coverage.htm
-import '@cypress/code-coverage/support'
+import '@cypress/code-coverage/support';
 
-export const createSlateBlock = () => {
-  cy.get('.block-editor-text').last().click();
+export const createSlateBlock = (firstInPage = false) => {
+  if (firstInPage) {
+    // the first block is a draft block (.block-editor-text)
+    cy.get('.block-editor-text').last().click();
 
-  // click the add block button
-  cy.get('.inner > .block > .ui > .icon').click();
+    // click the add block button
+    cy.get('.block-add-button:first').click();
 
-  // Text section in block type selector
-  cy.get('.accordion > :nth-child(3)').click();
+    // Text section in block type selector
+    cy.get('.accordion > :nth-child(3):first').click();
 
-  // click the Slate block button (the first one is in the Most Used section, the last one is surely the good one)
-  cy.get('button.ui.basic.icon.button.slate').last().click();
+    // click the Slate block button (the first one is in the Most Used section, the last one is surely the good one)
+    cy.get('button.ui.basic.icon.button.slate').last().click();
+  } else {
+    cy.get('.block-editor-slate').last().click();
+  }
 
   return getSelectedSlateEditor();
 };
