@@ -15,10 +15,11 @@ if (Cypress.env('API') !== 'guillotina') {
     // TODO: test numbered list context as well
 
     it('should create two slate blocks, type something in the second block, press Up, go to start of block, press Up, focus previous Slate block', () => {
-      let s1 = createSlateBlock();
+      let s1 = createSlateBlock(true);
       s1.typeInSlate('hello, world');
+      s1.lineBreakInSlate();
 
-      let s2 = createSlateBlock();
+      let s2 = getSelectedSlateEditor();
       s2.typeInSlate('welcome aboard');
 
       // move the text cursor
@@ -29,7 +30,7 @@ if (Cypress.env('API') !== 'guillotina') {
       // sometimes this prevents the next assertion to fail, saying that the correct offset is 8
       cy.wait(1000);
 
-      getSlateBlockSelection(cy.get('.slate-editor').last()).should('deep.eq', {
+      getSlateBlockSelection(cy.get('.slate-editor').eq(1)).should('deep.eq', {
         anchor: { path: [0, 0], offset: 0 },
         focus: { path: [0, 0], offset: 0 },
       });
@@ -53,8 +54,8 @@ if (Cypress.env('API') !== 'guillotina') {
         })
         .should('eq', true);
 
-      // there should be 2 slate blocks on the page
-      cy.get('.block-editor-slate').should('have.length', 2);
+      // there should be 3 slate blocks on the page
+      cy.get('.block-editor-slate').should('have.length', 3);
 
       // selection of first block should be at start of the block
       getSlateBlockSelection(cy.get('.slate-editor').first()).should(
