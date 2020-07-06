@@ -78,11 +78,12 @@ export const selectSlateNodeOfWord = (el) => {
 };
 
 export const createSlateBlockWithList = ({
+  firstInPage = false,
   numbered,
   firstItemText,
   secondItemText,
 }) => {
-  let s1 = createSlateBlock();
+  let s1 = createSlateBlock(firstInPage);
 
   s1.typeInSlate(firstItemText + secondItemText);
 
@@ -92,13 +93,31 @@ export const createSlateBlockWithList = ({
     selectSlateNodeOfWord(el);
   });
 
+  cy.wait(1000);
+
   // TODO: do not hardcode these selectors:
   if (numbered) {
     // this is the numbered list option in the hovering toolbar
-    cy.get('.slate-inline-toolbar .button-wrapper:nth-child(9)').click();
+    cy.get('.slate-inline-toolbar .button-wrapper:nth-child(9)')
+      .then(($el) => {
+        for (let el of $el) {
+          if (Cypress.dom.isVisible(el)) {
+            return el;
+          }
+        }
+      })
+      .click();
   } else {
     // this is the bulleted list option in the hovering toolbar
-    cy.get('.slate-inline-toolbar .button-wrapper:nth-child(10)').click();
+    cy.get('.slate-inline-toolbar .button-wrapper:nth-child(10)')
+      .then(($el) => {
+        for (let el of $el) {
+          if (Cypress.dom.isVisible(el)) {
+            return el;
+          }
+        }
+      })
+      .click();
   }
 
   // move the text cursor

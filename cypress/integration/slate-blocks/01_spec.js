@@ -24,7 +24,7 @@ if (Cypress.env('API') !== 'guillotina') {
       se.typeInSlate('Hello Cypress World!');
       se.lineBreakInSlate(); // fourth
 
-      // fifth = the new-default-block at the end, created automatically
+      // fifth = the new-default-block block at the end, created automatically
       cy.get('.block-editor-slate').should('have.length', 5);
     });
   });
