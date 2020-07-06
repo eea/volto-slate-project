@@ -24,6 +24,21 @@
 // -- This will overwrite an existing command --
 // Cypress.Commands.overwrite("visit", (originalFn, url, options) => { ... })
 
+Cypress.Commands.add(
+  'justVisible',
+  { prevSubject: 'element' },
+  (subject, options) => {
+    // let arr = [];
+    for (let el of subject) {
+      if (Cypress.dom.isVisible(el)) {
+        return el;
+        // arr.push(el);
+      }
+    }
+    // return arr;
+  },
+);
+
 /**
  * Slate commands taken from this page because of that issue:
  * https://github.com/ianstormtaylor/slate/issues/3476

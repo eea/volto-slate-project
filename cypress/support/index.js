@@ -99,24 +99,12 @@ export const createSlateBlockWithList = ({
   if (numbered) {
     // this is the numbered list option in the hovering toolbar
     cy.get('.slate-inline-toolbar .button-wrapper:nth-child(9)')
-      .then(($el) => {
-        for (let el of $el) {
-          if (Cypress.dom.isVisible(el)) {
-            return el;
-          }
-        }
-      })
+      .justVisible()
       .click();
   } else {
     // this is the bulleted list option in the hovering toolbar
     cy.get('.slate-inline-toolbar .button-wrapper:nth-child(10)')
-      .then(($el) => {
-        for (let el of $el) {
-          if (Cypress.dom.isVisible(el)) {
-            return el;
-          }
-        }
-      })
+      .justVisible()
       .click();
   }
 
