@@ -11,7 +11,7 @@ if (Cypress.env('API') !== 'guillotina') {
     beforeEach(slateBeforeEach);
 
     it('should create a block with a numbered list with a single item, move the cursor to the end of the item, insert line break, have two items, the cursor on the last one, which is empty, and then another line break should create a new block which is of type `paragraph`', () => {
-      let s1 = createSlateBlock();
+      let s1 = createSlateBlock(true);
 
       s1.typeInSlate('hello, world');
 
@@ -22,7 +22,9 @@ if (Cypress.env('API') !== 'guillotina') {
       });
 
       // this is the numbered list option in the hovering toolbar
-      cy.get('.slate-inline-toolbar .button-wrapper:nth-child(9)').click();
+      cy.get('.slate-inline-toolbar .button-wrapper:nth-child(9)')
+        .justVisible()
+        .click();
 
       // move the text cursor
       getSelectedSlateEditor().type('{rightarrow}');
@@ -33,10 +35,10 @@ if (Cypress.env('API') !== 'guillotina') {
       // simulate pressing Enter again
       getSelectedSlateEditor().lineBreakInSlate();
 
-      // there should be 2 slate blocks on the page
-      cy.get('.block-editor-slate').should('have.length', 2);
+      // there should be 3 slate blocks on the page
+      cy.get('.block-editor-slate').should('have.length', 3);
 
-      getSlateBlockValue(cy.get('.slate-editor').first()).should('deep.eq', [
+      getSlateBlockValue(cy.get('.slate-editor').eq(0)).should('deep.eq', [
         {
           type: 'numbered-list',
           children: [
@@ -53,7 +55,7 @@ if (Cypress.env('API') !== 'guillotina') {
         },
       ]);
 
-      getSlateBlockValue(cy.get('.slate-editor').last()).should('deep.eq', [
+      getSlateBlockValue(cy.get('.slate-editor').eq(1)).should('deep.eq', [
         {
           type: 'paragraph',
           children: [
