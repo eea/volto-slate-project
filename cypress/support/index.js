@@ -24,6 +24,23 @@ import './commands';
 //https://docs.cypress.io/guides/tooling/code-coverage.htm
 import '@cypress/code-coverage/support';
 
+export const slateBlockSelectionShouldBe = (index, selection) => {
+  return getSlateBlockSelection(cy.get('.slate-editor').eq(index)).should(
+    'deep.eq',
+    selection,
+  );
+};
+
+/**
+ * @param index The 0-based index of the Slate Volto block in the page contents layout (excluding the title block and non-Slate blocks).
+ * @param value The Slate fragment value (array of Nodes) which the editor should have in it.
+ */
+export const slateBlockValueShouldBe = (index, value) => {
+  return getSlateBlockValue(cy.get('.slate-editor').eq(index)).then((val) => {
+    expect(val).to.deep.eq(value);
+  });
+};
+
 export const createSlateBlock = (firstInPage = false) => {
   if (firstInPage) {
     // the first block is a draft block (.block-editor-text)

@@ -5,6 +5,7 @@ import {
   selectSlateNodeOfWord,
   slateBeforeEach,
   getAllSlateBlocks,
+  slateBlockValueShouldBe,
 } from '../../support';
 
 if (Cypress.env('API') !== 'guillotina') {
@@ -39,7 +40,7 @@ if (Cypress.env('API') !== 'guillotina') {
       // there should be 3 slate blocks on the page
       getAllSlateBlocks().should('have.length', 3);
 
-      getSlateBlockValue(cy.get('.slate-editor').eq(0)).should('deep.eq', [
+      slateBlockValueShouldBe(0, [
         {
           type: 'numbered-list',
           children: [
@@ -56,7 +57,7 @@ if (Cypress.env('API') !== 'guillotina') {
         },
       ]);
 
-      getSlateBlockValue(cy.get('.slate-editor').eq(1)).should('deep.eq', [
+      slateBlockValueShouldBe(1, [
         {
           type: 'paragraph',
           children: [

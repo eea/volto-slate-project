@@ -40,6 +40,25 @@ Cypress.Commands.add(
 );
 
 /**
+ * Checks if the subject (expected to be a slate editor element) contains focus or is focused itself.
+ */
+Cypress.Commands.add(
+  'slateEditorShouldBeFocused',
+  { prevSubject: 'element' },
+  (subject, options) => {
+    // the last Slate block should be focused
+    return cy
+      .wrap(subject)
+      .then((editorElement) => {
+        return cy.focused().then((focusedEl) => {
+          return Cypress.$.contains(editorElement[0], focusedEl[0]);
+        });
+      })
+      .should('eq', true);
+  },
+);
+
+/**
  * Slate commands taken from this page because of that issue:
  * https://github.com/ianstormtaylor/slate/issues/3476
  */

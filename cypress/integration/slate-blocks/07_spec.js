@@ -4,7 +4,7 @@ import {
   getSelectedSlateEditor,
   selectSlateNodeOfWord,
   slateBeforeEach,
-  getSlateBlockSelection,
+  slateBlockSelectionShouldBe,
   createSlateBlocks,
   getAllSlateBlocks,
 } from '../../support';
@@ -42,31 +42,20 @@ if (Cypress.env('API') !== 'guillotina') {
       // sometimes this prevents the next assertion to fail, saying that the correct offset is something else
       cy.wait(1000);
 
-      getSlateBlockSelection(cy.get('.slate-editor').first()).should(
-        'deep.eq',
-        {
-          anchor: { path: [0, 0], offset: fs1.length },
-          focus: { path: [0, 0], offset: fs1.length },
-        },
-      );
+      slateBlockSelectionShouldBe(0, {
+        anchor: { path: [0, 0], offset: fs1.length },
+        focus: { path: [0, 0], offset: fs1.length },
+      });
 
       getSelectedSlateEditor().type('{downarrow}');
 
-      // the last Slate block should be focused
-      cy.get('.slate-editor')
-        .eq(1)
-        .then((editorElement) => {
-          return cy.focused().then((focusedEl) => {
-            return Cypress.$.contains(editorElement[0], focusedEl[0]);
-          });
-        })
-        .should('eq', true);
+      cy.get('.slate-editor').eq(1).slateEditorShouldBeFocused();
 
       // there should be 3 slate blocks on the page
       getAllSlateBlocks().should('have.length', 3);
 
-      // selection of last block should be at end of the block
-      getSlateBlockSelection(cy.get('.slate-editor').eq(1)).should('deep.eq', {
+      // selection of second block should be at end of the block
+      slateBlockSelectionShouldBe(1, {
         anchor: { path: [0, 0], offset: fs2.length },
         focus: { path: [0, 0], offset: fs2.length },
       });

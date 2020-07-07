@@ -7,6 +7,7 @@ import {
   getSlateBlockSelection,
   createSlateBlocks,
   getAllSlateBlocks,
+  slateBlockSelectionShouldBe,
 } from '../../support';
 
 if (Cypress.env('API') !== 'guillotina') {
@@ -27,41 +28,24 @@ if (Cypress.env('API') !== 'guillotina') {
       // sometimes this prevents the next assertion to fail, saying that the correct offset is 8
       cy.wait(1000);
 
-      getSlateBlockSelection(cy.get('.slate-editor').eq(1)).should('deep.eq', {
+      slateBlockSelectionShouldBe(1, {
         anchor: { path: [0, 0], offset: 0 },
         focus: { path: [0, 0], offset: 0 },
       });
 
       getSelectedSlateEditor().type('{uparrow}');
 
-      // TODO: complete this function and use it instead of the code below in the at least 2 tests that use it:
-      // const isSlateEditorFocused = (editorEl) => {
-      //   editorEl.then(el => {
-
-      //   });
-      // };
-
       // the first Slate block should be focused
-      cy.get('.slate-editor')
-        .first()
-        .then((editorElement) => {
-          return cy.focused().then((focusedEl) => {
-            return Cypress.$.contains(editorElement[0], focusedEl[0]);
-          });
-        })
-        .should('eq', true);
+      cy.get('.slate-editor').eq(0).slateEditorShouldBeFocused();
 
       // there should be 3 slate blocks on the page
       getAllSlateBlocks().should('have.length', 3);
 
       // selection of first block should be at start of the block
-      getSlateBlockSelection(cy.get('.slate-editor').first()).should(
-        'deep.eq',
-        {
-          anchor: { path: [0, 0], offset: 0 },
-          focus: { path: [0, 0], offset: 0 },
-        },
-      );
+      slateBlockSelectionShouldBe(0, {
+        anchor: { path: [0, 0], offset: 0 },
+        focus: { path: [0, 0], offset: 0 },
+      });
     });
   });
 }
