@@ -90,7 +90,7 @@
     "node": "^10 || ^12"
   },
   "dependencies": {
-    "@plone/volto": "file:.yalc/@plone/volto",
+    "@plone/volto": "eea/volto#modern_kitchen_sink",
     "mrs-developer": "1.1.6",
     "resolve-url-loader": "3.1.1"
   },

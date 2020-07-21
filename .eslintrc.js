@@ -13,7 +13,7 @@ if (packageJson.addons) {
 }
 
 module.exports = {
-  extends: './node_modules/@plone/volto/.eslintrc',
+  extends: `${projectRootPath}/node_modules/@plone/volto/.eslintrc`,
   settings: {
     'import/resolver': {
       alias: {
