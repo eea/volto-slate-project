@@ -1,12 +1,6 @@
 ## Documentation
 
-
-[![Build Status](https://ci.eionet.europa.eu/buildStatus/icon?job=Eionet/volto-slate-project/master&subject=Latest%20Build)](https://ci.eionet.europa.eu/job/Eionet/job/volto-slate-project/job/master/display/redirect)
-
-[![Code Coverage(Master)](https://sonarqube.eea.europa.eu/api/project_badges/measure?project=volto-slate-project-master&metric=coverage)](https://sonarqube.eea.europa.eu/component_measures?id=volto-slate-project-master&metric=coverage)
-
-
-[![Bugs(Master)](https://sonarqube.eea.europa.eu/api/project_badges/measure?project=volto-slate-project-develop&metric=bugs)](https://sonarqube.eea.europa.eu/component_measures?id=volto-slate-project-master&metric=bugs)
+[![Build Status](https://ci.eionet.europa.eu/buildStatus/icon?job=Eionet/volto-slate-project/master&subject=Latest%20Build)](https://ci.eionet.europa.eu/job/Eionet/job/volto-slate-project/job/master/display/redirect) [![Code Coverage(Master)](https://sonarqube.eea.europa.eu/api/project_badges/measure?project=volto-slate-project-master&metric=coverage)](https://sonarqube.eea.europa.eu/component_measures?id=volto-slate-project-master&metric=coverage) [![Bugs(Master)](https://sonarqube.eea.europa.eu/api/project_badges/measure?project=volto-slate-project-master&metric=reliability_rating)](https://sonarqube.eea.europa.eu/component_measures?id=volto-slate-project-master&metric=bugs)
 
 
 A demo project that integrates Volto with a volto addon, volto-slate.
