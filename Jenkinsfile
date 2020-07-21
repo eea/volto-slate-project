@@ -165,13 +165,8 @@ pipeline {
           color = '#00FF00'
         } else if (status == 'FAILURE') {
           color = '#FF0000'
-        }
-        
-        def recipients = emailextrecipients([ [$class: 'DevelopersRecipientProvider'], [$class: 'CulpritsRecipientProvider']])
-        
-        echo "Recipients is ${recipients}"        
-        
-         emailext(
+        }        
+        emailext(
         subject: '$DEFAULT_SUBJECT',
         body: details,
         attachLog: true,
