@@ -20,7 +20,7 @@ module.exports = {
         map: [
           ['@plone/volto', '@plone/volto/src'],
           ...addonsAliases,
-          ['@package', `${dirname}/src`],
+          ['@package', `${__dirname}/src`],
           ['~', `${__dirname}/src`],
         ],
         extensions: ['.js', '.jsx', '.json'],
