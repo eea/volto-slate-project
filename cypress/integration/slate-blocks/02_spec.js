@@ -20,13 +20,13 @@ if (Cypress.env('API') !== 'guillotina') {
 
       slateBlockValueShouldBe(0, [
         {
-          type: 'paragraph',
+          type: 'p',
           children: [{ text: 'hello, ' }],
         },
       ]);
       slateBlockValueShouldBe(1, [
         {
-          type: 'paragraph',
+          type: 'p',
           children: [{ text: 'world' }],
         },
       ]);
