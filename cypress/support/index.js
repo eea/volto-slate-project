@@ -24,6 +24,10 @@ import './commands';
 //https://docs.cypress.io/guides/tooling/code-coverage.htm
 import '@cypress/code-coverage/support';
 
+// in the hovering toolbar
+export const NUMBERED_LIST_BUTTON_INDEX = 12;
+export const BULLETED_LIST_BUTTON_INDEX = 13;
+
 export const slateBlockSelectionShouldBe = (index, selection) => {
   return getSlateBlockSelection(cy.get('.slate-editor').eq(index)).should(
     'deep.eq',
@@ -145,12 +149,16 @@ export const createSlateBlockWithList = ({
   // TODO: do not hardcode these selectors:
   if (numbered) {
     // this is the numbered list option in the hovering toolbar
-    cy.get('.slate-inline-toolbar .button-wrapper:nth-child(12)')
+    cy.get(
+      `.slate-inline-toolbar .button-wrapper:nth-child(${NUMBERED_LIST_BUTTON_INDEX})`,
+    )
       .justVisible()
       .click();
   } else {
     // this is the bulleted list option in the hovering toolbar
-    cy.get('.slate-inline-toolbar .button-wrapper:nth-child(13)')
+    cy.get(
+      `.slate-inline-toolbar .button-wrapper:nth-child(${BULLETED_LIST_BUTTON_INDEX})`,
+    )
       .justVisible()
       .click();
   }

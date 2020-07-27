@@ -6,6 +6,7 @@ import {
   slateBeforeEach,
   getAllSlateBlocks,
   slateBlockValueShouldBe,
+  NUMBERED_LIST_BUTTON_INDEX,
 } from '../../support';
 
 if (Cypress.env('API') !== 'guillotina') {
@@ -23,7 +24,9 @@ if (Cypress.env('API') !== 'guillotina') {
       });
 
       // this is the numbered list option in the hovering toolbar
-      cy.get('.slate-inline-toolbar .button-wrapper:nth-child(12)')
+      cy.get(
+        `.slate-inline-toolbar .button-wrapper:nth-child(${NUMBERED_LIST_BUTTON_INDEX})`,
+      )
         .justVisible()
         .click();
 
