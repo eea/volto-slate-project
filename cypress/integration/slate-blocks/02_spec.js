@@ -1,6 +1,5 @@
 import {
   createSlateBlock,
-  getSlateBlockValue,
   slateBeforeEach,
   getAllSlateBlocks,
   slateBlockValueShouldBe,

@@ -1,10 +1,4 @@
-import {
-  createSlateBlock,
-  getSlateBlockValue,
-  getSelectedSlateEditor,
-  selectSlateNodeOfWord,
-  slateBeforeEach,
-} from '../../support';
+import { slateBeforeEach } from '../../support';
 
 if (Cypress.env('API') !== 'guillotina') {
   describe('Not implemented tests', () => {

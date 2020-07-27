@@ -1,7 +1,5 @@
 import {
-  createSlateBlock,
   slateBeforeEach,
-  getSelectedSlateEditor,
   createSlateBlocks,
   getAllSlateBlocks,
 } from '../../support';

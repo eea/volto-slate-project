@@ -1,8 +1,4 @@
 import {
-  createSlateBlock,
-  getSlateBlockValue,
-  getSelectedSlateEditor,
-  selectSlateNodeOfWord,
   slateBeforeEach,
   createSlateBlockWithList,
   getAllSlateBlocks,
