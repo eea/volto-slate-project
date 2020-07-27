@@ -24,7 +24,7 @@ if (Cypress.env('API') !== 'guillotina') {
       });
 
       // this is the numbered list option in the hovering toolbar
-      cy.get('.slate-inline-toolbar .button-wrapper:nth-child(9)')
+      cy.get('.slate-inline-toolbar .button-wrapper:nth-child(12)')
         .justVisible()
         .click();
 
@@ -42,16 +42,11 @@ if (Cypress.env('API') !== 'guillotina') {
 
       slateBlockValueShouldBe(0, [
         {
-          type: 'numbered-list',
+          type: 'ol',
           children: [
             {
-              type: 'list-item',
-              children: [
-                {
-                  type: 'paragraph',
-                  children: [{ text: 'hello, world' }],
-                },
-              ],
+              type: 'li',
+              children: [{ text: 'hello, world' }],
             },
           ],
         },
@@ -59,7 +54,7 @@ if (Cypress.env('API') !== 'guillotina') {
 
       slateBlockValueShouldBe(1, [
         {
-          type: 'paragraph',
+          type: 'p',
           children: [
             {
               text: '',

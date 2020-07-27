@@ -67,24 +67,28 @@ Cypress.Commands.add('getEditor', (selector) => {
   return cy.get(selector).click();
 });
 
-Cypress.Commands.add('typeInSlate', { prevSubject: true }, (subject, text) => {
-  return (
-    cy
-      .wrap(subject)
-      .then((subject) => {
-        subject[0].dispatchEvent(
-          new InputEvent('beforeinput', {
-            inputType: 'insertText',
-            data: text,
-          }),
-        );
-        return subject;
-      })
-      // TODO: do this only for Electron-based browser which does not understand instantaneously
-      // that the user inserted some text in the block
-      .wait(1000)
-  );
-});
+Cypress.Commands.add(
+  'typeInSlate',
+  { prevSubject: 'element' },
+  (subject, text) => {
+    return (
+      cy
+        .wrap(subject)
+        .then((subject) => {
+          subject[0].dispatchEvent(
+            new InputEvent('beforeinput', {
+              inputType: 'insertText',
+              data: text,
+            }),
+          );
+          return subject;
+        })
+        // TODO: do this only for Electron-based browser which does not understand instantaneously
+        // that the user inserted some text in the block
+        .wait(1000)
+    );
+  },
+);
 
 Cypress.Commands.add('clearInSlate', { prevSubject: true }, (subject) => {
   return cy.wrap(subject).then((subject) => {

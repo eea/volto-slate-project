@@ -12,22 +12,22 @@ import {
 
 const indent0 = [
   {
-    type: 'numbered-list',
+    type: 'ol',
     children: [
       {
-        type: 'list-item',
+        type: 'li',
         children: [
           {
-            type: 'paragraph',
+            type: 'p',
             children: [{ text: 'hello world' }],
           },
         ],
       },
       {
-        type: 'list-item',
+        type: 'li',
         children: [
           {
-            type: 'paragraph',
+            type: 'p',
             children: [{ text: 'welcome aboard' }],
           },
         ],
@@ -38,25 +38,25 @@ const indent0 = [
 
 const indent1 = [
   {
-    type: 'numbered-list',
+    type: 'ol',
     children: [
       {
-        type: 'list-item',
+        type: 'li',
         children: [
           {
-            type: 'paragraph',
+            type: 'p',
             children: [{ text: 'hello world' }],
           },
         ],
       },
       {
-        type: 'numbered-list',
+        type: 'ol',
         children: [
           {
-            type: 'list-item',
+            type: 'li',
             children: [
               {
-                type: 'paragraph',
+                type: 'p',
                 children: [{ text: 'welcome aboard' }],
               },
             ],
@@ -104,28 +104,28 @@ if (Cypress.env('API') !== 'guillotina') {
 
       getSlateBlockValue(getSelectedUneditableSlateEditor()).should('deep.eq', [
         {
-          type: 'numbered-list',
+          type: 'ol',
           children: [
             {
-              type: 'list-item',
+              type: 'li',
               children: [
                 {
-                  type: 'paragraph',
+                  type: 'p',
                   children: [{ text: 'hello world' }],
                 },
               ],
             },
             {
-              type: 'numbered-list',
+              type: 'ol',
               children: [
                 {
-                  type: 'numbered-list',
+                  type: 'ol',
                   children: [
                     {
-                      type: 'list-item',
+                      type: 'li',
                       children: [
                         {
-                          type: 'paragraph',
+                          type: 'p',
                           children: [{ text: 'welcome aboard' }],
                         },
                       ],

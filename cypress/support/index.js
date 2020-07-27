@@ -145,12 +145,12 @@ export const createSlateBlockWithList = ({
   // TODO: do not hardcode these selectors:
   if (numbered) {
     // this is the numbered list option in the hovering toolbar
-    cy.get('.slate-inline-toolbar .button-wrapper:nth-child(9)')
+    cy.get('.slate-inline-toolbar .button-wrapper:nth-child(12)')
       .justVisible()
       .click();
   } else {
     // this is the bulleted list option in the hovering toolbar
-    cy.get('.slate-inline-toolbar .button-wrapper:nth-child(10)')
+    cy.get('.slate-inline-toolbar .button-wrapper:nth-child(13)')
       .justVisible()
       .click();
   }

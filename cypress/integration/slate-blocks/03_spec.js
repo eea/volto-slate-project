@@ -27,25 +27,15 @@ if (Cypress.env('API') !== 'guillotina') {
 
       slateBlockValueShouldBe(0, [
         {
-          type: 'numbered-list',
+          type: 'ol',
           children: [
             {
-              type: 'list-item',
-              children: [
-                {
-                  type: 'paragraph',
-                  children: [{ text: 'hello' }],
-                },
-              ],
+              type: 'li',
+              children: [{ text: 'hello' }],
             },
             {
-              type: 'list-item',
-              children: [
-                {
-                  type: 'paragraph',
-                  children: [{ text: ', world' }],
-                },
-              ],
+              type: 'li',
+              children: [{ text: ', world' }],
             },
           ],
         },

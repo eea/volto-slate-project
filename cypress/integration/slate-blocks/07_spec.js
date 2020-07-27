@@ -54,10 +54,10 @@ if (Cypress.env('API') !== 'guillotina') {
       // there should be 3 slate blocks on the page
       getAllSlateBlocks().should('have.length', 3);
 
-      // selection of second block should be at end of the block
+      // selection of second block should be at start of the block
       slateBlockSelectionShouldBe(1, {
-        anchor: { path: [0, 0], offset: fs2.length },
-        focus: { path: [0, 0], offset: fs2.length },
+        anchor: { path: [0, 0], offset: 0 },
+        focus: { path: [0, 0], offset: 0 },
       });
     });
   });

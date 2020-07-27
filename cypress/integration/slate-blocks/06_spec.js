@@ -18,7 +18,10 @@ if (Cypress.env('API') !== 'guillotina') {
     // TODO: test numbered list context as well
 
     it('should create two slate blocks, type something in the second block, press Up, go to start of block, press Up, focus previous Slate block', () => {
-      createSlateBlocks(['hello, world', 'welcome aboard']);
+      const s1 = 'hello, world';
+      const s2 = 'welcome aboard';
+
+      createSlateBlocks([s1, s2]);
 
       // move the text cursor
       getSelectedSlateEditor().type(
@@ -41,10 +44,10 @@ if (Cypress.env('API') !== 'guillotina') {
       // there should be 3 slate blocks on the page
       getAllSlateBlocks().should('have.length', 3);
 
-      // selection of first block should be at start of the block
+      // selection of first block should be at end of the block
       slateBlockSelectionShouldBe(0, {
-        anchor: { path: [0, 0], offset: 0 },
-        focus: { path: [0, 0], offset: 0 },
+        anchor: { path: [0, 0], offset: s1.length },
+        focus: { path: [0, 0], offset: s1.length },
       });
     });
   });
