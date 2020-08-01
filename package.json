@@ -8,7 +8,7 @@
     "src/addons/volto-slate"
   ],
   "addons": [
-    "volto-slate"
+    "volto-slate:asDefault"
   ],
   "custom": {
     "ploneport": 55001,
@@ -90,7 +90,7 @@
     "node": "^10 || ^12"
   },
   "dependencies": {
-    "@plone/volto": "eea/volto#modern_kitchen_sink",
+    "@plone/volto": "file:.yalc/@plone/volto",
     "mrs-developer": "1.1.6",
     "resolve-url-loader": "3.1.1"
   },
@@ -141,6 +141,7 @@
     "mochawesome": "6.1.1",
     "mochawesome-merge": "4.1.0",
     "mochawesome-report-generator": "5.1.0",
+    "moment-locales-webpack-plugin": "1.2.0",
     "nyc": "15.1.0",
     "prettier": "2.0.5",
     "start-server-and-test": "1.10.6",
