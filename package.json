@@ -5,10 +5,12 @@
   "version": "4.0.0",
   "private": true,
   "workspaces": [
-    "src/addons/volto-slate"
+    "src/addons/volto-slate",
+    "src/addons/volto-tabsblock"
   ],
   "addons": [
-    "volto-slate:asDefault"
+    "volto-slate:asDefault",
+    "volto-tabsblock"
   ],
   "custom": {
     "ploneport": 55001,

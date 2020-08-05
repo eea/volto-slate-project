@@ -3,6 +3,9 @@
         "paths": {
             "volto-slate": [
                 "addons/volto-slate/src"
+            ],
+            "volto-tabsblock": [
+                "addons/volto-tabsblock/src"
             ]
         },
         "baseUrl": "src"
