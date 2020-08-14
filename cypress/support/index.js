@@ -24,6 +24,9 @@ import './commands';
 //https://docs.cypress.io/guides/tooling/code-coverage.htm
 import '@cypress/code-coverage/support';
 
+// TODO: move constants from this file into a special constants.js file
+// (e.g. NUMBERED_LIST_BUTTON_INDEX & co. below)
+
 // in the hovering toolbar
 export const NUMBERED_LIST_BUTTON_INDEX = 12;
 export const BULLETED_LIST_BUTTON_INDEX = 13;
