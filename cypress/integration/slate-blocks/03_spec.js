@@ -2,7 +2,7 @@ import {
   slateBeforeEach,
   createSlateBlockWithList,
   getAllSlateTextBlocks,
-  slateBlockValueShouldBe,
+  slateTextBlockValueShouldBe,
 } from '../../support';
 
 if (Cypress.env('API') !== 'guillotina') {
@@ -21,7 +21,7 @@ if (Cypress.env('API') !== 'guillotina') {
       // there should be 2 slate blocks on the page
       getAllSlateTextBlocks().should('have.length', 2);
 
-      slateBlockValueShouldBe(0, [
+      slateTextBlockValueShouldBe(0, [
         {
           type: 'ol',
           children: [

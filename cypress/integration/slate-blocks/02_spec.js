@@ -2,7 +2,7 @@ import {
   createSlateBlock,
   slateBeforeEach,
   getAllSlateTextBlocks,
-  slateBlockValueShouldBe,
+  slateTextBlockValueShouldBe,
 } from '../../support';
 
 if (Cypress.env('API') !== 'guillotina') {
@@ -17,13 +17,13 @@ if (Cypress.env('API') !== 'guillotina') {
 
       getAllSlateTextBlocks().should('have.length', 3); // 2, + 1 from the default-new-block block at the end
 
-      slateBlockValueShouldBe(0, [
+      slateTextBlockValueShouldBe(0, [
         {
           type: 'p',
           children: [{ text: 'hello, ' }],
         },
       ]);
-      slateBlockValueShouldBe(1, [
+      slateTextBlockValueShouldBe(1, [
         {
           type: 'p',
           children: [{ text: 'world' }],

@@ -4,7 +4,7 @@ import {
   selectSlateNodeOfWord,
   slateBeforeEach,
   getAllSlateTextBlocks,
-  slateBlockValueShouldBe,
+  slateTextBlockValueShouldBe,
   NUMBERED_LIST_BUTTON_INDEX,
 } from '../../support';
 
@@ -38,7 +38,7 @@ if (Cypress.env('API') !== 'guillotina') {
       // there should 2 slate blocks on the page
       getAllSlateTextBlocks().should('have.length', 2);
 
-      slateBlockValueShouldBe(0, [
+      slateTextBlockValueShouldBe(0, [
         {
           type: 'ol',
           children: [

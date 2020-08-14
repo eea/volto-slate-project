@@ -51,7 +51,7 @@ export const slateBlockSelectionShouldBe = (index, selection) => {
  * @param index The 0-based index of the Slate Volto block in the page contents layout (excluding the title block and non-Slate blocks).
  * @param value The Slate fragment value (array of Nodes) which the editor should have in it.
  */
-export const slateBlockValueShouldBe = (index, value) => {
+export const slateTextBlockValueShouldBe = (index, value) => {
   return getSlateBlockValue(cy.get('.slate-editor').eq(index)).then((val) => {
     expect(val).to.deep.eq(value);
   });

@@ -4,7 +4,7 @@ import {
   selectSlateNodeOfWord,
   slateBeforeEach,
   getAllSlateTextBlocks,
-  slateBlockValueShouldBe,
+  slateTextBlockValueShouldBe,
   clickHoveringToolbarButton,
   NUMBERED_LIST_BUTTON_INDEX,
 } from '../../support';
@@ -39,7 +39,7 @@ if (Cypress.env('API') !== 'guillotina') {
       // there should be 3 slate blocks on the page
       getAllSlateTextBlocks().should('have.length', 3);
 
-      slateBlockValueShouldBe(0, [
+      slateTextBlockValueShouldBe(0, [
         {
           type: 'ol',
           children: [
@@ -51,7 +51,7 @@ if (Cypress.env('API') !== 'guillotina') {
         },
       ]);
 
-      slateBlockValueShouldBe(1, [
+      slateTextBlockValueShouldBe(1, [
         {
           type: 'p',
           children: [
