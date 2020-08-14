@@ -6,6 +6,7 @@ import {
   getAllSlateTextBlocks,
   slateTextBlockValueShouldBe,
   NUMBERED_LIST_BUTTON_INDEX,
+  clickHoveringToolbarButton,
 } from '../../support';
 
 if (Cypress.env('API') !== 'guillotina') {
@@ -22,12 +23,7 @@ if (Cypress.env('API') !== 'guillotina') {
         selectSlateNodeOfWord(el);
       });
 
-      // this is the numbered list option in the hovering toolbar
-      cy.get(
-        `.slate-inline-toolbar .button-wrapper:nth-child(${NUMBERED_LIST_BUTTON_INDEX})`,
-      )
-        .justVisible()
-        .click();
+      clickHoveringToolbarButton(NUMBERED_LIST_BUTTON_INDEX);
 
       // move the text cursor
       getSelectedSlateEditor().type('{rightarrow}');
