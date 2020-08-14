@@ -1,7 +1,7 @@
 import {
   slateBeforeEach,
   createSlateBlocks,
-  getAllSlateBlocks,
+  getAllSlateTextBlocks,
 } from '../../support';
 
 if (Cypress.env('API') !== 'guillotina') {
@@ -17,7 +17,7 @@ if (Cypress.env('API') !== 'guillotina') {
       ]);
 
       // fifth = the new-default-block block at the end, created automatically
-      getAllSlateBlocks().should('have.length', 5);
+      getAllSlateTextBlocks().should('have.length', 5);
     });
   });
 }

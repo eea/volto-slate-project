@@ -3,7 +3,7 @@ import {
   slateBeforeEach,
   slateBlockSelectionShouldBe,
   createSlateBlocks,
-  getAllSlateBlocks,
+  getAllSlateTextBlocks,
   clickHoveringToolbarButton,
   FOOTNOTE_BUTTON_INDEX,
   selectSlateNodeOfWord,

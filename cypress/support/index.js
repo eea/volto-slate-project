@@ -126,7 +126,7 @@ export const createSlateBlocks = (arr) => {
   }
 };
 
-export const getAllSlateBlocks = () => {
+export const getAllSlateTextBlocks = () => {
   return cy.get('.block-editor-slate');
 };
 

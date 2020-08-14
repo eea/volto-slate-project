@@ -3,7 +3,7 @@ import {
   slateBeforeEach,
   getSelectedUneditableSlateEditor,
   createSlateBlockWithList,
-  getAllSlateBlocks,
+  getAllSlateTextBlocks,
 } from '../../support';
 
 const indent0 = [
@@ -90,7 +90,7 @@ if (Cypress.env('API') !== 'guillotina') {
 
       // there should be 2 slate blocks on the page
       // TODO: the same test with 3 slate blocks in the page
-      getAllSlateBlocks().should('have.length', 2);
+      getAllSlateTextBlocks().should('have.length', 2);
 
       getSlateBlockValue(getSelectedUneditableSlateEditor()).then((val) => {
         expect(val).to.deep.equal(indent1);

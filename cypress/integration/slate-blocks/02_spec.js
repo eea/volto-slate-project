@@ -1,7 +1,7 @@
 import {
   createSlateBlock,
   slateBeforeEach,
-  getAllSlateBlocks,
+  getAllSlateTextBlocks,
   slateBlockValueShouldBe,
 } from '../../support';
 
@@ -15,7 +15,7 @@ if (Cypress.env('API') !== 'guillotina') {
       s1.type('{leftarrow}{leftarrow}{leftarrow}{leftarrow}{leftarrow}');
       s1.lineBreakInSlate();
 
-      getAllSlateBlocks().should('have.length', 3); // 2, + 1 from the default-new-block block at the end
+      getAllSlateTextBlocks().should('have.length', 3); // 2, + 1 from the default-new-block block at the end
 
       slateBlockValueShouldBe(0, [
         {

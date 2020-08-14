@@ -3,7 +3,7 @@ import {
   slateBeforeEach,
   slateBlockSelectionShouldBe,
   createSlateBlocks,
-  getAllSlateBlocks,
+  getAllSlateTextBlocks,
 } from '../../support';
 
 if (Cypress.env('API') !== 'guillotina') {
@@ -49,7 +49,7 @@ if (Cypress.env('API') !== 'guillotina') {
       cy.get('.slate-editor').eq(1).slateEditorShouldBeFocused();
 
       // there should be 3 slate blocks on the page
-      getAllSlateBlocks().should('have.length', 3);
+      getAllSlateTextBlocks().should('have.length', 3);
 
       // selection of second block should be at start of the block
       slateBlockSelectionShouldBe(1, {

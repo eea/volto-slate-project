@@ -3,7 +3,7 @@ import {
   getSelectedSlateEditor,
   selectSlateNodeOfWord,
   slateBeforeEach,
-  getAllSlateBlocks,
+  getAllSlateTextBlocks,
   slateBlockValueShouldBe,
   clickHoveringToolbarButton,
   NUMBERED_LIST_BUTTON_INDEX,
@@ -37,7 +37,7 @@ if (Cypress.env('API') !== 'guillotina') {
       getSelectedSlateEditor().lineBreakInSlate();
 
       // there should be 3 slate blocks on the page
-      getAllSlateBlocks().should('have.length', 3);
+      getAllSlateTextBlocks().should('have.length', 3);
 
       slateBlockValueShouldBe(0, [
         {
