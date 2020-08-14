@@ -27,6 +27,18 @@ import '@cypress/code-coverage/support';
 // in the hovering toolbar
 export const NUMBERED_LIST_BUTTON_INDEX = 12;
 export const BULLETED_LIST_BUTTON_INDEX = 13;
+export const FOOTNOTE_BUTTON_INDEX = 16;
+
+export const clickCheckSidebarButton = () => {
+  return cy.get('.header > :nth-child(3)').click();
+};
+
+// TODO: use this in all tests instead of the code in it
+export const clickHoveringToolbarButton = (buttonIndex) => {
+  cy.get(`.slate-inline-toolbar .button-wrapper:nth-child(${buttonIndex})`)
+    .justVisible()
+    .click();
+};
 
 export const slateBlockSelectionShouldBe = (index, selection) => {
   return getSlateBlockSelection(cy.get('.slate-editor').eq(index)).should(
@@ -45,8 +57,24 @@ export const slateBlockValueShouldBe = (index, value) => {
   });
 };
 
-export const createSlateBlock = (firstInPage = false) => {
-  if (firstInPage) {
+export const createSlateBlock = (
+  firstInPage = false,
+  { type = 'slate' } = {},
+) => {
+  if (type === 'slateFootnotes') {
+    // the first block is a draft block (.block-editor-text)
+    cy.get(firstInPage ? '.block-editor-text' : '.block-editor-slate')
+      .last()
+      .click();
+
+    // click the add block button
+    cy.get('.block-add-button:first').click();
+
+    // Text section in block type selector
+    cy.get('.accordion > :nth-child(3):first').click();
+
+    cy.get('button.ui.basic.icon.button.slateFootnotes').last().click();
+  } else if (firstInPage) {
     // the first block is a draft block (.block-editor-text)
     cy.get('.block-editor-text').last().click();
 
@@ -62,7 +90,14 @@ export const createSlateBlock = (firstInPage = false) => {
     cy.get('.block-editor-slate').last().click();
   }
 
-  return getSelectedSlateEditor();
+  if (type === 'slate') {
+    return getSelectedSlateEditor();
+  }
+  return getSlateFootnotesBlock();
+};
+
+export const getSlateFootnotesBlock = () => {
+  return cy.get('.block-editor-slateFootnotes');
 };
 
 export const createSlateBlocks = (arr) => {
