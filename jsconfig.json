@@ -4,8 +4,14 @@
             "volto-slate": [
                 "addons/volto-slate/src"
             ],
-            "volto-tabsblock": [
+            "@eeacms/volto-tabs-block": [
                 "addons/volto-tabsblock/src"
+            ],
+            "volto-slate-metadata-mentions": [
+                "addons/volto-slate-metadata-mentions/src"
+            ],
+            "@eeacms/volto-widgets-view": [
+                "addons/volto-widgets-view/src"
             ]
         },
         "baseUrl": "src"

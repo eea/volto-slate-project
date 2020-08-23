@@ -2,9 +2,9 @@
   "version": "v1",
   "packages": {
     "@plone/volto": {
-      "signature": "8afa8048b6b7558b3abd3a635281ddae",
+      "signature": "1b9ffd3e7fe0af5a70153fe8563642a4",
       "file": true,
-      "replaced": "eea/volto#modern_kitchen_sink"
+      "replaced": "github:eea/volto#7.7.0-beta.2"
     }
   }
 }

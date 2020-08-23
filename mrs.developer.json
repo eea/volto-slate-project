@@ -7,6 +7,18 @@
   "volto-tabsblock": {
     "url": "https://github.com/eea/volto-tabsblock.git",
     "branch": "master",
+    "path": "src",
+    "package": "@eeacms/volto-tabs-block"
+  },
+  "volto-slate-metadata-mentions": {
+    "url": "https://github.com/eea/volto-slate-metadata-mentions.git",
+    "branch": "develop",
+    "path": "src"
+  },
+  "volto-widgets-view": {
+    "url": "https://github.com/eea/volto-widgets-view.git",
+    "package": "@eeacms/volto-widgets-view",
+    "branch": "develop",
     "path": "src"
   }
 }

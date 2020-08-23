@@ -6,11 +6,15 @@
   "private": true,
   "workspaces": [
     "src/addons/volto-slate",
-    "src/addons/volto-tabsblock"
+    "src/addons/volto-tabsblock",
+    "src/addons/volto-slate-metadata-mentions",
+    "src/addons/volto-widgets-view"
   ],
   "addons": [
     "volto-slate:asDefault",
-    "volto-tabsblock"
+    "@eeacms/volto-tabs-block",
+    "@eeacms/volto-widgets-view",
+    "volto-slate-metadata-mentions"
   ],
   "custom": {
     "ploneport": 55001,
@@ -92,6 +96,9 @@
     "node": "^10 || ^12"
   },
   "dependencies": {
+    "@eeacms/volto-image-zoom-and-flip": "github:eea/volto-image-zoom-and-flip#0.1.0",
+    "@eeacms/volto-slate-metadata-mentions": "github:eea/volto-slate-metadata-mentions#0.1.1",
+    "@eeacms/volto-widgets-view": "github:eea/volto-widgets-view#0.2.2",
     "@plone/volto": "file:.yalc/@plone/volto",
     "mrs-developer": "1.1.6",
     "resolve-url-loader": "3.1.1"
