@@ -12,6 +12,9 @@
             ],
             "@eeacms/volto-widgets-view": [
                 "addons/volto-widgets-view/src"
+            ],
+            "@eeacms/volto-object-widget": [
+                "addons/volto-object-widget/src"
             ]
         },
         "baseUrl": "src"

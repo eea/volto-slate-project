@@ -20,5 +20,11 @@
     "package": "@eeacms/volto-widgets-view",
     "branch": "develop",
     "path": "src"
+  },
+  "volto-object-widget": {
+    "url": "https://github.com/eea/volto-object-widget.git",
+    "package": "@eeacms/volto-object-widget",
+    "branch": "master",
+    "path": "src"
   }
 }

@@ -14,6 +14,7 @@
     "volto-slate:asDefault",
     "@eeacms/volto-tabs-block",
     "@eeacms/volto-widgets-view",
+    "@eeacms/volto-object-widget:installDemo",
     "volto-slate-metadata-mentions"
   ],
   "custom": {
