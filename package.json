@@ -12,10 +12,8 @@
   ],
   "addons": [
     "volto-slate:asDefault",
-    "@eeacms/volto-tabs-block",
-    "@eeacms/volto-widgets-view",
-    "@eeacms/volto-object-widget:installDemo",
-    "volto-slate-metadata-mentions"
+    "@eeacms/volto-slate-footnote",
+    "@eeacms/volto-blocks-form:installDemo"
   ],
   "custom": {
     "ploneport": 55001,

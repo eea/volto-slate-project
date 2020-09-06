@@ -15,6 +15,12 @@
             ],
             "@eeacms/volto-object-widget": [
                 "addons/volto-object-widget/src"
+            ],
+            "@eeacms/volto-slate-footnote": [
+                "addons/volto-slate-footnote/src"
+            ],
+            "@eeacms/volto-blocks-form": [
+                "addons/volto-blocks-form/src"
             ]
         },
         "baseUrl": "src"

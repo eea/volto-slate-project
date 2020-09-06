@@ -26,5 +26,17 @@
     "package": "@eeacms/volto-object-widget",
     "branch": "master",
     "path": "src"
+  },
+  "volto-slate-footnote": {
+    "url": "https://github.com/eea/volto-slate-footnote.git",
+    "package": "@eeacms/volto-slate-footnote",
+    "branch": "master",
+    "path": "src"
+  },
+  "volto-blocks-form": {
+    "url": "https://github.com/tiberiuichim/volto-blocks-form.git",
+    "package": "@eeacms/volto-blocks-form",
+    "branch": "master",
+    "path": "src"
   }
 }
