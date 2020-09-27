@@ -7,7 +7,7 @@
             "@eeacms/volto-tabs-block": [
                 "addons/volto-tabsblock/src"
             ],
-            "volto-slate-metadata-mentions": [
+            "@eeacms/volto-slate-metadata-mentions": [
                 "addons/volto-slate-metadata-mentions/src"
             ],
             "@eeacms/volto-widgets-view": [
@@ -21,6 +21,12 @@
             ],
             "@eeacms/volto-blocks-form": [
                 "addons/volto-blocks-form/src"
+            ],
+            "@eeacms/volto-group-block": [
+                "addons/volto-group-block/src"
+            ],
+            "@eeacms/volto-columns-block": [
+                "addons/volto-columns-block/src"
             ]
         },
         "baseUrl": "src"

@@ -6,15 +6,18 @@
   "private": true,
   "workspaces": [
     "src/addons/volto-slate",
-    "src/addons/volto-tabsblock",
     "src/addons/volto-slate-metadata-mentions",
-    "src/addons/volto-widgets-view",
-    "src/addons/volto-blocks-form"
+    "src/addons/volto-columns-block",
+    "src/addons/volto-widgets-view"
   ],
   "addons": [
     "volto-slate:asDefault",
-    "@eeacms/volto-slate-footnote",
-    "@eeacms/volto-blocks-form:installDemo"
+    "@eeacms/volto-columns-block",
+    "@eeacms/volto-group-block",
+    "@eeacms/volto-tabs-block",
+    "@eeacms/volto-slate-metadata-mentions",
+    "@eeacms/volto-widgets-view",
+    "@eeacms/volto-blocks-form"
   ],
   "custom": {
     "ploneport": 55001,

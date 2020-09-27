@@ -2,7 +2,7 @@
   "version": "v1",
   "packages": {
     "@plone/volto": {
-      "signature": "1b9ffd3e7fe0af5a70153fe8563642a4",
+      "signature": "c46af1358405059bb19669111c311f44",
       "file": true,
       "replaced": "github:eea/volto#7.7.0-beta.2"
     }

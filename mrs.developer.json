@@ -1,7 +1,7 @@
 {
   "volto-slate": {
     "url": "https://github.com/eea/volto-slate.git",
-    "branch": "master",
+    "branch": "develop",
     "path": "src"
   },
   "volto-tabsblock": {
@@ -12,7 +12,8 @@
   },
   "volto-slate-metadata-mentions": {
     "url": "https://github.com/eea/volto-slate-metadata-mentions.git",
-    "branch": "develop",
+    "package": "@eeacms/volto-slate-metadata-mentions",
+    "branch": "no_form_context",
     "path": "src"
   },
   "volto-widgets-view": {
@@ -34,8 +35,20 @@
     "path": "src"
   },
   "volto-blocks-form": {
-    "url": "https://github.com/tiberiuichim/volto-blocks-form.git",
+    "url": "https://github.com/eea/volto-blocks-form.git",
     "package": "@eeacms/volto-blocks-form",
+    "branch": "refactor_form",
+    "path": "src"
+  },
+  "volto-group-block": {
+    "url": "https://github.com/eea/volto-group-block.git",
+    "package": "@eeacms/volto-group-block",
+    "branch": "master",
+    "path": "src"
+  },
+  "volto-columns-block": {
+    "url": "https://github.com/eea/volto-columns-block.git",
+    "package": "@eeacms/volto-columns-block",
     "branch": "master",
     "path": "src"
   }
